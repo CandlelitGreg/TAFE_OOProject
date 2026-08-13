@@ -27,6 +27,16 @@ namespace TAFE_OOP_Project
             public int MinParticipants {get;set;}
         }
 
+        public class BlanketActivity
+        {
+            public string Type {get;set;}
+            public string DateStartTime {get; set;}
+            public string Title {get;set;}
+            public int Cost {get;set;}
+            public int MinParticipants {get;set;}
+            public string Location {get;set;}
+        }
+
 
         static void Main()
         {
@@ -196,7 +206,44 @@ namespace TAFE_OOP_Project
 
         static void SearchAllActivities()
         {
-            
+            Console.WriteLine("Please input a date for us to search from.");
+            Console.WriteLine("Once a date is selected, you may view all activities on, before or after that date");
+            var dateParseResult = ConvertStringToTime(AskForActivityInput(" date in format dd/MM/yyyy"), "dd/MM/yyyy");
+            while(dateParseResult.err != "")
+            {
+                Console.WriteLine(dateParseResult.err);
+                dateParseResult = ConvertStringToTime(AskForActivityInput(" date in format dd/MM/yyyy"), "dd/MM/yyyy");
+            }
+            Console.WriteLine("Please select how you want to filter your search:");
+            Console.WriteLine($"1. All Activities BEFORE {dateParseResult.time}");
+            Console.WriteLine($"2. All Activities ON {dateParseResult.time}");
+            Console.WriteLine($"3. All Activities AFTER {dateParseResult.time}");
+            using var ereader = new StreamReader("EntertainmentActivities.csv");
+            using var ecsv = new CsvReader(ereader, CultureInfo.InvariantCulture);
+            var eActivitiesList = ecsv.GetRecords<EntertainmentActivity>().ToList();
+            using var freader = new StreamReader("FitnessActivities.csv");
+            using var fcsv = new CsvReader(freader, CultureInfo.InvariantCulture);
+            var fActivitiesList = fcsv.GetRecords<FitnessActivity>().ToList();
+            List<BlanketActivity> activitiesList = [];
+            for (int i = 0; i < eActivitiesList.Count; i++)
+            {
+                activitiesList.Add(UnifyActivityType(eActivitiesList[i]));
+            }
+            for (int i = 0; i < fActivitiesList.Count; i++)
+            {
+                activitiesList.Add(UnifyActivityType(fActivitiesList[i]));
+            }
+
+        }
+
+        static BlanketActivity UnifyActivityType(FitnessActivity activity)
+        {
+            //Insert transfer code here
+        }
+
+        static BlanketActivity UnifyActivityType(EntertainmentActivity activity)
+        {
+            //Insert transfer code here
         }
 
         static FitnessActivity GetFitnessActivityDetails()
