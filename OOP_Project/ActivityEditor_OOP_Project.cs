@@ -57,20 +57,9 @@ namespace TAFE_OOP_Project
             Console.WriteLine("8. Search for activity by date");
             Console.WriteLine("9. Quit Application");
             Console.WriteLine("Please select your desired action's number:");
-            var input = ConvertStringToInt(Console.ReadLine());
-            while(input.err != "" || input.num < 1 || 9 < input.num)
-            {
-                Console.WriteLine(input.err);
-                if (input.err != "")
-                {
-                    input = ConvertStringToInt(ReAskInput(input.err, "Please select your desired action's number:"));
-                } else
-                {
-                    input = ConvertStringToInt(ReAskInput($"{input.num} is not within the selectable number range.", "Please select your desired action's number:"));
-                }
-            }
+            int input = GetMenuResponse(9);
             Console.WriteLine("\n\n");
-            switch (input.num)
+            switch (input)
             {
                 case 1:
                     ViewFitnessActivities();
@@ -100,9 +89,17 @@ namespace TAFE_OOP_Project
                     ViewEntertainmentActivities();
                     goto default;
                 case 8:
-                    SearchAllActivities();
-                    Console.WriteLine("We unfortunately have not implimented this functionality yet.");
-                    Console.WriteLine("Please check back with us later.");
+                    bool searching = true;
+                    while (searching)
+                    {
+                        SearchAllActivities();
+                        Console.WriteLine("\n");
+                        var response = GetClosedAnswer("Would you like to run another search? (yes/no)");
+                        if (response == "no")
+                        {
+                            searching = false;
+                        }
+                    }
                     goto default;
                 case 9:
                     Console.ForegroundColor = ConsoleColor.Green;
@@ -114,6 +111,23 @@ namespace TAFE_OOP_Project
                     CheckOrUpdateDisplay("Sending you back to Activities Home...", "Is there anything else we can help you with today?");
                     break;
             }
+        }
+
+        static int GetMenuResponse(int optionQuant)
+        {
+            var input = ConvertStringToInt(Console.ReadLine());
+            while(input.err != "" || input.num < 1 || optionQuant < input.num)
+            {
+                Console.WriteLine(input.err);
+                if (input.err != "")
+                {
+                    input = ConvertStringToInt(ReAskInput(input.err, "Please select your desired action's number:"));
+                } else
+                {
+                    input = ConvertStringToInt(ReAskInput($"{input.num} is not within the selectable number range.", "Please select your desired action's number:"));
+                }
+            }
+            return input.num;
         }
 
         static void ViewFitnessActivities()
@@ -142,7 +156,7 @@ namespace TAFE_OOP_Project
             while(addActivity)
             {
                 var result = GetClosedAnswer("Would you like to add another fitness activity? (yes/no):");
-                if (result.response == "yes")
+                if (result == "yes")
                 {
                     FitnessActivity newActivity = GetFitnessActivityDetails();
                     newActivities.Add(newActivity);
@@ -186,7 +200,7 @@ namespace TAFE_OOP_Project
             while(addActivity)
             {
                 var result = GetClosedAnswer("Would you like to add another entertainment activity? (yes/no):");
-                if (result.response == "yes")
+                if (result == "yes")
                 {
                     EntertainmentActivity newActivity = GetEntertainmentActivityDetails();
                     newActivities.Add(newActivity);
@@ -206,18 +220,6 @@ namespace TAFE_OOP_Project
 
         static void SearchAllActivities()
         {
-            Console.WriteLine("Please input a date for us to search from.");
-            Console.WriteLine("Once a date is selected, you may view all activities on, before or after that date");
-            var dateParseResult = ConvertStringToTime(AskForActivityInput(" date in format dd/MM/yyyy"), "dd/MM/yyyy");
-            while(dateParseResult.err != "")
-            {
-                Console.WriteLine(dateParseResult.err);
-                dateParseResult = ConvertStringToTime(AskForActivityInput(" date in format dd/MM/yyyy"), "dd/MM/yyyy");
-            }
-            Console.WriteLine("Please select how you want to filter your search:");
-            Console.WriteLine($"1. All Activities BEFORE {dateParseResult.time}");
-            Console.WriteLine($"2. All Activities ON {dateParseResult.time}");
-            Console.WriteLine($"3. All Activities AFTER {dateParseResult.time}");
             using var ereader = new StreamReader("EntertainmentActivities.csv");
             using var ecsv = new CsvReader(ereader, CultureInfo.InvariantCulture);
             var eActivitiesList = ecsv.GetRecords<EntertainmentActivity>().ToList();
@@ -233,17 +235,81 @@ namespace TAFE_OOP_Project
             {
                 activitiesList.Add(UnifyActivityType(fActivitiesList[i]));
             }
-
+            List<BlanketActivity> orderedActivities = activitiesList.OrderByDescending(a => DateTime.Parse(a.DateStartTime)).ToList();
+            Console.WriteLine("Please input a date for us to search from.");
+            Console.WriteLine("Once a date is selected, you may view all activities on, before or after that date");
+            var dateParseResult = ConvertStringToTime(AskForActivityInput(" date in format dd/MM/yyyy"), "dd/MM/yyyy");
+            while(dateParseResult.err != "")
+            {
+                Console.WriteLine(dateParseResult.err);
+                dateParseResult = ConvertStringToTime(AskForActivityInput(" date in format dd/MM/yyyy"), "dd/MM/yyyy");
+            }
+            DateOnly searchDate = DateOnly.FromDateTime(dateParseResult.time);
+            Console.WriteLine("Please select how you want to filter your search:");
+            Console.WriteLine($"1. All Activities BEFORE {searchDate}");
+            Console.WriteLine($"2. All Activities ON {searchDate}");
+            Console.WriteLine($"3. All Activities AFTER {searchDate}");
+            int input = GetMenuResponse(3);
+            Console.WriteLine("\n");
+            switch (input)
+            {
+                case 1:
+                    Console.WriteLine($"Displaying All activities before {searchDate}");
+                    int start = 0;
+                    while (start < orderedActivities.Count && DateOnly.FromDateTime(DateTime.Parse(orderedActivities[start].DateStartTime)) >= searchDate)
+                    {
+                        start++;
+                    }
+                    for (int i = start; i < orderedActivities.Count; i++)
+                    {
+                        Console.WriteLine($"{orderedActivities[i].DateStartTime} - {orderedActivities[i].Title} - {orderedActivities[i].Type}");
+                    }
+                    break;
+                case 2:
+                    Console.WriteLine($"Displaying All activities on {searchDate}");
+                    start = 0;
+                    while (start < orderedActivities.Count && DateOnly.FromDateTime(DateTime.Parse(orderedActivities[start].DateStartTime)) != searchDate)
+                    {
+                        start++;
+                    }
+                    while (start < orderedActivities.Count && DateOnly.FromDateTime(DateTime.Parse(orderedActivities[start].DateStartTime)) == searchDate)
+                    {
+                        Console.WriteLine($"{orderedActivities[start].DateStartTime} - {orderedActivities[start].Title} - {orderedActivities[start].Type}");
+                        start++;
+                    }
+                    break;
+                case 3:
+                    Console.WriteLine($"Displaying All activities after {searchDate}");
+                    start = 0;
+                    while (start < orderedActivities.Count && DateOnly.FromDateTime(DateTime.Parse(orderedActivities[start].DateStartTime)) > searchDate)
+                    {
+                        Console.WriteLine($"{orderedActivities[start].DateStartTime} - {orderedActivities[start].Title} - {orderedActivities[start].Type}");
+                        start++;
+                    }
+                    break;
+            }
         }
 
         static BlanketActivity UnifyActivityType(FitnessActivity activity)
         {
-            //Insert transfer code here
+            BlanketActivity newActivity = new BlanketActivity();
+            newActivity.Title = activity.Title;
+            newActivity.DateStartTime = activity.DateStartTime;
+            newActivity.Cost = activity.Cost;
+            newActivity.Location = activity.Location;
+            newActivity.Type = "Fitness";
+            return newActivity;
         }
 
         static BlanketActivity UnifyActivityType(EntertainmentActivity activity)
         {
-            //Insert transfer code here
+            BlanketActivity newActivity = new BlanketActivity();
+            newActivity.Title = activity.Title;
+            newActivity.DateStartTime = activity.DateStartTime;
+            newActivity.Cost = activity.Cost;
+            newActivity.MinParticipants = activity.MinParticipants;
+            newActivity.Type = "Entertainment";
+            return newActivity;
         }
 
         static FitnessActivity GetFitnessActivityDetails()
@@ -342,18 +408,18 @@ namespace TAFE_OOP_Project
             return containsComma;
         }
 
-        static (string response, bool valid) GetClosedAnswer(string question)
+        static string GetClosedAnswer(string question)
         {
             Console.Write(question);
             string response = Console.ReadLine().Trim().ToLower();
             //If answer is yes or no, return value
             if (response.ToLower() == "yes" || response.ToLower() == "y")
             {
-                return ("yes", true);
+                return "yes";
             }
             if (response.ToLower() == "no" || response.ToLower() == "n")
             {
-                return ("no", true);
+                return "no";
             }
             //If answer is not yes or no, notify user and request new input
             Console.WriteLine($"{response} is not a valid input.");
