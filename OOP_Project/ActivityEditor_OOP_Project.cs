@@ -33,8 +33,8 @@ namespace TAFE_OOP_Project
             public string DateStartTime {get; set;}
             public string Title {get;set;}
             public int Cost {get;set;}
-            public int MinParticipants {get;set;}
-            public string Location {get;set;}
+            public int? MinParticipants {get;set;}
+            public string? Location {get;set;}
         }
 
 
@@ -68,9 +68,17 @@ namespace TAFE_OOP_Project
                     AddFitnessActivities();
                     goto default;
                 case 3:
-                    EditFitnessActivities();
-                    Console.WriteLine("We unfortunately have not implimented this functionality yet.");
-                    Console.WriteLine("Please check back with us later.");
+                    bool editing = true;
+                    while (editing)
+                    {
+                        EditFitnessActivities();
+                        Console.WriteLine("\n");
+                        var response = GetClosedAnswer("Would you like to edit more Fitness Activities? (yes/no)");
+                        if (response == "no")
+                        {
+                            editing = false;
+                        }
+                    }
                     goto default;
                 case 4:
                     ViewEntertainmentActivities();
@@ -79,9 +87,17 @@ namespace TAFE_OOP_Project
                     AddEntertainmentActivities();
                     goto default;
                 case 6:
-                    EditEntertainmentActivities();
-                    Console.WriteLine("We unfortunately have not implimented this functionality yet.");
-                    Console.WriteLine("Please check back with us later.");
+                    editing = true;
+                    while (editing)
+                    {
+                        EditEntertainmentActivities();
+                        Console.WriteLine("\n");
+                        var response = GetClosedAnswer("Would you like to edit more Entertainment Activities? (yes/no)");
+                        if (response == "no")
+                        {
+                            editing = false;
+                        }
+                    }
                     goto default;
                 case 7:
                     ViewFitnessActivities();
@@ -118,7 +134,6 @@ namespace TAFE_OOP_Project
             var input = ConvertStringToInt(Console.ReadLine());
             while(input.err != "" || input.num < 1 || optionQuant < input.num)
             {
-                Console.WriteLine(input.err);
                 if (input.err != "")
                 {
                     input = ConvertStringToInt(ReAskInput(input.err, "Please select your desired action's number:"));
@@ -128,6 +143,42 @@ namespace TAFE_OOP_Project
                 }
             }
             return input.num;
+        }
+
+        static int[] GetManyMenuResponses(int optionQuant)
+        {
+            string rawInput = Console.ReadLine();
+            string[] indexStrings = SeperateCSVLine(rawInput);
+            while (indexStrings.Length > optionQuant)
+            {
+                Console.WriteLine($"{rawInput} contains more than {optionQuant} indexes. Please input fewer options:");
+                rawInput = Console.ReadLine();
+                indexStrings = SeperateCSVLine(rawInput);
+            }
+            int[] inputInts = [];
+            int[] receivedInputs = [];
+            for (int i = 0; i < indexStrings.Length; i++)
+            {
+                var input = ConvertStringToInt(indexStrings[i]);
+                while(input.err != "" || input.num < 1 || optionQuant < input.num || receivedInputs.Contains(input.num))
+                {
+                    Console.WriteLine(input.err);
+                    if (input.err != "")
+                    {
+                        input = ConvertStringToInt(ReAskInput(input.err, "Please select your desired action's number:"));
+                    } else if (receivedInputs.Contains(input.num))
+                    {
+                        input = ConvertStringToInt(ReAskInput($"{input.num} has already been selected.", "Please select your desired action's number:"));
+                    }
+                    else
+                    {
+                        input = ConvertStringToInt(ReAskInput($"{input.num} is not within the selectable number range.", "Please select your desired action's number:"));
+                    }
+                }
+                inputInts = inputInts.Append(input.num).ToArray();
+                receivedInputs = receivedInputs.Append(input.num).ToArray();
+            }
+            return inputInts;
         }
 
         static void ViewFitnessActivities()
@@ -171,7 +222,233 @@ namespace TAFE_OOP_Project
 
         static void EditFitnessActivities()
         {
-            
+            Console.WriteLine("Please find all activities below:");
+            using var reader = new StreamReader("FitnessActivities.csv");
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+            var activitiesList = csv.GetRecords<FitnessActivity>().ToList();
+            //Write all the activities with a number next to them
+            Console.WriteLine("Index. DateStartTime - Title - Cost - Location");
+            for (int i = 0; i < activitiesList.Count; i++)
+            {
+                Console.WriteLine($"{i+1}. {activitiesList[i].DateStartTime} - {activitiesList[i].Title} - {activitiesList[i].Cost} - {activitiesList[i].Location}");
+            }
+
+            //Ask user to select number of activity they would like to change
+            Console.WriteLine("Please input number for activity you would like to edit:");
+            int activityIndex = GetMenuResponse(activitiesList.Count) - 1;
+            FitnessActivity selectedActivity = new FitnessActivity() {
+                DateStartTime = activitiesList[activityIndex].DateStartTime,
+                Title = activitiesList[activityIndex].Title,
+                Cost = activitiesList[activityIndex].Cost,
+                Location = activitiesList[activityIndex].Location
+            };
+
+            //List details of activity with a number next to them
+            Console.WriteLine($"1. DateStartTime: {selectedActivity.DateStartTime}");
+            Console.WriteLine($"2. Title: {selectedActivity.Title}");
+            Console.WriteLine($"3. Cost: {selectedActivity.Cost}");
+            Console.WriteLine($"4. Location: {selectedActivity.Location}");
+            Console.WriteLine("Please select index of detail/s you would like to change");
+
+            //Ask user to select number of details they would like to change, with comma between
+            Console.WriteLine("If you would like to change more than one index, input all indexes seperated by commas");
+            int[] changingIndex = GetManyMenuResponses(4);
+
+            //Run loop going through each selected number's detail showing previous state and requesting what to update to
+            //As response is received, push new detail to fresh object
+            //Re ask for input if it does not match required dataType
+            selectedActivity = GetActivityDetails(activitiesList[activityIndex], selectedActivity, changingIndex).activity;
+
+            //Make changes in .csv
+            activitiesList[activityIndex] = selectedActivity;
+            Console.WriteLine("Changes have been saved to file!");
+            WriteMultipleLines(activitiesList, "FitnessActivities.csv");
+        }
+
+        static (FitnessActivity activity, string makeChanges) GetActivityDetails(FitnessActivity oldFitnessActivity, FitnessActivity newFitnessActivity, int[] detailsToChange)
+        {
+            for (int i = 0; i < detailsToChange.Length; i++)
+            {
+                switch (detailsToChange[i])
+                {
+                    case 1:
+                        Console.Write($"Current DateStartTime is ");
+                        WriteColour(newFitnessActivity.DateStartTime, ConsoleColor.Green);
+                        Console.WriteLine("");
+                        newFitnessActivity.DateStartTime = GetActivityDateTime();
+                        break;
+                    case 2:
+                        Console.Write($"Current Title is ");
+                        WriteColour(newFitnessActivity.Title, ConsoleColor.Green);
+                        Console.WriteLine("");
+                        newFitnessActivity.Title = AskForActivityInput(" title");
+                        break;
+                    case 3:
+                        Console.Write($"Current Cost is ");
+                        WriteColour($"{newFitnessActivity.Cost}", ConsoleColor.Green);
+                        Console.WriteLine("");
+                        newFitnessActivity.Cost = GetActivityCost();
+                        break;
+                    case 4:
+                        Console.Write($"Current Location is ");
+                        WriteColour(newFitnessActivity.Location, ConsoleColor.Green);
+                        Console.WriteLine("");
+                        newFitnessActivity.Location = AskForActivityInput(" location");
+                        break;
+                }
+            }
+
+            //Reprint activity with updated details
+            Console.WriteLine("Please confirm activity's new details:");
+            Console.WriteLine($"Original Details: {oldFitnessActivity.DateStartTime} - {oldFitnessActivity.Title} - {oldFitnessActivity.Cost} - {oldFitnessActivity.Location}");
+            Console.WriteLine("New Details: ");
+            if (oldFitnessActivity.DateStartTime != newFitnessActivity.DateStartTime)
+            {
+                WriteColour(newFitnessActivity.DateStartTime, ConsoleColor.Blue);
+            } 
+            else
+            {
+                Console.Write($"{newFitnessActivity.DateStartTime}");
+            }
+            Console.Write(" - ");
+            if (oldFitnessActivity.Title != newFitnessActivity.Title)
+            {
+                WriteColour(newFitnessActivity.Title, ConsoleColor.Blue);
+            }
+            else
+            {
+                Console.Write($"{newFitnessActivity.Title}");
+            }
+            Console.Write(" - ");
+            if (oldFitnessActivity.Cost != newFitnessActivity.Cost)
+            {
+                WriteColour($"{newFitnessActivity.Cost}", ConsoleColor.Blue);
+            }
+            else
+            {
+                Console.Write($"{newFitnessActivity.Cost}");
+            }
+            Console.Write(" - ");
+            if (oldFitnessActivity.Location != newFitnessActivity.Location)
+            {
+                WriteColour(newFitnessActivity.Location, ConsoleColor.Blue);
+            }
+            else
+            {
+                Console.Write(newFitnessActivity.Location);
+            }
+            Console.WriteLine("");
+
+            //Prompt user if happy with changes
+            string makeChanges = "no";
+            string happy = GetClosedAnswer("Are you happy with you changes? (yes/no)");
+            if (happy == "no")
+            {
+                makeChanges = GetClosedAnswer("Would you like to ammend your changes? (yes/no)");
+                while (makeChanges != "yes")
+                {
+                    var result = GetActivityDetails(oldFitnessActivity, newFitnessActivity, detailsToChange);
+                    makeChanges = result.makeChanges;
+                    newFitnessActivity = result.activity;
+                }
+            }
+            return (newFitnessActivity, makeChanges);
+        }
+
+        static (EntertainmentActivity activity, string makeChanges) GetActivityDetails(EntertainmentActivity oldActivity, EntertainmentActivity newActivity, int[] detailsToChange)
+        {
+            for (int i = 0; i < detailsToChange.Length; i++)
+            {
+                switch (detailsToChange[i])
+                {
+                    case 1:
+                        Console.Write($"Current DateStartTime is ");
+                        WriteColour(newActivity.DateStartTime, ConsoleColor.Green);
+                        Console.WriteLine("");
+                        newActivity.DateStartTime = GetActivityDateTime();
+                        break;
+                    case 2:
+                        Console.Write($"Current Title is ");
+                        WriteColour(newActivity.Title, ConsoleColor.Green);
+                        Console.WriteLine("");
+                        newActivity.Title = AskForActivityInput(" title");
+                        break;
+                    case 3:
+                        Console.Write($"Current Cost is ");
+                        WriteColour($"{newActivity.Cost}", ConsoleColor.Green);
+                        Console.WriteLine("");
+                        newActivity.Cost = GetActivityCost();
+                        break;
+                    case 4:
+                        Console.Write($"Current Location is ");
+                        WriteColour($"{newActivity.MinParticipants}", ConsoleColor.Green);
+                        Console.WriteLine("");
+                        var parseResult = ConvertStringToInt(AskForActivityInput("'s minimum required participants"));
+                        while(parseResult.err != "")
+                        {
+                            Console.WriteLine(parseResult.err);
+                            parseResult = ConvertStringToInt(AskForActivityInput("'s minimum required participants"));
+                        }
+                        newActivity.MinParticipants = parseResult.num;
+                        break;
+                }
+            }
+
+            //Reprint activity with updated details
+            Console.WriteLine("Please confirm activity's new details:");
+            Console.WriteLine($"Original Details: {oldActivity.DateStartTime} - {oldActivity.Title} - {oldActivity.Cost} - {oldActivity.MinParticipants}");
+            Console.WriteLine("New Details: ");
+            if (oldActivity.DateStartTime != newActivity.DateStartTime)
+            {
+                WriteColour(newActivity.DateStartTime, ConsoleColor.Blue);
+            } 
+            else
+            {
+                Console.Write($"{newActivity.DateStartTime}");
+            }
+            Console.Write(" - ");
+            if (oldActivity.Title != newActivity.Title)
+            {
+                WriteColour(newActivity.Title, ConsoleColor.Blue);
+            }
+            else
+            {
+                Console.Write($"{newActivity.Title}");
+            }
+            Console.Write(" - ");
+            if (oldActivity.Cost != newActivity.Cost)
+            {
+                WriteColour($"{newActivity.Cost}", ConsoleColor.Blue);
+            }
+            else
+            {
+                Console.Write($"{newActivity.Cost}");
+            }
+            Console.Write(" - ");
+            if (oldActivity.MinParticipants != newActivity.MinParticipants)
+            {
+                WriteColour($"{newActivity.MinParticipants}", ConsoleColor.Blue);
+            }
+            else
+            {
+                Console.Write($"{newActivity.MinParticipants}");
+            }
+            Console.WriteLine("");
+
+            //Prompt user if happy with changes
+            string happy = GetClosedAnswer("Are you happy with you changes? (yes/no)");
+            string makeChanges = "no";
+            if (happy == "no")
+            {
+                makeChanges = GetClosedAnswer("Would you like to ammend your changes? (yes/no)");
+                while (makeChanges != "yes")
+                {
+                    var result = GetActivityDetails(oldActivity, newActivity, detailsToChange);
+                    makeChanges = result.makeChanges;
+                    newActivity = result.activity;
+                }
+            }
+            return (newActivity, makeChanges);
         }
 
         static void ViewEntertainmentActivities()
@@ -215,17 +492,58 @@ namespace TAFE_OOP_Project
 
         static void EditEntertainmentActivities()
         {
-            
+            Console.WriteLine("Please find all activities below:");
+            using var reader = new StreamReader("EntertainmentActivities.csv");
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+            var activitiesList = csv.GetRecords<EntertainmentActivity>().ToList();
+            //Write all the activities with a number next to them
+            Console.WriteLine("Index. DateStartTime - Title - Cost - MinParticipants");
+            for (int i = 0; i < activitiesList.Count; i++)
+            {
+                Console.WriteLine($"{i+1}. {activitiesList[i].DateStartTime} - {activitiesList[i].Title} - {activitiesList[i].Cost} - {activitiesList[i].MinParticipants}");
+            }
+
+            //Ask user to select number of activity they would like to change
+            Console.WriteLine("Please input number for activity you would like to edit:");
+            int activityIndex = GetMenuResponse(activitiesList.Count) - 1;
+            EntertainmentActivity selectedActivity = new EntertainmentActivity() {
+                DateStartTime = activitiesList[activityIndex].DateStartTime,
+                Title = activitiesList[activityIndex].Title,
+                Cost = activitiesList[activityIndex].Cost,
+                MinParticipants = activitiesList[activityIndex].MinParticipants
+            };
+
+            //List details of activity with a number next to them
+            Console.WriteLine($"1. DateStartTime: {selectedActivity.DateStartTime}");
+            Console.WriteLine($"2. Title: {selectedActivity.Title}");
+            Console.WriteLine($"3. Cost: {selectedActivity.Cost}");
+            Console.WriteLine($"4. Minimum Participants: {selectedActivity.MinParticipants}");
+            Console.WriteLine("Please select index of detail/s you would like to change");
+
+            //Ask user to select number of details they would like to change, with comma between
+            Console.WriteLine("If you would like to change more than one index, input all indexes seperated by commas");
+            int[] changingIndex = GetManyMenuResponses(4);
+
+            //Run loop going through each selected number's detail showing previous state and requesting what to update to
+            //As response is received, push new detail to fresh object
+            //Re ask for input if it does not match required dataType
+            selectedActivity = GetActivityDetails(activitiesList[activityIndex], selectedActivity, changingIndex).activity;
+
+            //Make changes in .csv
+            activitiesList[activityIndex] = selectedActivity;
+            Console.WriteLine("Changes have been saved to file!");
+            WriteMultipleLines(activitiesList, "EntertainmentActivities.csv");
         }
 
         static void SearchAllActivities()
         {
-            using var ereader = new StreamReader("EntertainmentActivities.csv");
-            using var ecsv = new CsvReader(ereader, CultureInfo.InvariantCulture);
-            var eActivitiesList = ecsv.GetRecords<EntertainmentActivity>().ToList();
-            using var freader = new StreamReader("FitnessActivities.csv");
-            using var fcsv = new CsvReader(freader, CultureInfo.InvariantCulture);
-            var fActivitiesList = fcsv.GetRecords<FitnessActivity>().ToList();
+            //Reading and ordering all activities from both files
+            using var eReader = new StreamReader("EntertainmentActivities.csv");
+            using var eCsv = new CsvReader(eReader, CultureInfo.InvariantCulture);
+            var eActivitiesList = eCsv.GetRecords<EntertainmentActivity>().ToList();
+            using var fReader = new StreamReader("FitnessActivities.csv");
+            using var fCsv = new CsvReader(fReader, CultureInfo.InvariantCulture);
+            var fActivitiesList = fCsv.GetRecords<FitnessActivity>().ToList();
             List<BlanketActivity> activitiesList = [];
             for (int i = 0; i < eActivitiesList.Count; i++)
             {
@@ -236,6 +554,8 @@ namespace TAFE_OOP_Project
                 activitiesList.Add(UnifyActivityType(fActivitiesList[i]));
             }
             List<BlanketActivity> orderedActivities = activitiesList.OrderByDescending(a => DateTime.Parse(a.DateStartTime)).ToList();
+            
+            //Getting date input to filter search on
             Console.WriteLine("Please input a date for us to search from.");
             Console.WriteLine("Once a date is selected, you may view all activities on, before or after that date");
             var dateParseResult = ConvertStringToTime(AskForActivityInput(" date in format dd/MM/yyyy"), "dd/MM/yyyy");
@@ -245,12 +565,16 @@ namespace TAFE_OOP_Project
                 dateParseResult = ConvertStringToTime(AskForActivityInput(" date in format dd/MM/yyyy"), "dd/MM/yyyy");
             }
             DateOnly searchDate = DateOnly.FromDateTime(dateParseResult.time);
+
+            //Getting filter type for seach
             Console.WriteLine("Please select how you want to filter your search:");
             Console.WriteLine($"1. All Activities BEFORE {searchDate}");
             Console.WriteLine($"2. All Activities ON {searchDate}");
             Console.WriteLine($"3. All Activities AFTER {searchDate}");
             int input = GetMenuResponse(3);
             Console.WriteLine("\n");
+
+            //Filtering search
             switch (input)
             {
                 case 1:
@@ -317,26 +641,8 @@ namespace TAFE_OOP_Project
             FitnessActivity newActivity = new FitnessActivity();
             //All entries still have to be type checked for further use
             newActivity.Title = ToTitleCase(AskForActivityInput(" name"));
-            var dateParseResult = ConvertStringToTime(AskForActivityInput(" date in format dd/MM/yyyy"), "dd/MM/yyyy");
-            while(dateParseResult.err != "")
-            {
-                Console.WriteLine(dateParseResult.err);
-                dateParseResult = ConvertStringToTime(AskForActivityInput(" date in format dd/MM/yyyy"), "dd/MM/yyyy");
-            }
-            var timeParseResult = ConvertStringToTime(AskForActivityInput(" starting time in format HH:mm"), "HH:mm");
-            while(timeParseResult.err != "")
-            {
-                Console.WriteLine(timeParseResult.err);
-                timeParseResult = ConvertStringToTime(AskForActivityInput(" starting time in format HH:mm"), "HH:mm");
-            }
-            newActivity.DateStartTime = $"{dateParseResult.time:dd/MM/yyyy} {timeParseResult.time:HH:mm}";
-            var parseResult = ConvertStringToInt(AskForActivityInput(" cost"));
-            while(parseResult.err != "")
-            {
-                Console.WriteLine(parseResult.err);
-                parseResult = ConvertStringToInt(AskForActivityInput(" cost"));
-            }
-            newActivity.Cost = parseResult.num;
+            newActivity.DateStartTime = GetActivityDateTime();
+            newActivity.Cost = GetActivityCost();
             newActivity.Location = ToTitleCase(AskForActivityInput("'s location"));
             return newActivity;
         }
@@ -346,6 +652,20 @@ namespace TAFE_OOP_Project
             EntertainmentActivity newActivity = new EntertainmentActivity();
             //All entries still have to be type checked for further use
             newActivity.Title = ToTitleCase(AskForActivityInput(" name"));
+            newActivity.DateStartTime = GetActivityDateTime();
+            newActivity.Cost = GetActivityCost();
+            var parseResult = ConvertStringToInt(AskForActivityInput("'s minimum required participants"));
+            while(parseResult.err != "")
+            {
+                Console.WriteLine(parseResult.err);
+                parseResult = ConvertStringToInt(AskForActivityInput("'s minimum required participants"));
+            }
+            newActivity.MinParticipants = parseResult.num;
+            return newActivity;
+        }
+
+        static string GetActivityDateTime()
+        {
             var dateParseResult = ConvertStringToTime(AskForActivityInput(" date in format dd/MM/yyyy"), "dd/MM/yyyy");
             while(dateParseResult.err != "")
             {
@@ -358,22 +678,18 @@ namespace TAFE_OOP_Project
                 Console.WriteLine(timeParseResult.err);
                 timeParseResult = ConvertStringToTime(AskForActivityInput(" starting time in format HH:mm"), "HH:mm");
             }
-            newActivity.DateStartTime = $"{dateParseResult.time:dd/MM/yyyy} {timeParseResult.time:HH:mm}";
+            return $"{dateParseResult.time:dd/MM/yyyy} {timeParseResult.time:HH:mm}";
+        }
+
+        static int GetActivityCost()
+        {
             var parseResult = ConvertStringToInt(AskForActivityInput(" cost"));
             while(parseResult.err != "")
             {
                 Console.WriteLine(parseResult.err);
                 parseResult = ConvertStringToInt(AskForActivityInput(" cost"));
             }
-            newActivity.Cost = parseResult.num;
-            parseResult = ConvertStringToInt(AskForActivityInput("'s minimum required participants"));
-            while(parseResult.err != "")
-            {
-                Console.WriteLine(parseResult.err);
-                parseResult = ConvertStringToInt(AskForActivityInput("'s minimum required participants"));
-            }
-            newActivity.MinParticipants = parseResult.num;
-            return newActivity;
+            return parseResult.num;
         }
 
         static string AskForActivityInput(string header)
@@ -497,6 +813,14 @@ namespace TAFE_OOP_Project
             }
             //returns the character array reformatted into a string
             return string.Concat(returnString);
+        }
+
+        static void WriteColour(string text, ConsoleColor colour)
+        {
+            ConsoleColor standardColour = Console.ForegroundColor;
+            Console.ForegroundColor = colour;
+            Console.Write(text);
+            Console.ForegroundColor = standardColour;
         }
     }
 
