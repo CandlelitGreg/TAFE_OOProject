@@ -1,0 +1,35 @@
+is_global = true
+build_property.AvaloniaNameGeneratorIsEnabled = true
+build_property.AvaloniaNameGeneratorBehavior = InitializeComponent
+build_property.AvaloniaNameGeneratorDefaultFieldModifier = internal
+build_property.AvaloniaNameGeneratorFilterByPath = *
+build_property.AvaloniaNameGeneratorFilterByNamespace = *
+build_property.AvaloniaNameGeneratorViewFileNamingStrategy = NamespaceAndClassName
+build_property.AvaloniaNameGeneratorAttachDevTools = true
+build_property.AvaloniaUseCompiledBindingsByDefault = true
+build_property.AvaloniaMainPackageVersion = 12.1.1
+build_property.AvaloniaPreviewerNetCoreToolPath = /Users/gregwilkinson/.nuget/packages/avalonia/12.1.1/buildTransitive//../tools/net8.0/designer/Avalonia.Designer.HostApp.dll
+build_property.AvaloniaResourcePaths = /Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/Assets/avalonia-logo.ico,/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/App.axaml,/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/Views/MainWindow.axaml
+build_property.MvvmToolkitEnableINotifyPropertyChangingSupport = true
+build_property._MvvmToolkitIsUsingWindowsRuntimePack = false
+build_property.CsWinRTComponent = 
+build_property.CsWinRTAotOptimizerEnabled = 
+build_property.CsWinRTAotWarningLevel = 
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = MyAvaloniaApp
+build_property.ProjectDir = /Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+
+[/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/App.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/Views/MainWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

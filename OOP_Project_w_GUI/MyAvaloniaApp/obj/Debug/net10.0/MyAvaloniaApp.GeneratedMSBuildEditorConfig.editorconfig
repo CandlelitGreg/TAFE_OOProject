@@ -1,0 +1,56 @@
+is_global = true
+build_property.AvaloniaNameGeneratorIsEnabled = true
+build_property.AvaloniaNameGeneratorBehavior = InitializeComponent
+build_property.AvaloniaNameGeneratorDefaultFieldModifier = internal
+build_property.AvaloniaNameGeneratorFilterByPath = *
+build_property.AvaloniaNameGeneratorFilterByNamespace = *
+build_property.AvaloniaNameGeneratorViewFileNamingStrategy = NamespaceAndClassName
+build_property.AvaloniaNameGeneratorAttachDevTools = true
+build_property.AvaloniaUseCompiledBindingsByDefault = true
+build_property.AvaloniaUseCompiledBindingsByDefault = true
+build_property.AvaloniaMainPackageVersion = 12.1.1
+build_property.AvaloniaMainPackageVersion = 12.1.1
+build_property.AvaloniaPreviewerNetCoreToolPath = /Users/gregwilkinson/.nuget/packages/avalonia/12.1.1/buildTransitive//../tools/net8.0/designer/Avalonia.Designer.HostApp.dll
+build_property.AvaloniaPreviewerNetCoreToolPath = /Users/gregwilkinson/.nuget/packages/avalonia/12.1.1/buildTransitive//../tools/net8.0/designer/Avalonia.Designer.HostApp.dll
+build_property.AvaloniaResourcePaths = /Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/Assets/avalonia-logo.ico
+build_property.TargetFramework = net10.0
+build_property.TargetFramework = net10.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.RuntimeIdentifier = 
+build_property.AppHostRuntimeIdentifier = osx-arm64
+build_property.DefaultAppHostRuntimeIdentifier = osx-arm64
+build_property.NETCoreSdkPortableRuntimeIdentifier = osx-arm64
+build_property.IsTestProject = 
+build_property.ProjectAssetsFile = /Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/obj/project.assets.json
+build_property.ProjectDepsFilePath = /Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/MyAvaloniaApp.deps.json
+build_property.ProjectRuntimeConfigFilePath = /Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/MyAvaloniaApp.runtimeconfig.json
+build_property.IntermediateOutputPath = obj/Debug/net10.0/
+build_property.PublishDir = bin/Debug/net10.0/publish/
+build_property.HasAvaloniaDiagnosticsSupport = true
+build_property.MvvmToolkitEnableINotifyPropertyChangingSupport = true
+build_property._MvvmToolkitIsUsingWindowsRuntimePack = false
+build_property.CsWinRTComponent = 
+build_property.CsWinRTAotOptimizerEnabled = 
+build_property.CsWinRTAotWarningLevel = 
+build_property.TargetFrameworkVersion = v10.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EntryPointFilePath = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = MyAvaloniaApp
+build_property.ProjectDir = /Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/App.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/Views/MainWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

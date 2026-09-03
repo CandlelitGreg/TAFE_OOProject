@@ -1,0 +1,8 @@
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/obj/Debug/net8.0/MyAvaloniaApp.csproj.AssemblyReference.cache
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/obj/Debug/net8.0/Avalonia/Resources.Inputs.cache
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/obj/Debug/net8.0/Avalonia/resources
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/obj/Debug/net8.0/MyAvaloniaApp.GeneratedMSBuildEditorConfig.editorconfig
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/obj/Debug/net8.0/MyAvaloniaApp.AssemblyInfoInputs.cache
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/obj/Debug/net8.0/MyAvaloniaApp.AssemblyInfo.cs
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/obj/Debug/net8.0/MyAvaloniaApp.csproj.CoreCompileInputs.cache
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/obj/Debug/net8.0/MyAvaloniaApp.sourcelink.json

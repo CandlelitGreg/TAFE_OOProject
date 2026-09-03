@@ -1,0 +1,493 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MyAvaloniaApp.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="MyAvaloniaApp.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="MyAvaloniaApp">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <Grid>
+
+        <Button
+            x:Name="BackToPreviousPanel"
+            Tag="PreviousPanelReference"
+            Click="backPanel"
+            Background="Blue"
+            Foreground="Yellow"
+            FontSize="20"
+            Margin="2"
+            Padding="10,5"
+            Content="Back"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            IsEnabled="false"
+            IsVisible="false"
+            />
+
+        <Button
+            x:Name="CurrentPageTracker"
+            Tag="CurrentPageReference"
+            Background="Red"
+            Foreground="Black"
+            IsVisible="false"
+            IsEnabled="false"
+        />
+
+
+        <StackPanel 
+            x:Name="DefaultStackPanel" 
+            IsEnabled="True" 
+            IsVisible="True" 
+            VerticalAlignment="Center"
+            Grid.Column="1">
+            
+            <TextBox Text="{Binding Greeting}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+            />
+
+            <TextBlock 
+                xml:space="preserve">
+            </TextBlock>
+
+            <TextBlock
+                x:Name="message"
+                Margin="5"
+                FontSize="20"
+                HorizontalAlignment="Center">
+                Press Button to Enter Editor
+            </TextBlock>
+        
+            <TextBlock 
+                xml:space="preserve">
+            </TextBlock>
+
+            <Button
+                x:Name="StartButton"
+                Tag="{Binding #MenuPanel}"
+                Click="openPanel"
+                Background="Blue"
+                Foreground="Yellow"
+                FontSize="20"
+                Margin="2"
+                Padding="10,5"
+                Content="Enter Editor"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+            />
+        </StackPanel>
+
+        <StackPanel 
+            x:Name="MenuPanel" 
+            IsEnabled="False" 
+            IsVisible="False"
+            VerticalAlignment="Center">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button
+                    x:Name="ViewActivitiesButton"
+                    Tag="{Binding #ViewActivitiesPanel}"
+                    Click="openPanel"
+                    Background="Blue"
+                    Foreground="Yellow"
+                    FontSize="20"
+                    Margin="2"
+                    Padding="10,5"
+                    Content="View Activities"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Grid.Row="0"
+                />
+
+                <TextBlock 
+                    xml:space="preserve">
+                </TextBlock>
+
+                <Button
+                    x:Name="EditActivitiesButton"
+                    Tag="{Binding #EditActivitiesPanel}"
+                    Click="openPanel"
+                    Background="Blue"
+                    Foreground="Yellow"
+                    FontSize="20"
+                    Margin="2"
+                    Padding="10,5"
+                    Content="Edit Activities"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Grid.Row="1"
+                />
+
+                <TextBlock 
+                    xml:space="preserve">
+                </TextBlock>
+
+                <Button
+                    x:Name="AddActivitiesButton"
+                    Tag="{Binding #AddActivitiesPanel}"
+                    Click="openPanel"
+                    Background="Blue"
+                    Foreground="Yellow"
+                    FontSize="20"
+                    Margin="2"
+                    Padding="10,5"
+                    Content="Add Activities"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Grid.Row="2"
+                />
+                
+                <TextBlock 
+                    xml:space="preserve">
+                </TextBlock>
+
+                <Button
+                    x:Name="AddCountriesButton"
+                    Tag="{Binding #AddCountriesPanel}"
+                    Click="openPanel"
+                    Background="Blue"
+                    Foreground="Yellow"
+                    FontSize="20"
+                    Margin="2"
+                    Padding="10,5"
+                    Content="Add Countries"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Grid.Row="3"
+                />
+
+            </Grid>
+
+        </StackPanel>
+
+        <StackPanel
+            x:Name="AddCountriesPanel"
+            IsEnabled="False"
+            IsVisible="False"
+            HorizontalAlignment="Center">
+            
+            <TextBlock
+                x:Name="addCountriesHeader"
+                Margin="5"
+                FontSize="20"
+                HorizontalAlignment="Center">
+                Add Country:
+            </TextBlock>
+
+            <!-- <TableView x:Name="AddCountriesList" ItemsSource="{Binding Countries, Mode=TwoWay}" Background="#81B7DC">
+                <TableView.Columns>
+                    <TableViewColumn Header="Name" Binding="{Binding Name, Mode=TwoWay}" />
+                    <TableViewColumn Header="Region" Binding="{Binding Region}" />
+                    <TableViewColumn Header="Population"
+                                     Binding="{Binding Population, StringFormat=N0}"
+                                     HorizontalContentAlignment="Right" />
+                </TableView.Columns>
+            </TableView> -->
+
+            <DataGrid 
+                x:Name="AddCountriesList"
+                ItemsSource="{Binding Countries}" 
+                AutoGenerateColumns="false"
+                Height="350"
+                Background="#81B7DC"
+                IsReadOnly="True"
+                Margin="20,50,100,5"
+                >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Region" Binding="{Binding Region}" Width="*"/>
+                    <DataGridTextColumn Header="Population" Binding="{Binding Population}" Width="*"/>
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+            <TextBox 
+                x:Name="CountryNameInput" 
+                Width="200" 
+                Watermark="Write country name here"
+            />
+
+            <TextBox 
+                x:Name="CountryContinentInput" 
+                Width="200" 
+                Watermark="Write country continent here"
+            />
+
+            <StackPanel Orientation="Horizontal" Spacing="10" Margin="5" HorizontalAlignment="Center">
+                <!-- Date Selection Component -->
+                <CalendarDatePicker 
+                    x:Name="MyDatePicker" 
+                    Watermark="Select Date"
+                    SelectedDateFormat="Custom"
+                    CustomDateFormatString="dd-MM-yyyy"
+                />
+
+                <!-- Time Selection Component -->
+                <TimePicker 
+                    x:Name="MyTimePicker" 
+                    ClockIdentifier="24HourClock" 
+                    MinuteIncrement="1"
+                />
+            </StackPanel>
+
+            <!-- Text Changing value links to functino that catches and reverts any non int inputs -->
+            <TextBox 
+                x:Name="CountryPupulationInput" 
+                Width="200" 
+                Watermark="Write country population here"
+                TextChanging="catchNonIntInput"
+            />
+
+            <Button 
+                x:Name="CountrySubmitButton"
+                Tag="{Binding #AddCountriesPanel}"
+                Click="addCountry"
+                Background="Blue"
+                Foreground="Yellow"
+                FontSize="20"
+                Margin="2"
+                Padding="10,5"
+                Content="Add Country"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+            />
+
+        </StackPanel>
+
+        <StackPanel
+            x:Name="EditActivitiesPanel"
+            IsEnabled="False"
+            IsVisible="False"
+            HorizontalAlignment="Center">
+            
+            <TextBlock
+                x:Name="editActivitiesHeader"
+                Margin="5"
+                FontSize="20"
+                HorizontalAlignment="Center">
+                Edit Activity:
+            </TextBlock>
+
+        </StackPanel>
+
+        <StackPanel
+            x:Name="ViewActivitiesPanel"
+            IsEnabled="False"
+            IsVisible="False"
+            HorizontalAlignment="Center">
+            
+            <TextBlock
+                x:Name="viewActivitiesHeader"
+                Margin="5"
+                FontSize="20"
+                HorizontalAlignment="Center">
+                View Activities:
+            </TextBlock>
+
+            <TableView ItemsSource="{Binding Countries}">
+                <TableView.Columns>
+                    <TableViewColumn Header="Name" Binding="{Binding Name}" />
+                    <TableViewColumn Header="Region" Binding="{Binding Region}" />
+                    <TableViewColumn Header="Population"
+                                     Binding="{Binding Population, StringFormat=N0}"
+                                     HorizontalContentAlignment="Right" />
+                </TableView.Columns>
+            </TableView>
+
+            <!-- <StackPanel Margin="20">
+                <TextBlock Margin="0 5">Choose an animal:</TextBlock>
+                <ListBox x:Name="animals"/>
+            </StackPanel> -->
+
+        </StackPanel>
+
+        <StackPanel
+            x:Name="AddActivitiesPanel"
+            IsEnabled="False"
+            IsVisible="False"
+            HorizontalAlignment="Center">
+            
+            <TextBlock
+                x:Name="addActivitiesHeader"
+                Margin="5"
+                FontSize="20"
+                HorizontalAlignment="Center">
+                Add Activity:
+            </TextBlock>
+
+            <!-- <TableView x:Name="AddCountriesList" ItemsSource="{Binding Countries, Mode=TwoWay}" Background="#81B7DC">
+                <TableView.Columns>
+                    <TableViewColumn Header="Name" Binding="{Binding Name, Mode=TwoWay}" />
+                    <TableViewColumn Header="Region" Binding="{Binding Region}" />
+                    <TableViewColumn Header="Population"
+                                     Binding="{Binding Population, StringFormat=N0}"
+                                     HorizontalContentAlignment="Right" />
+                </TableView.Columns>
+            </TableView> -->
+
+            <!-- <DataGrid 
+                x:Name="AddActivitiesList"
+                ItemsSource="{Binding Activities}" 
+                AutoGenerateColumns="false"
+                Height="350"
+                Background="#81B7DC"
+                IsReadOnly="True"
+                Margin="100,20,100,5"
+                >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="DateStartTime" Binding="{Binding DateStartTime}" Width="*"/>
+                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>
+                    <DataGridTextColumn Header="Cost" Binding="{Binding Cost}" Width="*"/>
+                </DataGrid.Columns>
+
+            </DataGrid> -->
+
+            <StackPanel Orientation="Horizontal" Spacing="10" Margin="20">
+                <TextBlock
+                    x:Name="activityTypeHeader"
+                    FontSize="20"
+                    VerticalAlignment="Center">
+                    Activity Type:
+                </TextBlock>
+
+                <Button 
+                    x:Name="FitnessActivityTypeButton"
+                    Tag="{Binding #EntertainmentActivityTypeButton}"
+                    Click="selectFitness"
+                    Background="#27325F"
+                    Foreground="White"
+                    FontSize="20"
+                    Margin="2"
+                    Padding="10,5"
+                    Content="Fitness"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                />
+
+                <Button 
+                    x:Name="EntertainmentActivityTypeButton"
+                    Tag="{Binding #FitnessActivityTypeButton}"
+                    Click="selectEntertainment"
+                    Background="#27325F"
+                    Foreground="White"
+                    FontSize="20"
+                    Margin="2"
+                    Padding="10,5"
+                    Content="Entertainment"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                />
+
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal" Spacing="10" Margin="5" HorizontalAlignment="Center">
+                <!-- Date Selection Component -->
+                <CalendarDatePicker 
+                    x:Name="ActivityDateInput"
+                    Tag="DATE INPUT REQUIRED"
+                    Watermark="Activity Start Date/Time"
+                    SelectedDateFormat="Custom"
+                    CustomDateFormatString="dd-MM-yyyy"
+                />
+
+                <!-- Time Selection Component -->
+                <TimePicker 
+                    x:Name="ActivityTimeInput" 
+                    ClockIdentifier="24HourClock" 
+                    MinuteIncrement="1"
+                />
+            </StackPanel>
+
+            <TextBox 
+                x:Name="ActivityTitleInput" 
+                Tag="TITLE INPUT REQUIRED"
+                Width="200" 
+                Watermark="Write activity title here"
+            />
+
+            <!-- Text Changing value links to function that catches and reverts any non int inputs -->
+            <TextBox 
+                x:Name="ActivityCostInput" 
+                Tag="COST INPUT REQUIRED"
+                Width="200" 
+                Watermark="Write activity cost here"
+                TextChanging="catchNonCostInput"
+            />
+
+
+            <StackPanel 
+                x:Name="SubmitEntertainmentActivityPanel"  
+                IsVisible="False" 
+                IsEnabled="False">
+
+
+                <TextBox 
+                    x:Name="ActivityMinParticipantsInput" 
+                    Tag="MINIMUM PARTICIPANT COUNT REQUIRED"
+                    TextChanging="catchNonIntInput"
+                    Width="200" 
+                    Watermark="Write activity minimum participants here"
+                />
+
+                <Button 
+                    x:Name="EntertainmentActivitySubmitButton"
+                    Click="addEntertainmentActivity"
+                    Background="Blue"
+                    Foreground="Yellow"
+                    FontSize="20"
+                    Margin="2"
+                    Padding="10,5"
+                    Content="Add Activity"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                />
+            </StackPanel>
+
+
+            <StackPanel 
+                x:Name="SubmitFitnessActivityPanel"  
+                IsVisible="False" 
+                IsEnabled="False">
+
+
+                <TextBox 
+                    x:Name="ActivityLocationInput"
+                    Tag="LOCATION INPUT REQUIRED"
+                    Width="200" 
+                    Watermark="Write activity location here"
+                />
+
+                <Button 
+                    x:Name="FitnessActivitySubmitButton"
+                    Click="addFitnessActivity"
+                    Background="Blue"
+                    Foreground="Yellow"
+                    FontSize="20"
+                    Margin="2"
+                    Padding="10,5"
+                    Content="Add Activity"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                />
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+    
+</Window>
