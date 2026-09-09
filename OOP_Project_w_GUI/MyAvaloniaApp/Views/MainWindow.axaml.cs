@@ -36,79 +36,51 @@ public partial class MainWindow : Window
     private string _lastValidCostText = "";
     private bool costIsHoldingDecimal = false;
     private int validCostDollarLength = 0;
+
+    //Opens the stackPanel that is referenced by the button that was pressed, and disables the current stackPanel
     public void openPanel(object sender, RoutedEventArgs e)
     {
-        if (sender is Visual visual && visual.Name != "BackToPreviousPanel")
+        if (sender is Visual visual)
         {
             StackPanel? parentPanel = visual.FindAncestorOfType<StackPanel>();
             if (parentPanel != null)
             {
                 parentPanel.IsEnabled = false;
                 parentPanel.IsVisible = false;
-                BackToPreviousPanel.IsEnabled = true;
-                BackToPreviousPanel.IsVisible = true;
-                BackToPreviousPanel.Tag = parentPanel;
             }
         }
         if (sender is Button button && button.Tag is StackPanel referencedPanel)
         {
             referencedPanel.IsEnabled = true;
             referencedPanel.IsVisible = true;
-            CurrentPageTracker.Tag = referencedPanel;
         }
     }
 
-    public void backPanel(object sender, RoutedEventArgs e)
+    //Alters active and visible XML elements to reflect activity action currently selected
+    public void openActivitySidePanel(object sender, RoutedEventArgs e)
     {
-        if (sender is Button button && button.Tag is StackPanel referencedPanel && CurrentPageTracker.Tag is StackPanel currentPanel)
+        if (sender is Button button && button.Tag is StackPanel referencedPanel)
         {
-            currentPanel.IsEnabled = false;
-            currentPanel.IsVisible = false;
-
+            AddActivitiesPanel.IsEnabled = false;
+            AddActivitiesPanel.IsVisible = false;
+            EditActivitiesPanel.IsEnabled = false;
+            EditActivitiesPanel.IsVisible = false;
+            SearchActivitiesPanel.IsEnabled = false;
+            SearchActivitiesPanel.IsVisible = false;
             referencedPanel.IsEnabled = true;
             referencedPanel.IsVisible = true;
-
-
-            BackToPreviousPanel.Tag = currentPanel;
-            CurrentPageTracker.Tag = referencedPanel;
+            selectSingleButton(sender, new System.Collections.Generic.List<Button> {AddActivitiesButton, EditActivitiesButton, SearchActivitiesButton});
         }
     }
 
-    public void addCountry(object sender, RoutedEventArgs e)
-    {
-        MainViewModel.Country newCountry = 
-            new MainViewModel.Country(
-                CountryNameInput.Text.ToString(),
-                CountryContinentInput.Text.ToString(),
-                int.Parse(CountryPupulationInput.Text)
-            );
-        mvm.AddNewCountry(newCountry);
-        AddCountriesList.ItemsSource = mvm.Countries;
-    }
 
+    //Calls checkForMissingInputs function to ensure all activity input fields are filled, if anything is missing, it will highlight the missing input and return without adding a new activity
+    //If all inputs are filled, it will create a new Fitness Activity ObservableObject
+    //The new Object is added to the appropriate Observable Collections via the mvm.AddNewFitnessActivity function
+    //The input boxes are cleared for the next input
+    //The displayed list of activities is updated to include the new activity
     public void addFitnessActivity(object sender, RoutedEventArgs e)
     {
-        resetActivityInputHighlights();
-        /*MAKE SURE TO CHECK FOR NULL TYPES AND COMAS
-        PROMPT USER TO ADD MISSING INPUTS IF INFORMATION IS MISSING*/
-        if (ActivityTitleInput.Text != null)
-        {
-            ActivityTitleInput.Text = removeCommasFromString(ActivityTitleInput.Text.ToString());
-            if (ActivityTitleInput.Text == "")
-            {
-                ActivityTitleInput.Text = null;
-            }
-        }
-
-        if (ActivityLocationInput.Text != null)
-        {
-            ActivityLocationInput.Text = removeCommasFromString(ActivityLocationInput.Text.ToString());
-            if (ActivityLocationInput.Text == "")
-            {
-                ActivityLocationInput.Text = null;
-            }
-        }
-
         if (checkForMissingInputs("fitness"))
         {
             return;
@@ -117,9 +89,9 @@ public partial class MainWindow : Window
         MainViewModel.FitnessActivity newActivity = 
             new MainViewModel.FitnessActivity(
                 $"{ActivityDateInput.SelectedDate.Value.ToString("dd/MM/yyyy")} {ActivityTimeInput.SelectedTime.Value.ToString(@"hh\:mm")}",
-                ActivityTitleInput.Text.ToString(),
+                ToTitleCase(ActivityTitleInput.Text.ToString()),
                 float.Parse(ActivityCostInput.Text),
-                ActivityLocationInput.Text.ToString()
+                ToTitleCase(ActivityLocationInput.Text.ToString())
             );
         
         //Add the new activity into the existing list
@@ -128,24 +100,46 @@ public partial class MainWindow : Window
         //Clear input boxes
         clearActivityInputs();
 
-
         // // Update the existing list to show the new activity
-        // AddCountriesList.ItemsSource = mvm.Countries;
+        ActivitiesList.ItemsSource = mvm.AllActivities;
+        
         Console.WriteLine($"new fitness activity added\nName: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].Title}\nStart Time: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].DateStartTime}\nCost: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].Cost}\nLocation: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].Location}");
     }
 
+    //Calls checkForMissingInputs function to ensure all activity input fields are filled, if anything is missing, it will highlight the missing input and return without adding a new activity
+    //If all inputs are filled, it will create a new Entertainment Activity ObservableObject
+    //The new Object is added to the appropriate Observable Collections via the mvm.AddNewEntertainmentActivity function
+    //The input boxes are cleared for the next input
+    //The displayed list of activities is updated to include the new activity
     public void addEntertainmentActivity(object sender, RoutedEventArgs e)
     {
-        // MainViewModel.Activity newCountry = 
-        //     new MainViewModel.Country(
-        //         CountryNameInput.Text.ToString(),
-        //         CountryContinentInput.Text.ToString(),
-        //         int.Parse(CountryPupulationInput.Text)
-        //     );
-        // mvm.AddNewCountry(newCountry);
-        // AddCountriesList.ItemsSource = mvm.Countries;
+        if (checkForMissingInputs("entertainment"))
+        {
+            return;
+        }
+        //insert activity input data into a new object
+        MainViewModel.EntertainmentActivity newActivity = 
+            new MainViewModel.EntertainmentActivity(
+                $"{ActivityDateInput.SelectedDate.Value.ToString("dd/MM/yyyy")} {ActivityTimeInput.SelectedTime.Value.ToString(@"hh\:mm")}",
+                ToTitleCase(ActivityTitleInput.Text.ToString()),
+                float.Parse(ActivityCostInput.Text),
+                int.Parse(ActivityMinParticipantsInput.Text)
+            );
+        
+        //Add the new activity into the existing list
+        mvm.AddNewEntertainmentActivity(newActivity);
+
+        //Clear input boxes
+        clearActivityInputs();
+
+        // // Update the existing list to show the new activity
+        ActivitiesList.ItemsSource = mvm.AllActivities;
+        
+        // Console.WriteLine($"new entertainment activity added\nName: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].Title}\nStart Time: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].DateStartTime}\nCost: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].Cost}\nMinimum Participants: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].MinParticipants}");
     }
 
+    //Catches and highlights missing inputs in TextBoxes
+    //Reverts highlights if input bool is true
     public void highlightTextInput(TextBox missingInput, bool switchBack)
     {
         if (switchBack || missingInput.BorderBrush is Avalonia.Media.SolidColorBrush currentBrush && currentBrush.Color != Avalonia.Media.Colors.Red)
@@ -165,6 +159,8 @@ public partial class MainWindow : Window
         }
     }
 
+    //Catches and highlights missing inputs in CalendarDatePicker
+    //Reverts highlights if input bool is true
     public void highlightDateInput(CalendarDatePicker missingInput, bool switchBack)
     {
         if (switchBack || missingInput.BorderBrush is Avalonia.Media.SolidColorBrush currentBrush && currentBrush.Color != Avalonia.Media.Colors.Red)
@@ -184,6 +180,8 @@ public partial class MainWindow : Window
         }
     }
 
+    //Catches and highlights missing inputs in TimePicker
+    //Reverts highlights if input bool is true
     public void highlightTimeInput(TimePicker missingInput, bool switchBack)
     {
         if (!switchBack)
@@ -197,8 +195,33 @@ public partial class MainWindow : Window
         }
     }
 
+/*  
+    Removes comas from inputted strings before searching for any missing inputs
+    Checks if any of the activity input fields are missing information. 
+    If any are missing, it will highlight the missing input and return true. 
+    If all inputs are filled, it will return false */
     public bool checkForMissingInputs(string activityType)
     {
+        resetActivityInputHighlights();
+        /*MAKE SURE TO CHECK FOR NULL TYPES AND COMAS
+        PROMPT USER TO ADD MISSING INPUTS IF INFORMATION IS MISSING*/
+        if (ActivityTitleInput.Text != null)
+        {
+            ActivityTitleInput.Text = removeCommasFromString(ActivityTitleInput.Text.ToString());
+            if (ActivityTitleInput.Text == "")
+            {
+                ActivityTitleInput.Text = null;
+            }
+        }
+
+        if (activityType == "fitness" && ActivityLocationInput.Text != null)
+        {
+            ActivityLocationInput.Text = removeCommasFromString(ActivityLocationInput.Text.ToString());
+            if (ActivityLocationInput.Text == "")
+            {
+                ActivityLocationInput.Text = null;
+            }
+        }
         bool missingInput = false;
         if (ActivityDateInput.SelectedDate == null)
         {
@@ -232,6 +255,8 @@ public partial class MainWindow : Window
         }
         return missingInput;
     }
+
+    //Resets all activity input fields to their default state, including the watermark text and border colour
     public void resetActivityInputHighlights()
     {
         if (ActivityTitleInput.Watermark == "TITLE INPUT REQUIRED")
@@ -256,6 +281,8 @@ public partial class MainWindow : Window
             highlightTextInput(ActivityMinParticipantsInput, true);
         }
     }
+    
+    //Clears all activity input fields and resets the activity type buttons to their default state
     public void clearActivityInputs()
     {
         resetActivityInputHighlights();
@@ -275,7 +302,7 @@ public partial class MainWindow : Window
         EntertainmentActivityTypeButton.Foreground = new SolidColorBrush(Color.Parse("#fff"));
     }
 
-
+    //Toggles displayed XML elements to reflect the selected Fitness activity type. Changes the colour of both activity type buttons to reflect which is selected
     public void selectFitness(object sender, RoutedEventArgs e)
     {
         //When button is pressed, change stackpanel properties visible/enabled
@@ -287,6 +314,7 @@ public partial class MainWindow : Window
         selectBinaryButton(sender);
     }
 
+    //Toggles displayed XML elements to reflect the selected Entertainment activity type. Changes the colour of both activity type buttons to reflect which is selected
     public void selectEntertainment(object sender, RoutedEventArgs e)
     {
         //When button is pressed, change stackpanel properties visible/enabled
@@ -314,8 +342,23 @@ public partial class MainWindow : Window
         }
     }
 
-    
-
+    //Takes a button and a list of buttons, and changes their colours to reflect if it is selected
+    public void selectSingleButton(object sender, System.Collections.Generic.List<Button> allButtons)
+    {
+        if (sender is Button button)
+        {
+            button.Background = new SolidColorBrush(Color.Parse("#E0E0E0"));
+            button.Foreground = new SolidColorBrush(Color.Parse("#000"));
+        }
+        for (int i = 0; i < allButtons.Count; i++)
+        {
+            if (allButtons[i] != sender)
+            {
+                allButtons[i].Background = new SolidColorBrush(Color.Parse("#27325F"));
+                allButtons[i].Foreground = new SolidColorBrush(Color.Parse("#fff"));
+            }
+        }
+    }
 
     //Catches and reverts non-Int inputs in textbox
     public void catchNonIntInput(object? sender, TextChangingEventArgs e)
@@ -398,6 +441,7 @@ public partial class MainWindow : Window
         }
     }
 
+    //Takes a string input and returns the same string with all commas removed. If the string is empty or null, it will return null
     public string removeCommasFromString(string input)
     {
         string output = input.Replace(",", "");
@@ -406,5 +450,36 @@ public partial class MainWindow : Window
             output = null;
         }
         return output;
+    }
+
+    //Takes a string input and returns the same string formatted to Title Case formatting
+    public string ToTitleCase(string input)
+    {
+        //Turns the entire input string to lower case
+        input = input.ToLower();
+        //Seperates the input string into an array of characters
+        char[] returnString = input.ToCharArray();
+        //Creates a bool to destinguish if the next letter should be a capital
+        bool capsNext = true;
+        /*Loops through each character turning them capital if the boolean requests it
+         - Boolean will automatically request the primary letter to be capital -
+         - If there are any spaces in the string, the next letter will automatically be converted into a captial - */
+        for (int i = 0; i < returnString.Length; i++)
+        {
+            //If the boolean is true, the character will be converted into a capital
+            if (capsNext) 
+            {
+                returnString[i] = char.ToUpper(returnString[i]);
+                //The boolean will automatically be converted to false
+                capsNext = false;
+            }
+            //If there is a space in the string, the boolean is set to true to signify that the next character should be a capital
+            if (input[i] == ' ')
+            {
+                capsNext = true;
+            }
+        }
+        //returns the character array reformatted into a string
+        return string.Concat(returnString);
     }
 }
