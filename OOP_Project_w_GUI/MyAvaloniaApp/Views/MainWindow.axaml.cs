@@ -79,7 +79,7 @@ public partial class MainWindow : Window
         clearActivityInputs();
 
         // // Update the existing list to show the new activity
-        ActivitiesList.ItemsSource = mvm.AllActivities;
+        ActivitiesList.ItemsSource = mvm.DisplayedActivities;
         
         Console.WriteLine($"new fitness activity added\nName: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].Title}\nStart Time: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].DateStartTime}\nCost: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].Cost}\nLocation: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].Location}");
     }
@@ -111,7 +111,12 @@ public partial class MainWindow : Window
         clearActivityInputs();
 
         // // Update the existing list to show the new activity
-        ActivitiesList.ItemsSource = mvm.AllActivities;
+        ActivitiesList.ItemsSource = mvm.DisplayedActivities;
+
+        // for (int i = 0; i < mvm.DisplayedActivities.Count; i++)
+        // {
+        //     Console.WriteLine(mvm.DisplayedActivities[i].Title);
+        // }
         
         // Console.WriteLine($"new entertainment activity added\nName: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].Title}\nStart Time: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].DateStartTime}\nCost: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].Cost}\nMinimum Participants: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].MinParticipants}");
     }
@@ -179,7 +184,7 @@ public partial class MainWindow : Window
                 start++;
             }
         }
-        ActivitiesList.ItemsSource = mvm.AllActivities;
+        ActivitiesList.ItemsSource = mvm.DisplayedActivities;
     }
 
 /*

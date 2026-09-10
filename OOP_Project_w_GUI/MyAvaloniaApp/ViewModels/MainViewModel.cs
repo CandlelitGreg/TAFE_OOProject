@@ -40,7 +40,10 @@ public partial class MainViewModel : ViewModelBase
         var fitnessActivitiesList = GetListFromFile<FitnessActivity>("FitnessActivities.csv");
         var entertainmentActivitiesList = GetListFromFile<EntertainmentActivity>("EntertainmentActivities.csv");
         AllActivities = GetAllActivities(fitnessActivitiesList, entertainmentActivitiesList);
-        DisplayedActivities = AllActivities;
+        for (int i = 0; i < AllActivities.Count; i++)
+        {
+            DisplayedActivities.Add(AllActivities[i]);
+        }
     }
 
     // Function to read a CSV file and return a list of records of type T (Used primarily for reading activity files)
@@ -56,20 +59,27 @@ public partial class MainViewModel : ViewModelBase
     // Function adds FitnessActivity to ObservableCollection, AllActivities Collection, and the FitnessActivities CSV file
     public void AddNewFitnessActivity(FitnessActivity newActivity)
     {
+        DisplayedActivities.Clear();
         FitnessActivities.Add(newActivity);
         AllActivities.Add(new Activity(newActivity.DateStartTime, newActivity.Title, newActivity.Cost, "Fitness", FitnessActivities.Count - 1));
-        DisplayedActivities = AllActivities;
-        // string[] fitnessActivitiesForCsv = ConvertListToCsvArray<FitnessActivity>(FitnessActivities);
         CreateAndFillCSV(FitnessActivities, "FitnessActivities.csv");
+        for (int i = 0; i < AllActivities.Count; i++)
+        {
+            DisplayedActivities.Add(AllActivities[i]);
+        }
     }
 
     // Function adds FitnessActivity to ObservableCollection, AllActivities Collection, and the FitnessActivities CSV file
     public void AddNewEntertainmentActivity(EntertainmentActivity newActivity)
     {
+        DisplayedActivities.Clear();
         EntertainmentActivities.Add(newActivity);
         AllActivities.Add(new Activity(newActivity.DateStartTime, newActivity.Title, newActivity.Cost, "Entertainment", EntertainmentActivities.Count - 1));
-        DisplayedActivities = AllActivities;
         CreateAndFillCSV(EntertainmentActivities, "EntertainmentActivities.csv");
+        for (int i = 0; i < AllActivities.Count; i++)
+        {
+            DisplayedActivities.Add(AllActivities[i]);
+        }
     }
 
     // Function to convert an ObservableCollection of type T to a string array in CSV format
