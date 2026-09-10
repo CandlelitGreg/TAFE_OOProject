@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CsvHelper;
 using CsvHelper.Configuration;
@@ -32,16 +33,18 @@ public partial class MainViewModel : ViewModelBase
     public ObservableCollection<FitnessActivity> FitnessActivities {get; set;} = new();
     public ObservableCollection<EntertainmentActivity> EntertainmentActivities {get; set;} = new();
     public ObservableCollection<Activity> AllActivities {get; set;} = new();
+    public ObservableCollection<Activity> DisplayedActivities {get; set;} = new();
 
     public MainViewModel()
     {
         var fitnessActivitiesList = GetListFromFile<FitnessActivity>("FitnessActivities.csv");
         var entertainmentActivitiesList = GetListFromFile<EntertainmentActivity>("EntertainmentActivities.csv");
         AllActivities = GetAllActivities(fitnessActivitiesList, entertainmentActivitiesList);
+        DisplayedActivities = AllActivities;
     }
 
     // Function to read a CSV file and return a list of records of type T (Used primarily for reading activity files)
-    public System.Collections.Generic.List<T> GetListFromFile<T>(string filePath)
+    public List<T> GetListFromFile<T>(string filePath)
     {
         using var reader = new StreamReader(filePath);
         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
@@ -55,6 +58,7 @@ public partial class MainViewModel : ViewModelBase
     {
         FitnessActivities.Add(newActivity);
         AllActivities.Add(new Activity(newActivity.DateStartTime, newActivity.Title, newActivity.Cost, "Fitness", FitnessActivities.Count - 1));
+        DisplayedActivities = AllActivities;
         // string[] fitnessActivitiesForCsv = ConvertListToCsvArray<FitnessActivity>(FitnessActivities);
         CreateAndFillCSV(FitnessActivities, "FitnessActivities.csv");
     }
@@ -64,6 +68,7 @@ public partial class MainViewModel : ViewModelBase
     {
         EntertainmentActivities.Add(newActivity);
         AllActivities.Add(new Activity(newActivity.DateStartTime, newActivity.Title, newActivity.Cost, "Entertainment", EntertainmentActivities.Count - 1));
+        DisplayedActivities = AllActivities;
         CreateAndFillCSV(EntertainmentActivities, "EntertainmentActivities.csv");
     }
 
@@ -93,7 +98,7 @@ public partial class MainViewModel : ViewModelBase
 
     // Function to combine fitness and entertainment activities into a single list of activities
     // Also fills FitnessActivities and EntertainmentActivities ObservableCollections with the respective activities
-    public ObservableCollection<Activity> GetAllActivities(System.Collections.Generic.List<FitnessActivity> fitnessActivities, System.Collections.Generic.List<EntertainmentActivity> entertainmentActivities)
+    public ObservableCollection<Activity> GetAllActivities(List<FitnessActivity> fitnessActivities, List<EntertainmentActivity> entertainmentActivities)
     {
         AllActivities.Clear();
         FitnessActivities.Clear();

@@ -9,11 +9,13 @@ using MyAvaloniaApp.ViewModels;
 using System.Linq;
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 using Tmds.DBus.Protocol;
 using Avalonia.Media;
 using Avalonia.Rendering;
 using CsvHelper.TypeConversion;
 using CsvHelper.Configuration.Attributes;
+using CommunityToolkit.Mvvm.Collections;
 
 namespace MyAvaloniaApp.Views;
 
@@ -37,41 +39,17 @@ public partial class MainWindow : Window
     private bool costIsHoldingDecimal = false;
     private int validCostDollarLength = 0;
 
-    //Opens the stackPanel that is referenced by the button that was pressed, and disables the current stackPanel
-    public void openPanel(object sender, RoutedEventArgs e)
-    {
-        if (sender is Visual visual)
-        {
-            StackPanel? parentPanel = visual.FindAncestorOfType<StackPanel>();
-            if (parentPanel != null)
-            {
-                parentPanel.IsEnabled = false;
-                parentPanel.IsVisible = false;
-            }
-        }
-        if (sender is Button button && button.Tag is StackPanel referencedPanel)
-        {
-            referencedPanel.IsEnabled = true;
-            referencedPanel.IsVisible = true;
-        }
-    }
+/*
 
-    //Alters active and visible XML elements to reflect activity action currently selected
-    public void openActivitySidePanel(object sender, RoutedEventArgs e)
-    {
-        if (sender is Button button && button.Tag is StackPanel referencedPanel)
-        {
-            AddActivitiesPanel.IsEnabled = false;
-            AddActivitiesPanel.IsVisible = false;
-            EditActivitiesPanel.IsEnabled = false;
-            EditActivitiesPanel.IsVisible = false;
-            SearchActivitiesPanel.IsEnabled = false;
-            SearchActivitiesPanel.IsVisible = false;
-            referencedPanel.IsEnabled = true;
-            referencedPanel.IsVisible = true;
-            selectSingleButton(sender, new System.Collections.Generic.List<Button> {AddActivitiesButton, EditActivitiesButton, SearchActivitiesButton});
-        }
-    }
+
+
+
+                    ACTIVITY MANAGEMENT FUNCTIONS
+
+
+
+
+*/
 
 
     //Calls checkForMissingInputs function to ensure all activity input fields are filled, if anything is missing, it will highlight the missing input and return without adding a new activity
@@ -138,6 +116,193 @@ public partial class MainWindow : Window
         // Console.WriteLine($"new entertainment activity added\nName: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].Title}\nStart Time: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].DateStartTime}\nCost: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].Cost}\nMinimum Participants: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].MinParticipants}");
     }
 
+    //Checks Search box is populated and displays activities that match the search period based on selected filter
+    public void searchActivities(object sender, RoutedEventArgs e)
+    {
+        if (checkForMissingInputs("search"))
+        {
+            return;
+        }
+        mvm.DisplayedActivities.Clear();
+        DateTime searchDate = ActivitySearchDateInput.SelectedDate ?? DateTime.Now; 
+        
+        List<MainViewModel.FitnessActivity> fitnessList = mvm.FitnessActivities.ToList();
+        List<MainViewModel.EntertainmentActivity> entertainmentList = mvm.EntertainmentActivities.ToList();
+        List<MainViewModel.Activity> allActivitiesList = [];
+        for (int i = 0; i < fitnessList.Count; i++)
+        {
+            MainViewModel.Activity newActivity = new MainViewModel.Activity(fitnessList[i].DateStartTime, fitnessList[i].Title, fitnessList[i].Cost, "Fitness", i);
+            allActivitiesList.Add(newActivity);
+        }
+        for (int i = 0; i < entertainmentList.Count; i++)
+        {
+            MainViewModel.Activity newActivity = new MainViewModel.Activity(entertainmentList[i].DateStartTime, entertainmentList[i].Title, entertainmentList[i].Cost, "Entertainment", i);
+            allActivitiesList.Add(newActivity);
+        }
+        List<MainViewModel.Activity> orderedActivities = allActivitiesList.OrderByDescending(a => DateTime.Parse(a.DateStartTime)).ToList();
+        bool searchBefore = (SearchBefore as RadioButton)?.IsChecked ?? false;
+        bool searchOn = (SearchOn as RadioButton)?.IsChecked ?? false;
+        bool searchAfter = (SearchAfter as RadioButton)?.IsChecked ?? false;
+
+        //Tried Switch casse but didn't work as values were of type ?bool not bool
+        if (searchBefore == true)
+        {
+            int start = 0;
+            while (start < orderedActivities.Count && DateOnly.FromDateTime(DateTime.Parse(orderedActivities[start].DateStartTime)) >= DateOnly.FromDateTime(searchDate))
+            {
+                start++;
+            }
+            for (int i = start; i < orderedActivities.Count; i++)
+            {
+                mvm.DisplayedActivities.Add(orderedActivities[i]);
+            }
+        }
+        if (searchOn == true)
+        {
+            int start = 0;
+            while (start < orderedActivities.Count && DateOnly.FromDateTime(DateTime.Parse(orderedActivities[start].DateStartTime)) != DateOnly.FromDateTime(searchDate))
+            {
+                start++;
+            }
+            while (start < orderedActivities.Count && DateOnly.FromDateTime(DateTime.Parse(orderedActivities[start].DateStartTime)) == DateOnly.FromDateTime(searchDate))
+            {
+                mvm.DisplayedActivities.Add(orderedActivities[start]);
+                start++;
+            }
+        }
+        if (searchAfter == true)
+        {
+            int start = 0;
+            while (start < orderedActivities.Count && DateOnly.FromDateTime(DateTime.Parse(orderedActivities[start].DateStartTime)) > DateOnly.FromDateTime(searchDate))
+            {
+                mvm.DisplayedActivities.Add(orderedActivities[start]);
+                start++;
+            }
+        }
+        ActivitiesList.ItemsSource = mvm.AllActivities;
+    }
+
+/*
+
+
+
+                
+                    PANEL AND BUTTON MANAGEMENT FUNCTIONS
+
+
+
+
+*/
+
+    //Opens the stackPanel that is referenced by the button that was pressed, and disables the current stackPanel
+    public void openPanel(object sender, RoutedEventArgs e)
+    {
+        if (sender is Visual visual)
+        {
+            StackPanel? parentPanel = visual.FindAncestorOfType<StackPanel>();
+            if (parentPanel != null)
+            {
+                parentPanel.IsEnabled = false;
+                parentPanel.IsVisible = false;
+            }
+        }
+        if (sender is Button button && button.Tag is StackPanel referencedPanel)
+        {
+            referencedPanel.IsEnabled = true;
+            referencedPanel.IsVisible = true;
+        }
+    }
+
+    //Alters active and visible XML elements to reflect activity action currently selected
+    public void openActivitySidePanel(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button button && button.Tag is StackPanel referencedPanel)
+        {
+            AddActivitiesPanel.IsEnabled = false;
+            AddActivitiesPanel.IsVisible = false;
+            EditActivitiesPanel.IsEnabled = false;
+            EditActivitiesPanel.IsVisible = false;
+            SearchActivitiesPanel.IsEnabled = false;
+            SearchActivitiesPanel.IsVisible = false;
+            referencedPanel.IsEnabled = true;
+            referencedPanel.IsVisible = true;
+            selectSingleButton(sender, new System.Collections.Generic.List<Button> {AddActivitiesButton, EditActivitiesButton, SearchActivitiesButton});
+        }
+    }
+
+    //Toggles displayed XML elements to reflect the selected Fitness activity type. Changes the colour of both activity type buttons to reflect which is selected
+    public void selectFitness(object sender, RoutedEventArgs e)
+    {
+        //When button is pressed, change stackpanel properties visible/enabled
+        SubmitFitnessActivityPanel.IsEnabled = true;
+        SubmitFitnessActivityPanel.IsVisible = true;
+        SubmitEntertainmentActivityPanel.IsEnabled = false;
+        SubmitEntertainmentActivityPanel.IsVisible = false;
+        //Also change colour of this button and entertainment button to show this is selected
+        selectBinaryButton(sender);
+    }
+
+    //Toggles displayed XML elements to reflect the selected Entertainment activity type. Changes the colour of both activity type buttons to reflect which is selected
+    public void selectEntertainment(object sender, RoutedEventArgs e)
+    {
+        //When button is pressed, change stackpanel properties visible/enabled
+        SubmitFitnessActivityPanel.IsEnabled = false;
+        SubmitFitnessActivityPanel.IsVisible = false;
+        SubmitEntertainmentActivityPanel.IsEnabled = true;
+        SubmitEntertainmentActivityPanel.IsVisible = true;
+        //Also change colour of this button and fitness button to show this is selected
+        selectBinaryButton(sender);
+    }
+
+    //Change colour of two buttons to reflect which is selected
+    public void selectBinaryButton(object sender)
+    {
+        if (sender is Button button)
+        {
+            button.Background = new SolidColorBrush(Color.Parse("#27325F"));
+            button.Foreground = new SolidColorBrush(Color.Parse("#fff"));
+            if (button.Tag is Button otherButton)
+            {
+                otherButton.Background = new SolidColorBrush(Color.Parse("#E0E0E0"));
+                otherButton.Foreground = new SolidColorBrush(Color.Parse("#000"));
+            }
+                
+        }
+    }
+
+    //Takes a button and a list of buttons, and changes their colours to reflect if it is selected
+    public void selectSingleButton(object sender, System.Collections.Generic.List<Button> allButtons)
+    {
+        if (sender is Button button)
+        {
+            button.Background = new SolidColorBrush(Color.Parse("#27325F"));
+            button.Foreground = new SolidColorBrush(Color.Parse("#fff"));
+        }
+        for (int i = 0; i < allButtons.Count; i++)
+        {
+            if (allButtons[i] != sender)
+            {
+                allButtons[i].Background = new SolidColorBrush(Color.Parse("#E0E0E0"));
+                allButtons[i].Foreground = new SolidColorBrush(Color.Parse("#000"));
+            }
+        }
+    }
+
+
+/*
+
+
+
+
+
+                        INPUT MANAGEMENT FUNCTIONS
+
+
+
+
+
+*/
+
     //Catches and highlights missing inputs in TextBoxes
     //Reverts highlights if input bool is true
     public void highlightTextInput(TextBox missingInput, bool switchBack)
@@ -202,6 +367,18 @@ public partial class MainWindow : Window
     If all inputs are filled, it will return false */
     public bool checkForMissingInputs(string activityType)
     {
+        if (activityType == "search")
+        {
+            highlightDateInput(ActivitySearchDateInput, true);
+            if (ActivitySearchDateInput.SelectedDate == null)
+            {
+                highlightDateInput(ActivitySearchDateInput, false);
+                return true;
+            }
+            return false;
+        }
+
+
         resetActivityInputHighlights();
         /*MAKE SURE TO CHECK FOR NULL TYPES AND COMAS
         PROMPT USER TO ADD MISSING INPUTS IF INFORMATION IS MISSING*/
@@ -302,63 +479,17 @@ public partial class MainWindow : Window
         EntertainmentActivityTypeButton.Foreground = new SolidColorBrush(Color.Parse("#fff"));
     }
 
-    //Toggles displayed XML elements to reflect the selected Fitness activity type. Changes the colour of both activity type buttons to reflect which is selected
-    public void selectFitness(object sender, RoutedEventArgs e)
-    {
-        //When button is pressed, change stackpanel properties visible/enabled
-        SubmitFitnessActivityPanel.IsEnabled = true;
-        SubmitFitnessActivityPanel.IsVisible = true;
-        SubmitEntertainmentActivityPanel.IsEnabled = false;
-        SubmitEntertainmentActivityPanel.IsVisible = false;
-        //Also change colour of this button and entertainment button to show this is selected
-        selectBinaryButton(sender);
-    }
+/*
 
-    //Toggles displayed XML elements to reflect the selected Entertainment activity type. Changes the colour of both activity type buttons to reflect which is selected
-    public void selectEntertainment(object sender, RoutedEventArgs e)
-    {
-        //When button is pressed, change stackpanel properties visible/enabled
-        SubmitFitnessActivityPanel.IsEnabled = false;
-        SubmitFitnessActivityPanel.IsVisible = false;
-        SubmitEntertainmentActivityPanel.IsEnabled = true;
-        SubmitEntertainmentActivityPanel.IsVisible = true;
-        //Also change colour of this button and fitness button to show this is selected
-        selectBinaryButton(sender);
-    }
 
-    //Change colour of two buttons to reflect which is selected
-    public void selectBinaryButton(object sender)
-    {
-        if (sender is Button button)
-        {
-            button.Background = new SolidColorBrush(Color.Parse("#E0E0E0"));
-            button.Foreground = new SolidColorBrush(Color.Parse("#000"));
-            if (button.Tag is Button otherButton)
-            {
-                otherButton.Background = new SolidColorBrush(Color.Parse("#27325F"));
-                otherButton.Foreground = new SolidColorBrush(Color.Parse("#fff"));
-            }
-                
-        }
-    }
 
-    //Takes a button and a list of buttons, and changes their colours to reflect if it is selected
-    public void selectSingleButton(object sender, System.Collections.Generic.List<Button> allButtons)
-    {
-        if (sender is Button button)
-        {
-            button.Background = new SolidColorBrush(Color.Parse("#E0E0E0"));
-            button.Foreground = new SolidColorBrush(Color.Parse("#000"));
-        }
-        for (int i = 0; i < allButtons.Count; i++)
-        {
-            if (allButtons[i] != sender)
-            {
-                allButtons[i].Background = new SolidColorBrush(Color.Parse("#27325F"));
-                allButtons[i].Foreground = new SolidColorBrush(Color.Parse("#fff"));
-            }
-        }
-    }
+
+                    FORMATTING FUNCTIONS
+
+
+
+
+*/
 
     //Catches and reverts non-Int inputs in textbox
     public void catchNonIntInput(object? sender, TextChangingEventArgs e)
@@ -482,4 +613,5 @@ public partial class MainWindow : Window
         //returns the character array reformatted into a string
         return string.Concat(returnString);
     }
+
 }

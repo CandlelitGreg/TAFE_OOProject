@@ -15,6 +15,14 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
+    <Window.Styles>
+        <!-- Target the internal ContentPresenter when the button is hovered -->
+        <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Blue"/>
+            <Setter Property="TextBlock.Foreground" Value="White"/>
+        </Style>
+    </Window.Styles>
+
     <Grid>
 
 
@@ -69,6 +77,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
+                <!-- Activities View Panel -->
                 <StackPanel
                     x:Name="ViewActivitiesPanel"
                     HorizontalAlignment="Center"
@@ -84,7 +93,7 @@
 
                     <DataGrid 
                         x:Name="ActivitiesList"
-                        ItemsSource="{Binding AllActivities}" 
+                        ItemsSource="{Binding DisplayedActivities}" 
                         AutoGenerateColumns="false"
                         Height="450"
                         Background="#81B7DC"
@@ -103,12 +112,11 @@
                 </StackPanel>
                 <Grid x:Name="ActivitiesSideControlsGrid"
                     Grid.Column="0"
+                    RowDefinitions="10*,90*"
                     >      
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="10*" />
-                        <RowDefinition Height="90*" />
-                    </Grid.RowDefinitions>
+                    
                 
+                    <!-- Activities Panel Menu -->
                     <StackPanel
                         x:Name="ActivitiesPanelMenu"
                         HorizontalAlignment="Center"
@@ -128,8 +136,8 @@
                                 x:Name="AddActivitiesButton"
                                 Tag="{Binding #AddActivitiesPanel}"
                                 Click="openActivitySidePanel"
-                                Background="#27325F"
-                                Foreground="White"
+                                Background="#E0E0E0"
+                                Foreground="#000"
                                 FontSize="20"
                                 Margin="2"
                                 Padding="10,5"
@@ -143,8 +151,8 @@
                                 x:Name="EditActivitiesButton"
                                 Tag="{Binding #EditActivitiesPanel}"
                                 Click="openActivitySidePanel"
-                                Background="#27325F"
-                                Foreground="White"
+                                Background="#E0E0E0"
+                                Foreground="#000"
                                 FontSize="20"
                                 Margin="2"
                                 Padding="10,5"
@@ -158,8 +166,8 @@
                                 x:Name="SearchActivitiesButton"
                                 Tag="{Binding #SearchActivitiesPanel}"
                                 Click="openActivitySidePanel"
-                                Background="#27325F"
-                                Foreground="White"
+                                Background="#E0E0E0"
+                                Foreground="#000"
                                 FontSize="20"
                                 Margin="2"
                                 Padding="10,5"
@@ -173,6 +181,7 @@
 
                     </StackPanel>
 
+                    <!-- Add Activities Panel -->
                     <StackPanel
                         x:Name="AddActivitiesPanel"
                         HorizontalAlignment="Center"
@@ -280,8 +289,8 @@
                             <Button 
                                 x:Name="EntertainmentActivitySubmitButton"
                                 Click="addEntertainmentActivity"
-                                Background="Blue"
-                                Foreground="Yellow"
+                                Background="#27325F"
+                                Foreground="White"
                                 FontSize="20"
                                 Margin="2"
                                 Padding="10,5"
@@ -308,8 +317,8 @@
                             <Button 
                                 x:Name="FitnessActivitySubmitButton"
                                 Click="addFitnessActivity"
-                                Background="Blue"
-                                Foreground="Yellow"
+                                Background="#27325F"
+                                Foreground="White"
                                 FontSize="20"
                                 Margin="2"
                                 Padding="10,5"
@@ -321,6 +330,7 @@
 
                     </StackPanel>
 
+                    <!-- Edit Activities Panel -->
                     <StackPanel
                         x:Name="EditActivitiesPanel"
                         HorizontalAlignment="Center"
@@ -339,6 +349,7 @@
 
                     </StackPanel>
 
+                    <!-- Search Activities Panel -->
                     <StackPanel
                         x:Name="SearchActivitiesPanel"
                         HorizontalAlignment="Center"
@@ -353,7 +364,72 @@
                             FontSize="20"
                             HorizontalAlignment="Center">
                             Search Activities:
-                        </TextBlock>    
+                        </TextBlock>  
+                        
+                        <Grid 
+                            ColumnDefinitions="65*,35*"
+                            RowDefinitions="*,*"
+                            ColumnSpacing="50"
+                            RowSpacing="30"
+                            >
+
+                            <!-- Date Selection Component -->
+                            <CalendarDatePicker 
+                                x:Name="ActivitySearchDateInput"
+                                Tag="DATE INPUT REQUIRED"
+                                Watermark="Activity Start Date/Time"
+                                SelectedDateFormat="Custom"
+                                CustomDateFormatString="dd-MM-yyyy"
+                                Grid.Column="0"
+                                Grid.Row="0"
+                            />
+
+                            <StackPanel 
+                                Spacing="10"
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                >
+
+                                <RadioButton 
+                                    x:Name="SearchBefore"
+                                    Content="Before" 
+                                    GroupName="SearchTimezone"
+                                    IsChecked="True"
+                                />
+
+                                <RadioButton 
+                                    x:Name="SearchOn"
+                                    Content="On" 
+                                    GroupName="SearchTimezone"
+                                />
+
+                                <RadioButton 
+                                    x:Name="SearchAfter"
+                                    Content="After" 
+                                    GroupName="SearchTimezone"
+                                />
+                            </StackPanel>
+
+                            <Button
+                                x:Name="SubmitSearchButton"
+                                Tag="{Binding #ActivitySearchDateInput}"
+                                Click="searchActivities"
+                                Background="#27325F"
+                                Foreground="White"
+                                FontSize="20"
+                                Margin="2"
+                                Padding="10,5"
+                                Content="Search Activities"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Grid.ColumnSpan="2"
+                                Grid.Row="1"
+                            />
+
+                        </Grid>
+                        
+
+
                     </StackPanel>
 
                 </Grid>
