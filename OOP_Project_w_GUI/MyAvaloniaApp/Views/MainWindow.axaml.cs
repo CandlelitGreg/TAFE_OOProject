@@ -136,15 +136,15 @@ public partial class MainWindow : Window
         List<MainViewModel.Activity> allActivitiesList = [];
         for (int i = 0; i < fitnessList.Count; i++)
         {
-            MainViewModel.Activity newActivity = new MainViewModel.Activity(fitnessList[i].DateStartTime, fitnessList[i].Title, fitnessList[i].Cost, "Fitness", i);
+            MainViewModel.Activity newActivity = new MainViewModel.Activity(DateTime.Parse(fitnessList[i].DateStartTime), fitnessList[i].Title, fitnessList[i].Cost, "Fitness", i);
             allActivitiesList.Add(newActivity);
         }
         for (int i = 0; i < entertainmentList.Count; i++)
         {
-            MainViewModel.Activity newActivity = new MainViewModel.Activity(entertainmentList[i].DateStartTime, entertainmentList[i].Title, entertainmentList[i].Cost, "Entertainment", i);
+            MainViewModel.Activity newActivity = new MainViewModel.Activity(DateTime.Parse(entertainmentList[i].DateStartTime), entertainmentList[i].Title, entertainmentList[i].Cost, "Entertainment", i);
             allActivitiesList.Add(newActivity);
         }
-        List<MainViewModel.Activity> orderedActivities = allActivitiesList.OrderByDescending(a => DateTime.Parse(a.DateStartTime)).ToList();
+        List<MainViewModel.Activity> orderedActivities = allActivitiesList.OrderByDescending(a => a.DateStartTime).ToList();
         bool searchBefore = (SearchBefore as RadioButton)?.IsChecked ?? false;
         bool searchOn = (SearchOn as RadioButton)?.IsChecked ?? false;
         bool searchAfter = (SearchAfter as RadioButton)?.IsChecked ?? false;
@@ -153,7 +153,7 @@ public partial class MainWindow : Window
         if (searchBefore == true)
         {
             int start = 0;
-            while (start < orderedActivities.Count && DateOnly.FromDateTime(DateTime.Parse(orderedActivities[start].DateStartTime)) >= DateOnly.FromDateTime(searchDate))
+            while (start < orderedActivities.Count && DateOnly.FromDateTime(orderedActivities[start].DateStartTime) >= DateOnly.FromDateTime(searchDate))
             {
                 start++;
             }
@@ -165,11 +165,11 @@ public partial class MainWindow : Window
         if (searchOn == true)
         {
             int start = 0;
-            while (start < orderedActivities.Count && DateOnly.FromDateTime(DateTime.Parse(orderedActivities[start].DateStartTime)) != DateOnly.FromDateTime(searchDate))
+            while (start < orderedActivities.Count && DateOnly.FromDateTime(orderedActivities[start].DateStartTime) != DateOnly.FromDateTime(searchDate))
             {
                 start++;
             }
-            while (start < orderedActivities.Count && DateOnly.FromDateTime(DateTime.Parse(orderedActivities[start].DateStartTime)) == DateOnly.FromDateTime(searchDate))
+            while (start < orderedActivities.Count && DateOnly.FromDateTime(orderedActivities[start].DateStartTime) == DateOnly.FromDateTime(searchDate))
             {
                 mvm.DisplayedActivities.Add(orderedActivities[start]);
                 start++;
@@ -178,7 +178,7 @@ public partial class MainWindow : Window
         if (searchAfter == true)
         {
             int start = 0;
-            while (start < orderedActivities.Count && DateOnly.FromDateTime(DateTime.Parse(orderedActivities[start].DateStartTime)) > DateOnly.FromDateTime(searchDate))
+            while (start < orderedActivities.Count && DateOnly.FromDateTime(orderedActivities[start].DateStartTime) > DateOnly.FromDateTime(searchDate))
             {
                 mvm.DisplayedActivities.Add(orderedActivities[start]);
                 start++;

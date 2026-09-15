@@ -101,7 +101,7 @@
                         Margin="10,10,10,5"
                         >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="DateStartTime" Binding="{Binding DateStartTime}" Width="30*"/>
+                            <DataGridTextColumn Header="DateStartTime" Binding="{Binding DateStartTime, StringFormat=\{0:dd/MM/yyyy HH:mm\}}" Width="30*"/>
                             <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="30*"/>
                             <DataGridTextColumn Header="Cost" Binding="{Binding Cost}" Width="15*"/>
                             <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="25*"/>

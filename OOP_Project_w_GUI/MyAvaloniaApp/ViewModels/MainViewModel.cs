@@ -23,7 +23,7 @@ public partial class MainViewModel : ViewModelBase
 
     public static MainViewModel Instance { get; } = new MainViewModel();
 
-    public record Activity(string DateStartTime, string Title, float Cost, string Type, int Index);
+    public record Activity(DateTime DateStartTime, string Title, float Cost, string Type, int Index);
     public record FitnessActivity(string DateStartTime, string Title, float Cost, string Location);
     public record EntertainmentActivity(string DateStartTime, string Title, float Cost, int MinParticipants);
 
@@ -61,7 +61,7 @@ public partial class MainViewModel : ViewModelBase
     {
         DisplayedActivities.Clear();
         FitnessActivities.Add(newActivity);
-        AllActivities.Add(new Activity(newActivity.DateStartTime, newActivity.Title, newActivity.Cost, "Fitness", FitnessActivities.Count - 1));
+        AllActivities.Add(new Activity(DateTime.Parse(newActivity.DateStartTime), newActivity.Title, newActivity.Cost, "Fitness", FitnessActivities.Count - 1));
         CreateAndFillCSV(FitnessActivities, "FitnessActivities.csv");
         for (int i = 0; i < AllActivities.Count; i++)
         {
@@ -74,7 +74,7 @@ public partial class MainViewModel : ViewModelBase
     {
         DisplayedActivities.Clear();
         EntertainmentActivities.Add(newActivity);
-        AllActivities.Add(new Activity(newActivity.DateStartTime, newActivity.Title, newActivity.Cost, "Entertainment", EntertainmentActivities.Count - 1));
+        AllActivities.Add(new Activity(DateTime.Parse(newActivity.DateStartTime), newActivity.Title, newActivity.Cost, "Entertainment", EntertainmentActivities.Count - 1));
         CreateAndFillCSV(EntertainmentActivities, "EntertainmentActivities.csv");
         for (int i = 0; i < AllActivities.Count; i++)
         {
@@ -116,13 +116,13 @@ public partial class MainViewModel : ViewModelBase
         for (int i = 0; i < fitnessActivities.Count; i++)
         {
             FitnessActivities.Add(fitnessActivities[i]);
-            Activity newActivity = new Activity(fitnessActivities[i].DateStartTime, fitnessActivities[i].Title, fitnessActivities[i].Cost, "Fitness", i);
+            Activity newActivity = new Activity(DateTime.Parse(fitnessActivities[i].DateStartTime), fitnessActivities[i].Title, fitnessActivities[i].Cost, "Fitness", i);
             AllActivities.Add(newActivity);
         }
         for (int i = 0; i < entertainmentActivities.Count; i++)
         {
             EntertainmentActivities.Add(entertainmentActivities[i]);
-            Activity newActivity = new Activity(entertainmentActivities[i].DateStartTime, entertainmentActivities[i].Title, entertainmentActivities[i].Cost, "Entertainment", i);
+            Activity newActivity = new Activity(DateTime.Parse(entertainmentActivities[i].DateStartTime), entertainmentActivities[i].Title, entertainmentActivities[i].Cost, "Entertainment", i);
             AllActivities.Add(newActivity);
         }
         return AllActivities;
