@@ -51,12 +51,15 @@ public partial class MainWindow : Window
 
 */
 
-
-    //Calls checkForMissingInputs function to ensure all activity input fields are filled, if anything is missing, it will highlight the missing input and return without adding a new activity
-    //If all inputs are filled, it will create a new Fitness Activity ObservableObject
-    //The new Object is added to the appropriate Observable Collections via the mvm.AddNewFitnessActivity function
-    //The input boxes are cleared for the next input
-    //The displayed list of activities is updated to include the new activity
+    /// <summary>
+    /// Calls checkForMissingInputs function to ensure all activity input fields are filled, if anything is missing, it will highlight the missing input and return without adding a new activity
+    ///If all inputs are filled, it will create a new Fitness Activity ObservableObject
+    ///The new Object is added to the appropriate Observable Collections via the mvm.AddNewFitnessActivity function
+    ///The input boxes are cleared for the next input
+    /// The displayed list of activities is updated to include the new activity
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     public void addFitnessActivity(object sender, RoutedEventArgs e)
     {
         if (checkForMissingInputs("fitness"))
@@ -84,11 +87,15 @@ public partial class MainWindow : Window
         Console.WriteLine($"new fitness activity added\nName: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].Title}\nStart Time: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].DateStartTime}\nCost: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].Cost}\nLocation: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].Location}");
     }
 
-    //Calls checkForMissingInputs function to ensure all activity input fields are filled, if anything is missing, it will highlight the missing input and return without adding a new activity
-    //If all inputs are filled, it will create a new Entertainment Activity ObservableObject
-    //The new Object is added to the appropriate Observable Collections via the mvm.AddNewEntertainmentActivity function
-    //The input boxes are cleared for the next input
-    //The displayed list of activities is updated to include the new activity
+    /// <summary>
+    /// Calls checkForMissingInputs function to ensure all activity input fields are filled, if anything is missing, it will highlight the missing input and return without adding a new activity
+    /// If all inputs are filled, it will create a new Entertainment Activity ObservableObject
+    /// The new Object is added to the appropriate Observable Collections via the mvm.AddNewEntertainmentActivity function
+    /// The input boxes are cleared for the next input
+    /// The displayed list of activities is updated to include the new activity
+    /// </summary>
+    /// <param name="sender">The button calling the function</param>
+    /// <param name="e">EventHandler Overload</param>
     public void addEntertainmentActivity(object sender, RoutedEventArgs e)
     {
         if (checkForMissingInputs("entertainment"))
@@ -121,7 +128,11 @@ public partial class MainWindow : Window
         // Console.WriteLine($"new entertainment activity added\nName: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].Title}\nStart Time: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].DateStartTime}\nCost: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].Cost}\nMinimum Participants: {mvm.EntertainmentActivities[mvm.EntertainmentActivities.Count - 1].MinParticipants}");
     }
 
-    //Checks Search box is populated and displays activities that match the search period based on selected filter
+    /// <summary>
+    /// Checks Search box is populated and displays activities that match the search period based on selected filter
+    /// </summary>
+    /// <param name="sender">The button calling the function</param>
+    /// <param name="e">EventHandler Overload</param>
     public void searchActivities(object sender, RoutedEventArgs e)
     {
         if (checkForMissingInputs("search"))
@@ -199,7 +210,11 @@ public partial class MainWindow : Window
 
 */
 
-    //Opens the stackPanel that is referenced by the button that was pressed, and disables the current stackPanel
+    /// <summary>
+    /// Opens the stackPanel that is referenced by the button that was pressed, and disables the current stackPanel
+    /// </summary>
+    /// <param name="sender">The button calling the function</param>
+    /// <param name="e">EventHandler Overload</param>
     public void openPanel(object sender, RoutedEventArgs e)
     {
         if (sender is Visual visual)
@@ -218,7 +233,11 @@ public partial class MainWindow : Window
         }
     }
 
-    //Alters active and visible XML elements to reflect activity action currently selected
+    /// <summary>
+    /// Alters active and visible XML elements to reflect activity action currently selected
+    /// </summary>
+    /// <param name="sender">The button calling the function</param>
+    /// <param name="e">EventHandler Overload</param>
     public void openActivitySidePanel(object sender, RoutedEventArgs e)
     {
         if (sender is Button button && button.Tag is StackPanel referencedPanel)
@@ -235,7 +254,12 @@ public partial class MainWindow : Window
         }
     }
 
-    //Toggles displayed XML elements to reflect the selected Fitness activity type. Changes the colour of both activity type buttons to reflect which is selected
+    /// <summary>
+    /// Toggles displayed XML elements to reflect the selected Fitness activity type. 
+    /// Changes the colour of both activity type buttons to reflect which is selected
+    /// </summary>
+    /// <param name="sender">The button calling the function</param>
+    /// <param name="e">EventHandler Overload</param>
     public void selectFitness(object sender, RoutedEventArgs e)
     {
         //When button is pressed, change stackpanel properties visible/enabled
@@ -247,7 +271,12 @@ public partial class MainWindow : Window
         selectBinaryButton(sender);
     }
 
-    //Toggles displayed XML elements to reflect the selected Entertainment activity type. Changes the colour of both activity type buttons to reflect which is selected
+    /// <summary>
+    /// Toggles displayed XML elements to reflect the selected Entertainment activity type. 
+    /// Changes the colour of both activity type buttons to reflect which is selected
+    /// </summary>
+    /// <param name="sender">The button calling the function</param>
+    /// <param name="e">EventHandler Overload</param>
     public void selectEntertainment(object sender, RoutedEventArgs e)
     {
         //When button is pressed, change stackpanel properties visible/enabled
@@ -259,7 +288,10 @@ public partial class MainWindow : Window
         selectBinaryButton(sender);
     }
 
-    //Change colour of two buttons to reflect which is selected
+    /// <summary>
+    /// Change colour of two buttons to reflect which is selected
+    /// </summary>
+    /// <param name="sender">The selected button</param>
     public void selectBinaryButton(object sender)
     {
         if (sender is Button button)
@@ -275,7 +307,11 @@ public partial class MainWindow : Window
         }
     }
 
-    //Takes a button and a list of buttons, and changes their colours to reflect if it is selected
+    /// <summary>
+    /// Takes a button and a list of buttons, and changes their colours to reflect if it is selected
+    /// </summary>
+    /// <param name="sender">The selected button</param>
+    /// <param name="allButtons">The buttons that should be displayed as unselected</param>
     public void selectSingleButton(object sender, System.Collections.Generic.List<Button> allButtons)
     {
         if (sender is Button button)
@@ -308,8 +344,12 @@ public partial class MainWindow : Window
 
 */
 
-    //Catches and highlights missing inputs in TextBoxes
-    //Reverts highlights if input bool is true
+    /// <summary>
+    /// Catches and highlights missing inputs in TextBoxes
+    /// Reverts highlights if input bool is true
+    /// </summary>
+    /// <param name="missingInput">The input field that is missing input</param>
+    /// <param name="switchBack">Whether the input field is being highlighted, or unhighlighted</param>
     public void highlightTextInput(TextBox missingInput, bool switchBack)
     {
         if (switchBack || missingInput.BorderBrush is Avalonia.Media.SolidColorBrush currentBrush && currentBrush.Color != Avalonia.Media.Colors.Red)
@@ -329,8 +369,12 @@ public partial class MainWindow : Window
         }
     }
 
-    //Catches and highlights missing inputs in CalendarDatePicker
-    //Reverts highlights if input bool is true
+    /// <summary>
+    /// Catches and highlights missing inputs in CalendarDatePicker
+    /// Reverts highlights if input bool is true
+    /// </summary>
+    /// <param name="missingInput">The input field that is missing input</param>
+    /// <param name="switchBack">Whether the input field is being highlighted, or unhighlighted</param>
     public void highlightDateInput(CalendarDatePicker missingInput, bool switchBack)
     {
         if (switchBack || missingInput.BorderBrush is Avalonia.Media.SolidColorBrush currentBrush && currentBrush.Color != Avalonia.Media.Colors.Red)
@@ -350,8 +394,12 @@ public partial class MainWindow : Window
         }
     }
 
-    //Catches and highlights missing inputs in TimePicker
-    //Reverts highlights if input bool is true
+    /// <summary>
+    /// Catches and highlights missing inputs in TimePicker
+    /// Reverts highlights if input bool is true
+    /// </summary>
+    /// <param name="missingInput">The input field that is missing input</param>
+    /// <param name="switchBack">Whether the input field is being highlighted, or unhighlighted</param>
     public void highlightTimeInput(TimePicker missingInput, bool switchBack)
     {
         if (!switchBack)
@@ -365,11 +413,14 @@ public partial class MainWindow : Window
         }
     }
 
-/*  
-    Removes comas from inputted strings before searching for any missing inputs
-    Checks if any of the activity input fields are missing information. 
-    If any are missing, it will highlight the missing input and return true. 
-    If all inputs are filled, it will return false */
+    /// <summary>
+    /// Removes comas from inputted strings before searching for any missing inputs
+    /// Checks if any of the activity input fields are missing information. 
+    /// If any are missing, it will highlight the missing input and return true. 
+    /// If all inputs are filled, it will return false
+    /// </summary>
+    /// <param name="activityType">string stating the activity type - to know what fields to check</param>
+    /// <returns>A bool that states true if there is a missing input (else false)</returns>
     public bool checkForMissingInputs(string activityType)
     {
         if (activityType == "search")
@@ -438,7 +489,9 @@ public partial class MainWindow : Window
         return missingInput;
     }
 
-    //Resets all activity input fields to their default state, including the watermark text and border colour
+    /// <summary>
+    /// Resets all activity input fields to their default state, including the watermark text and border colour
+    /// </summary>
     public void resetActivityInputHighlights()
     {
         if (ActivityTitleInput.Watermark == "TITLE INPUT REQUIRED")
@@ -464,7 +517,9 @@ public partial class MainWindow : Window
         }
     }
     
-    //Clears all activity input fields and resets the activity type buttons to their default state
+    /// <summary>
+    /// Clears all activity input fields and resets the activity type buttons to their default state
+    /// </summary>
     public void clearActivityInputs()
     {
         resetActivityInputHighlights();
@@ -496,7 +551,11 @@ public partial class MainWindow : Window
 
 */
 
-    //Catches and reverts non-Int inputs in textbox
+    /// <summary>
+    /// Catches and reverts non-Int inputs in textbox
+    /// </summary>
+    /// <param name="sender">The XAML object sending the function call to check for non ints</param>
+    /// <param name="e">EventHandler Overload</param>
     public void catchNonIntInput(object? sender, TextChangingEventArgs e)
     {
         if (sender is TextBox textBox)
@@ -522,7 +581,11 @@ public partial class MainWindow : Window
         }
     }
 
-    //Catches and reverts non-Double inputs in textbox
+    /// <summary>
+    /// Catches and reverts non int to hundredths inputs in textbox
+    /// </summary>
+    /// <param name="sender">The XAML object sending the function call to check for non cost</param>
+    /// <param name="e">EventHandler Overload</param>
     public void catchNonCostInput(object? sender, TextChangingEventArgs e)
     {
         if (sender is TextBox textBox)
@@ -577,7 +640,11 @@ public partial class MainWindow : Window
         }
     }
 
-    //Takes a string input and returns the same string with all commas removed. If the string is empty or null, it will return null
+    /// <summary>
+    /// Takes a string input and returns the same string with all commas removed. If the string is empty or null, it will return null
+    /// </summary>
+    /// <param name="input">The string commas must be removed from</param>
+    /// <returns>The input string with removed comas or null if no text remains</returns>
     public string removeCommasFromString(string input)
     {
         string output = input.Replace(",", "");
@@ -588,7 +655,11 @@ public partial class MainWindow : Window
         return output;
     }
 
-    //Takes a string input and returns the same string formatted to Title Case formatting
+    /// <summary>
+    /// Takes a string input and returns the same string formatted to Title Case formatting
+    /// </summary>
+    /// <param name="input">The string to format into title case</param>
+    /// <returns>The input string in Title case format</returns>
     public string ToTitleCase(string input)
     {
         //Turns the entire input string to lower case

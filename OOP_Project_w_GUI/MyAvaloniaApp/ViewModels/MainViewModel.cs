@@ -35,6 +35,9 @@ public partial class MainViewModel : ViewModelBase
     public ObservableCollection<Activity> AllActivities {get; set;} = new();
     public ObservableCollection<Activity> DisplayedActivities {get; set;} = new();
 
+    /// <summary>
+    /// Runs initial info setup, reading info from .csv files, creating the correct lists/collections, and displaying it appropriately
+    /// </summary>
     public MainViewModel()
     {
         var fitnessActivitiesList = GetListFromFile<FitnessActivity>("FitnessActivities.csv");
@@ -46,7 +49,12 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    // Function to read a CSV file and return a list of records of type T (Used primarily for reading activity files)
+    /// <summary>
+    /// Function to read a CSV file and return a list of records of type T (Used primarily for reading activity files)
+    /// </summary>
+    /// <typeparam name="T">Type of object to read from .csv file</typeparam>
+    /// <param name="filePath">filepath for .csv file</param>
+    /// <returns>List of T type objects read from .csv file</returns>
     public List<T> GetListFromFile<T>(string filePath)
     {
         using var reader = new StreamReader(filePath);
@@ -56,7 +64,10 @@ public partial class MainViewModel : ViewModelBase
     }
 
 
-    // Function adds FitnessActivity to ObservableCollection, AllActivities Collection, and the FitnessActivities CSV file
+    /// <summary>
+    /// Function adds FitnessActivity to ObservableCollection, AllActivities Collection, and the FitnessActivities CSV file
+    /// </summary>
+    /// <param name="newActivity">Object of Fitness Activity type to insert into any relevant observable collections and .csv file</param>
     public void AddNewFitnessActivity(FitnessActivity newActivity)
     {
         DisplayedActivities.Clear();
@@ -69,7 +80,10 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    // Function adds FitnessActivity to ObservableCollection, AllActivities Collection, and the FitnessActivities CSV file
+    /// <summary>
+    /// Function adds EntertainmentActivity to ObservableCollection, AllActivities Collection, and the EntertainmentActivities CSV file
+    /// </summary>
+    /// <param name="newActivity">Object of Entertainment Activity type to insert into any relevant observable collections and .csv file</param>
     public void AddNewEntertainmentActivity(EntertainmentActivity newActivity)
     {
         DisplayedActivities.Clear();
@@ -96,7 +110,12 @@ public partial class MainViewModel : ViewModelBase
     //     return csvArray;
     // }
 
-    // Function to create a CSV file and fill it with records from an ObservableCollection of type T
+    /// <summary>
+    /// Function to create a CSV file and fill it with records from an ObservableCollection of type T
+    /// </summary>
+    /// <typeparam name="T">Type of objects in observable collection</typeparam>
+    /// <param name="list">Observable Collection of objects of type T to write to csv file</param>
+    /// <param name="csvFileName">.csv filepath</param>
     public void CreateAndFillCSV<T>(ObservableCollection<T> list, string csvFileName)
     {
         using (var writer = new StreamWriter(csvFileName))
@@ -106,8 +125,13 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    // Function to combine fitness and entertainment activities into a single list of activities
-    // Also fills FitnessActivities and EntertainmentActivities ObservableCollections with the respective activities
+    /// <summary>
+    /// Function to combine fitness and entertainment activities into a single list of activities
+    /// Also fills FitnessActivities and EntertainmentActivities ObservableCollections with the respective activities
+    /// </summary>
+    /// <param name="fitnessActivities">List of all fitness activities</param>
+    /// <param name="entertainmentActivities">List of all entertainment activities</param>
+    /// <returns>Observable collection of all fitness and entertainment activities converted into standard activity type object/record</returns>
     public ObservableCollection<Activity> GetAllActivities(List<FitnessActivity> fitnessActivities, List<EntertainmentActivity> entertainmentActivities)
     {
         AllActivities.Clear();
