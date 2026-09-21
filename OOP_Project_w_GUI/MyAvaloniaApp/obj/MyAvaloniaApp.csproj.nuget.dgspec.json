@@ -77,6 +77,14 @@
             "CsvHelper": {
               "target": "Package",
               "version": "[33.1.0, )"
+            },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[7.0.3, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.9.1, )"
             }
           },
           "imports": [

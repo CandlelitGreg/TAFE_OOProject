@@ -5,9 +5,11 @@ using Avalonia.Input;
 using Avalonia.Data.Converters;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
+using Microsoft.Data.SqlClient;
 using MyAvaloniaApp.ViewModels;
 using System.Linq;
 using System;
+using System.Data;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Tmds.DBus.Protocol;
@@ -27,6 +29,7 @@ namespace MyAvaloniaApp.Views;
 
 public partial class MainWindow : Window
 {
+    string connectionString = "Server=localhost,1433;Database=ActivitiesDb;User Id=sa;Password=Sussex2510!;TrustServerCertificate=True";
     private MainViewModel mvm = new MainViewModel();
     public MainWindow()
     {
@@ -441,7 +444,8 @@ public partial class MainWindow : Window
         if (ActivityTitleInput.Text != null)
         {
             ActivityTitleInput.Text = removeCommasFromString(ActivityTitleInput.Text.ToString());
-            if (ActivityTitleInput.Text == "")
+            //TODO: ??? WHAT WAS I GOING TO WRITE HERE ??? maybe regarding adding a different watermark message ???
+            if (ActivityTitleInput.Text == "" || ActivityTitleInput.Text.Length < 3)
             {
                 ActivityTitleInput.Text = null;
             }
@@ -456,8 +460,16 @@ public partial class MainWindow : Window
             }
         }
         bool missingInput = false;
+
+        //TODO: Run DB Query to check no other activities share the same date
+        //Present different watermark if date is shared to state a unique date must be given
         if (ActivityDateInput.SelectedDate == null)
         {
+            highlightDateInput(ActivityDateInput, false);
+            missingInput = true;
+        } else if (CheckActivityDate(ActivityDateInput.SelectedDate.Value.ToString("dd/MM/yyyy")))
+        {
+            Console.WriteLine("Activity already on date");
             highlightDateInput(ActivityDateInput, false);
             missingInput = true;
         }
@@ -476,8 +488,16 @@ public partial class MainWindow : Window
             highlightTextInput(ActivityCostInput, false);
             missingInput = true;
         }
-        if (activityType == "entertainment" && ActivityMinParticipantsInput.Text == null)
+
+        //
+        //TODO: Run check to ensure number is more than 1 - Insert different watermark
+        //
+        if ((activityType == "entertainment" && ActivityMinParticipantsInput.Text == null) || (activityType == "entertainment" && ActivityMinParticipantsInput.Text != null && int.Parse(ActivityMinParticipantsInput.Text) < 2))
         {
+            if(ActivityMinParticipantsInput.Text != null)
+            {
+                ActivityMinParticipantsInput.Text = null;
+            }
             highlightTextInput(ActivityMinParticipantsInput, false);
             missingInput = true;
         }
@@ -537,6 +557,32 @@ public partial class MainWindow : Window
         FitnessActivityTypeButton.Foreground = new SolidColorBrush(Color.Parse("#fff"));
         EntertainmentActivityTypeButton.Background = new SolidColorBrush(Color.Parse("#27325F"));
         EntertainmentActivityTypeButton.Foreground = new SolidColorBrush(Color.Parse("#fff"));
+    }
+
+
+    public bool CheckActivityDate(string date)
+    {
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            using (SqlCommand cmd = new SqlCommand("CheckActivityExistsByDate", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DateToCheck", DateOnly.FromDateTime(DateTime.Parse(date)));
+
+                conn.Open();
+                using(SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (int.Parse($"{reader["ActivityExists"]}") == 1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 /*
