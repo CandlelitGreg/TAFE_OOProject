@@ -210,7 +210,11 @@ public partial class MainWindow : Window
         ActivitiesList.ItemsSource = mvm.DisplayedActivities;
     }
 
-
+    /// <summary>
+    /// Edits the data of the selected activity into an fitness activity
+    /// </summary>
+    /// <param name="sender">The button calling the function</param>
+    /// <param name="e">EventHandler Overload</param>
     public void editFitnessActivity(object sender, RoutedEventArgs e)
     {
         int selectedActivityID = -1;
@@ -255,6 +259,11 @@ public partial class MainWindow : Window
         clearEditActivityInputs();
     }
 
+    /// <summary>
+    /// Edits the data of the selected activity into an entertainment activity
+    /// </summary>
+    /// <param name="sender">The button calling the function</param>
+    /// <param name="e">EventHandler Overload</param>
     public void editEntertainmentActivity(object sender, RoutedEventArgs e)
     {
         int selectedActivityID = -1;
@@ -297,6 +306,11 @@ public partial class MainWindow : Window
         clearEditActivityInputs();
     }
 
+    /// <summary>
+    /// Selects activity and automatically fills input fields with selected row's activity data
+    /// </summary>
+    /// <param name="sender">null</param>
+    /// <param name="e">The data grid cell experiencing the event</param>
     public void onCellPointerPressed(object? sender, DataGridCellPointerPressedEventArgs e)
     {
         if (sender is DataGrid grid && EditActivitiesPanel.IsVisible)
@@ -343,6 +357,11 @@ public partial class MainWindow : Window
         }
     }
 
+    /// <summary>
+    /// Retrieves the Activity Id from the activity saved on a certain date
+    /// </summary>
+    /// <param name="date">Date you want the activityid from</param>
+    /// <returns>Activity id integer</returns>
     public int GetActivityIdFromDate(string date)
     {
         using (SqlConnection conn = new SqlConnection(connectionString))
@@ -733,7 +752,11 @@ public partial class MainWindow : Window
         return missingInput;
     }
 
-
+    /// <summary>
+    /// Checks edit input fields for missing values
+    /// </summary>
+    /// <param name="activityType">String detailing type of activity and therefore input fields required</param>
+    /// <returns>a bool determining whether there are any input fields missing</returns>
     public bool checkForMissingEditInputs(string activityType)
     {
         resetActivityEditInputHighlights();
@@ -830,7 +853,9 @@ public partial class MainWindow : Window
         }
     }
 
-
+    /// <summary>
+    /// Resets all activity input fields in the activity edit panels to their default state, including the watermark text and border colour
+    /// </summary>
     public void resetActivityEditInputHighlights()
     {
         if (ActivityTitleInputEdit.Watermark == "TITLE INPUT REQUIRED")
@@ -878,7 +903,9 @@ public partial class MainWindow : Window
         EntertainmentActivityTypeButton.Foreground = new SolidColorBrush(Color.Parse("#fff"));
     }
 
-
+    /// <summary>
+    /// Clears input fields for editing activities
+    /// </summary>
     public void clearEditActivityInputs()
     {
         resetActivityInputHighlights();
