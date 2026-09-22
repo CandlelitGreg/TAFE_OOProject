@@ -559,7 +559,11 @@ public partial class MainWindow : Window
         EntertainmentActivityTypeButton.Foreground = new SolidColorBrush(Color.Parse("#fff"));
     }
 
-
+    /// <summary>
+    /// Checks the input date does not have another activity attached
+    /// </summary>
+    /// <param name="date">The date to check in the db</param>
+    /// <returns>A true or false bool depicting whether another activity falls on the given date</returns>
     public bool CheckActivityDate(string date)
     {
         using (SqlConnection conn = new SqlConnection(connectionString))

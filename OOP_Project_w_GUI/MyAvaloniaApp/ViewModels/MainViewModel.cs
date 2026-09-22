@@ -89,6 +89,9 @@ public partial class MainViewModel : ViewModelBase
     //     return list;
     // }
 
+    /// <summary>
+    /// Reads all the Fitness activities from the db into the fitness Activities Observable Collection
+    /// </summary>
     public void GetFitnessListFromDB()
     {
         FitnessActivities.Clear();
@@ -110,6 +113,9 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// Reads all the Fitness activities from the db into the entertainment Activities Observable Collection
+    /// </summary>
     public void GetEntertainmentListFromDB()
     {
         EntertainmentActivities.Clear();
@@ -247,6 +253,12 @@ public partial class MainViewModel : ViewModelBase
     //     return AllActivities;
     // }
 
+    /// <summary>
+    /// Combines the activities from both the Fitness and Entertainment Observable Collections into the AllActivities Collection 
+    /// </summary>
+    /// <param name="fitnessActivities">Observable Collection containing all fitness Activities to merge into new collection</param>
+    /// <param name="entertainmentActivities">Observable Collection containing all entertainment Activities to merge into new collection</param>
+    /// <returns>Observable Collection with all fitness and entertainment activities</returns>
     public ObservableCollection<Activity> GetAllActivities(ObservableCollection<FitnessActivity> fitnessActivities, ObservableCollection<EntertainmentActivity> entertainmentActivities)
     {
         AllActivities.Clear();
