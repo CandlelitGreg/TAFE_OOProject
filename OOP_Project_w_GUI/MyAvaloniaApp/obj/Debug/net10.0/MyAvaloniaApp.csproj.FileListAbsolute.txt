@@ -143,3 +143,14 @@
 /Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/runtimes/win/lib/net9.0/System.Security.Cryptography.Pkcs.dll
 /Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/DialogHost.Avalonia.dll
 /Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/MsBox.Avalonia.dll
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/ReactiveUI.dll
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/ReactiveUI.Avalonia.dll
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/ReactiveUI.Core.dll
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/ReactiveUI.Disposables.dll
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/ReactiveUI.Primitives.dll
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/ReactiveUI.Primitives.Avalonia.dll
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/ReactiveUI.Primitives.Core.dll
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/Splat.dll
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/Splat.Builder.dll
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/Splat.Core.dll
+/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/bin/Debug/net10.0/Splat.Logging.dll

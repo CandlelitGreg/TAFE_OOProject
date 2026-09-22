@@ -21,6 +21,9 @@ using CsvHelper.TypeConversion;
 using CsvHelper.Configuration.Attributes;
 using CommunityToolkit.Mvvm.Collections;
 using Avalonia.Media.TextFormatting;
+using Splat;
+using System.Security.Cryptography.Pkcs;
+using CsvHelper;
 
 namespace MyAvaloniaApp.Views;
 
@@ -44,6 +47,10 @@ public partial class MainWindow : Window
     private string _lastValidCostText = "";
     private bool costIsHoldingDecimal = false;
     private int validCostDollarLength = 0;
+    private int selectedActivityIndex = -1;
+    private bool selectedFitnessActivity = false;
+
+    public bool editing = false;
 
 /*
 
@@ -90,7 +97,6 @@ public partial class MainWindow : Window
         // // Update the existing list to show the new activity
         ActivitiesList.ItemsSource = mvm.DisplayedActivities;
         
-        Console.WriteLine($"new fitness activity added\nName: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].Title}\nStart Time: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].DateStartTime}\nCost: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].Cost}\nLocation: {mvm.FitnessActivities[mvm.FitnessActivities.Count - 1].Location}");
     }
 
     /// <summary>
@@ -204,6 +210,162 @@ public partial class MainWindow : Window
         ActivitiesList.ItemsSource = mvm.DisplayedActivities;
     }
 
+
+    public void editFitnessActivity(object sender, RoutedEventArgs e)
+    {
+        int selectedActivityID = -1;
+        Console.WriteLine(selectedFitnessActivity);
+        if (checkForMissingEditInputs("fitness"))
+        {
+            return;
+        }
+        if (selectedFitnessActivity)
+        {
+            selectedActivityID = GetActivityIdFromDate(DateTime.Parse(mvm.FitnessActivities[selectedActivityIndex].DateStartTime).ToString("dd/MM/yyyy"));
+        } else
+        {
+            selectedActivityID = GetActivityIdFromDate(DateTime.Parse(mvm.EntertainmentActivities[selectedActivityIndex].DateStartTime).ToString("dd/MM/yyyy"));
+        }
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            using (SqlCommand cmd = new SqlCommand("UpdateActivityWithTypeCheck", conn))
+            {
+                Console.WriteLine("Check");
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ActivityID", selectedActivityID);
+                cmd.Parameters.AddWithValue("@NewDateStartTime", DateTime.Parse($"{ActivityDateInputEdit.SelectedDate.Value.ToString("dd/MM/yyyy")} {ActivityTimeInputEdit.SelectedTime.Value.ToString(@"hh\:mm")}"));
+                cmd.Parameters.AddWithValue("@NewTitle", ActivityTitleInputEdit.Text);
+                cmd.Parameters.AddWithValue("@NewCost", float.Parse(ActivityCostInputEdit.Text));
+                cmd.Parameters.AddWithValue("@NewType", "Fitness");
+                cmd.Parameters.AddWithValue("@Location", ActivityLocationInputEdit.Text);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+        mvm.DisplayedActivities.Clear();
+        mvm.GetFitnessListFromDB();
+        mvm.GetEntertainmentListFromDB();
+        mvm.AllActivities = mvm.GetAllActivities(mvm.FitnessActivities, mvm.EntertainmentActivities);
+        for (int i = 0; i < mvm.AllActivities.Count; i++)
+        {
+            mvm.DisplayedActivities.Add(mvm.AllActivities[i]);
+        }
+        ActivitiesList.ItemsSource = mvm.DisplayedActivities;
+        clearEditActivityInputs();
+    }
+
+    public void editEntertainmentActivity(object sender, RoutedEventArgs e)
+    {
+        int selectedActivityID = -1;
+        if (checkForMissingEditInputs("entertainment"))
+        {
+            return;
+        }
+        if (selectedFitnessActivity)
+        {
+            selectedActivityID = GetActivityIdFromDate(DateTime.Parse(mvm.FitnessActivities[selectedActivityIndex].DateStartTime).ToString("dd/MM/yyyy"));
+        } else
+        {
+            selectedActivityID = GetActivityIdFromDate(DateTime.Parse(mvm.EntertainmentActivities[selectedActivityIndex].DateStartTime).ToString("dd/MM/yyyy"));
+        }
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            using (SqlCommand cmd = new SqlCommand("UpdateActivityWithTypeCheck", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ActivityID", selectedActivityID);
+                cmd.Parameters.AddWithValue("@NewDateStartTime", DateTime.Parse($"{ActivityDateInputEdit.SelectedDate.Value.ToString("dd/MM/yyyy")} {ActivityTimeInputEdit.SelectedTime.Value.ToString(@"hh\:mm")}"));
+                cmd.Parameters.AddWithValue("@NewTitle", ActivityTitleInputEdit.Text);
+                cmd.Parameters.AddWithValue("@NewCost", float.Parse(ActivityCostInputEdit.Text));
+                cmd.Parameters.AddWithValue("@NewType", "Entertainment");
+                cmd.Parameters.AddWithValue("@MinParticipants", int.Parse(ActivityMinParticipantsInputEdit.Text));
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+        mvm.DisplayedActivities.Clear();
+        mvm.GetFitnessListFromDB();
+        mvm.GetEntertainmentListFromDB();
+        mvm.AllActivities = mvm.GetAllActivities(mvm.FitnessActivities, mvm.EntertainmentActivities);
+        for (int i = 0; i < mvm.AllActivities.Count; i++)
+        {
+            mvm.DisplayedActivities.Add(mvm.AllActivities[i]);
+        }
+        ActivitiesList.ItemsSource = mvm.DisplayedActivities;
+        clearEditActivityInputs();
+    }
+
+    public void onCellPointerPressed(object? sender, DataGridCellPointerPressedEventArgs e)
+    {
+        if (sender is DataGrid grid && EditActivitiesPanel.IsVisible)
+        {
+            if (!editing)
+            {
+                editActivity(sender, new RoutedEventArgs());
+            }
+            grid.SelectedItem = e.Row.DataContext;
+            string activityString = $"{grid.SelectedItem}";
+            string[] splitActivity = activityString.Split(",");
+            if (splitActivity[3] == " Type = Fitness")
+            {
+                selectedFitnessActivity = true;
+                selectedActivityIndex = int.Parse(splitActivity[4].Replace("Index = ", string.Empty).Replace(" }", string.Empty));
+                MainViewModel.FitnessActivity selectedActivity = mvm.FitnessActivities[selectedActivityIndex];
+                ActivityLocationInputEdit.Text = selectedActivity.Location;
+                ActivityDateInputEdit.SelectedDate = DateTime.Parse(selectedActivity.DateStartTime);
+                ActivityTimeInputEdit.SelectedTime = DateTime.Parse(selectedActivity.DateStartTime).TimeOfDay;
+                ActivityTitleInputEdit.Text = selectedActivity.Title;
+                ActivityCostInputEdit.TextChanging -= catchNonCostInput;
+                ActivityCostInputEdit.Text = selectedActivity.Cost.ToString();
+                _lastValidCostText = selectedActivity.Cost.ToString();
+                ActivityCostInputEdit.TextChanging += catchNonCostInput;
+
+                selectFitness(FitnessEditActivityTypeButton, new RoutedEventArgs());
+            } else
+            {
+                selectedFitnessActivity = false;
+                selectedActivityIndex = int.Parse(splitActivity[4].Replace("Index = ", string.Empty).Replace(" }", string.Empty));
+                MainViewModel.EntertainmentActivity selectedActivity = mvm.EntertainmentActivities[selectedActivityIndex];
+                ActivityMinParticipantsInputEdit.Text = selectedActivity.MinParticipants.ToString();
+                _lastValidIntText = selectedActivity.MinParticipants.ToString();
+                ActivityDateInputEdit.SelectedDate = DateTime.Parse(selectedActivity.DateStartTime);
+                ActivityTimeInputEdit.SelectedTime = DateTime.Parse(selectedActivity.DateStartTime).TimeOfDay;
+                ActivityTitleInputEdit.Text = selectedActivity.Title;
+                ActivityCostInputEdit.Text = selectedActivity.Cost.ToString();
+                ActivityCostInputEdit.TextChanging -= catchNonCostInput;
+                ActivityCostInputEdit.Text = selectedActivity.Cost.ToString();
+                _lastValidCostText = selectedActivity.Cost.ToString();
+                ActivityCostInputEdit.TextChanging += catchNonCostInput;
+                selectEntertainment(EntertainmentEditActivityTypeButton, new RoutedEventArgs());
+            }
+        }
+    }
+
+    public int GetActivityIdFromDate(string date)
+    {
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            using (SqlCommand cmd = new SqlCommand("SearchActivitiesByDate", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SearchDate", DateOnly.FromDateTime(DateTime.Parse(date)));
+                cmd.Parameters.AddWithValue("@Operator", "on");
+
+                conn.Open();
+                using(SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        return int.Parse($"{reader["ActivityID"]}");
+                    }
+                }
+            }
+        }
+        return -2;
+    }
+
 /*
 
 
@@ -257,6 +419,7 @@ public partial class MainWindow : Window
             referencedPanel.IsEnabled = true;
             referencedPanel.IsVisible = true;
             //Display all activities
+            mvm.DisplayedActivities.Clear();
             if (mvm.AllActivities.Count > mvm.DisplayedActivities.Count)
             {
                 for (int i = 0; i < mvm.AllActivities.Count; i++)
@@ -266,6 +429,8 @@ public partial class MainWindow : Window
                 ActivitiesList.ItemsSource = mvm.DisplayedActivities;
             }
             selectSingleButton(sender, new System.Collections.Generic.List<Button> {AddActivitiesButton, EditActivitiesButton, SearchActivitiesButton});
+            _lastValidCostText = "";
+            _lastValidIntText = "";
         }
     }
 
@@ -277,6 +442,17 @@ public partial class MainWindow : Window
     /// <param name="e">EventHandler Overload</param>
     public void selectFitness(object sender, RoutedEventArgs e)
     {
+        
+        //If Tag name contains "edit" alter edit panels
+        if (sender is Button button && button.Name.ToString().ToLower().Split("edit").Count() > 1)
+        {
+            SubmitFitnessActivityPanelEdit.IsEnabled = true;
+            SubmitFitnessActivityPanelEdit.IsVisible = true;
+            SubmitEntertainmentActivityPanelEdit.IsEnabled = false;
+            SubmitEntertainmentActivityPanelEdit.IsVisible = false;
+            selectBinaryButton(sender);
+            return;
+        }
         //When button is pressed, change stackpanel properties visible/enabled
         SubmitFitnessActivityPanel.IsEnabled = true;
         SubmitFitnessActivityPanel.IsVisible = true;
@@ -294,6 +470,16 @@ public partial class MainWindow : Window
     /// <param name="e">EventHandler Overload</param>
     public void selectEntertainment(object sender, RoutedEventArgs e)
     {
+        //If Tag name contains "edit" alter edit panels
+        if (sender is Button button && button.Name.ToString().ToLower().Split("edit").Count() > 1)
+        {
+            SubmitEntertainmentActivityPanelEdit.IsEnabled = true;
+            SubmitEntertainmentActivityPanelEdit.IsVisible = true;
+            SubmitFitnessActivityPanelEdit.IsEnabled = false;
+            SubmitFitnessActivityPanelEdit.IsVisible = false;
+            selectBinaryButton(sender);
+            return;
+        }
         //When button is pressed, change stackpanel properties visible/enabled
         SubmitFitnessActivityPanel.IsEnabled = false;
         SubmitFitnessActivityPanel.IsVisible = false;
@@ -344,6 +530,34 @@ public partial class MainWindow : Window
         }
     }
 
+    /// <summary>
+    /// Hides editing value input fields
+    /// </summary>
+    /// <param name="sender">Cancel edit button</param>
+    /// <param name="e">EventHandler Overload</param>
+    public void cancelEdit(object sender, RoutedEventArgs e)
+    {
+        EditActivitiesInfoPanel.IsEnabled = false;
+        EditActivitiesInfoPanel.IsVisible = false;
+        StartEditButton.IsEnabled = true;
+        StartEditButton.IsVisible = true;
+        editing = false;
+    }
+
+    /// <summary>
+    /// Opens activity editing panel
+    /// </summary>
+    /// <param name="sender">Edit activity button</param>
+    /// <param name="e">EventHandler Overload</param>
+    public void editActivity(object sender, RoutedEventArgs e)
+    {
+        //Bring up UI for activity add with existing data already in textboxes
+        EditActivitiesInfoPanel.IsEnabled = true;
+        EditActivitiesInfoPanel.IsVisible = true;
+        StartEditButton.IsEnabled = false;
+        StartEditButton.IsVisible = false;
+        editing = true;
+    }
 
 /*
 
@@ -479,7 +693,6 @@ public partial class MainWindow : Window
             missingInput = true;
         } else if (CheckActivityDate(ActivityDateInput.SelectedDate.Value.ToString("dd/MM/yyyy")))
         {
-            Console.WriteLine("Activity already on date");
             highlightDateInput(ActivityDateInput, false);
             missingInput = true;
         }
@@ -520,6 +733,75 @@ public partial class MainWindow : Window
         return missingInput;
     }
 
+
+    public bool checkForMissingEditInputs(string activityType)
+    {
+        resetActivityEditInputHighlights();
+        /*MAKE SURE TO CHECK FOR NULL TYPES AND COMAS
+        PROMPT USER TO ADD MISSING INPUTS IF INFORMATION IS MISSING*/
+        if (ActivityTitleInputEdit.Text != null)
+        {
+            ActivityTitleInputEdit.Text = removeCommasFromString(ActivityTitleInputEdit.Text.ToString());
+            if (ActivityTitleInputEdit.Text == "" || ActivityTitleInputEdit.Text.Length < 3)
+            {
+                DisplayMessage("Input Error", "Please ensure activity title contains at least 3 characters");
+                ActivityTitleInputEdit.Text = null;
+            }
+        }
+
+
+        if (activityType == "fitness" && ActivityLocationInputEdit.Text != null)
+        {
+            ActivityLocationInputEdit.Text = removeCommasFromString(ActivityLocationInputEdit.Text.ToString());
+            if (ActivityLocationInputEdit.Text == "")
+            {
+                ActivityLocationInputEdit.Text = null;
+            }
+        }
+        bool missingInput = false;
+        if (ActivityDateInputEdit.SelectedDate == null)
+        {
+            highlightDateInput(ActivityDateInputEdit, false);
+            missingInput = true;
+        } else if (((selectedFitnessActivity && DateOnly.FromDateTime(DateTime.Parse(mvm.FitnessActivities[selectedActivityIndex].DateStartTime)) != DateOnly.FromDateTime(ActivityDateInputEdit.SelectedDate.Value)) || (!selectedFitnessActivity && DateOnly.FromDateTime(DateTime.Parse(mvm.EntertainmentActivities[selectedActivityIndex].DateStartTime)) != DateOnly.FromDateTime(ActivityDateInputEdit.SelectedDate.Value))) && CheckActivityDate(ActivityDateInputEdit.SelectedDate.Value.ToString("dd/MM/yyyy")))
+        {
+            highlightDateInput(ActivityDateInputEdit, false);
+            missingInput = true;
+        }
+        if (ActivityTimeInputEdit.SelectedTime == null)
+        {
+            highlightTimeInput(ActivityTimeInputEdit, false);
+            missingInput = true;
+        }
+        if (ActivityTitleInputEdit.Text == null)
+        {
+            highlightTextInput(ActivityTitleInputEdit, false);
+            missingInput = true;
+        }
+        if (ActivityCostInputEdit.Text == null)
+        {
+            highlightTextInput(ActivityCostInputEdit, false);
+            missingInput = true;
+        }
+        if ((activityType == "entertainment" && ActivityMinParticipantsInputEdit.Text == null) || (activityType == "entertainment" && ActivityMinParticipantsInputEdit.Text != null && int.Parse(ActivityMinParticipantsInputEdit.Text) < 2))
+        {
+            if(ActivityMinParticipantsInputEdit.Text != null)
+            {
+                ActivityMinParticipantsInputEdit.Text = null;
+                DisplayMessage("Input error", "Please ensure Minimum Participant value is 2 or greater");
+            }
+            highlightTextInput(ActivityMinParticipantsInputEdit, false);
+            missingInput = true;
+        }
+        if (activityType == "fitness" && ActivityLocationInputEdit.Text == null)
+        {
+            highlightTextInput(ActivityLocationInputEdit, false);
+            missingInput = true;
+        }
+        return missingInput;
+    }
+
+
     /// <summary>
     /// Resets all activity input fields to their default state, including the watermark text and border colour
     /// </summary>
@@ -547,6 +829,32 @@ public partial class MainWindow : Window
             highlightTextInput(ActivityMinParticipantsInput, true);
         }
     }
+
+
+    public void resetActivityEditInputHighlights()
+    {
+        if (ActivityTitleInputEdit.Watermark == "TITLE INPUT REQUIRED")
+        {
+            highlightTextInput(ActivityTitleInputEdit, true);
+        }
+        if (ActivityLocationInputEdit.Watermark == "LOCATION INPUT REQUIRED")
+        {
+            highlightTextInput(ActivityLocationInputEdit, true);
+        }
+        if (ActivityCostInputEdit.Watermark == "COST INPUT REQUIRED")
+        {
+            highlightTextInput(ActivityCostInputEdit, true);
+        }
+        if(ActivityDateInputEdit.Watermark == "DATE INPUT REQUIRED")
+        {
+            highlightDateInput(ActivityDateInputEdit, true);
+        }
+        highlightTimeInput(ActivityTimeInputEdit, true);
+        if (ActivityMinParticipantsInputEdit.Watermark == "MINIMUM PARTICIPANT COUNT REQUIRED")
+        {
+            highlightTextInput(ActivityMinParticipantsInputEdit, true);
+        }
+    }
     
     /// <summary>
     /// Clears all activity input fields and resets the activity type buttons to their default state
@@ -570,11 +878,31 @@ public partial class MainWindow : Window
         EntertainmentActivityTypeButton.Foreground = new SolidColorBrush(Color.Parse("#fff"));
     }
 
+
+    public void clearEditActivityInputs()
+    {
+        resetActivityInputHighlights();
+        ActivityTitleInputEdit.Text = null;
+        ActivityLocationInputEdit.Text = null;
+        ActivityCostInputEdit.Text = null;
+        ActivityDateInputEdit.SelectedDate = null;
+        ActivityTimeInputEdit.SelectedTime = null;
+        ActivityMinParticipantsInputEdit.Text = null;
+        SubmitEntertainmentActivityPanelEdit.IsEnabled = false;
+        SubmitEntertainmentActivityPanelEdit.IsVisible = false;
+        SubmitFitnessActivityPanelEdit.IsEnabled = false;
+        SubmitFitnessActivityPanelEdit.IsVisible = false;
+        FitnessEditActivityTypeButton.Background = new SolidColorBrush(Color.Parse("#27325F"));
+        FitnessEditActivityTypeButton.Foreground = new SolidColorBrush(Color.Parse("#fff"));
+        EntertainmentEditActivityTypeButton.Background = new SolidColorBrush(Color.Parse("#27325F"));
+        EntertainmentEditActivityTypeButton.Foreground = new SolidColorBrush(Color.Parse("#fff"));
+    }
+
     /// <summary>
     /// Checks the input date does not have another activity attached
     /// </summary>
     /// <param name="date">The date to check in the db</param>
-    /// <returns>A true or false bool depicting whether another activity falls on the given date</returns>
+    /// <returns>A true or false bool depicting whether another activity falls on the given date and the activity id of one that is on the searched date</returns>
     public bool CheckActivityDate(string date)
     {
         using (SqlConnection conn = new SqlConnection(connectionString))

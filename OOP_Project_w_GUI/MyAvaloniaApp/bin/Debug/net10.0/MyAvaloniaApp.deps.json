@@ -18,6 +18,7 @@
           "CsvHelper": "33.1.0",
           "MessageBox.Avalonia": "12.0.0",
           "Microsoft.Data.SqlClient": "7.0.3",
+          "ReactiveUI.Avalonia": "12.1.1",
           "System.Data.SqlClient": "4.9.1"
         },
         "runtime": {
@@ -691,6 +692,93 @@
           }
         }
       },
+      "ReactiveUI/24.1.0": {
+        "dependencies": {
+          "ReactiveUI.Core": "24.1.0",
+          "ReactiveUI.Disposables": "7.1.0",
+          "ReactiveUI.Primitives": "7.1.0",
+          "ReactiveUI.Primitives.Core": "7.1.0",
+          "Splat": "20.2.0"
+        },
+        "runtime": {
+          "lib/net10.0/ReactiveUI.dll": {
+            "assemblyVersion": "24.0.0.0",
+            "fileVersion": "24.1.0.0"
+          }
+        }
+      },
+      "ReactiveUI.Avalonia/12.1.1": {
+        "dependencies": {
+          "Avalonia": "12.1.1",
+          "ReactiveUI": "24.1.0",
+          "ReactiveUI.Primitives": "7.1.0",
+          "ReactiveUI.Primitives.Avalonia": "7.1.0",
+          "Splat": "20.2.0"
+        },
+        "runtime": {
+          "lib/net10.0/ReactiveUI.Avalonia.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.1.1.0"
+          }
+        }
+      },
+      "ReactiveUI.Core/24.1.0": {
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0",
+          "ReactiveUI.Primitives": "7.1.0",
+          "ReactiveUI.Primitives.Core": "7.1.0",
+          "Splat": "20.2.0"
+        },
+        "runtime": {
+          "lib/net10.0/ReactiveUI.Core.dll": {
+            "assemblyVersion": "24.0.0.0",
+            "fileVersion": "24.1.0.0"
+          }
+        }
+      },
+      "ReactiveUI.Disposables/7.1.0": {
+        "runtime": {
+          "lib/net10.0/ReactiveUI.Disposables.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.1.0.0"
+          }
+        }
+      },
+      "ReactiveUI.Primitives/7.1.0": {
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0",
+          "ReactiveUI.Primitives.Core": "7.1.0"
+        },
+        "runtime": {
+          "lib/net10.0/ReactiveUI.Primitives.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.1.0.0"
+          }
+        }
+      },
+      "ReactiveUI.Primitives.Avalonia/7.1.0": {
+        "dependencies": {
+          "Avalonia": "12.1.1",
+          "ReactiveUI.Primitives": "7.1.0"
+        },
+        "runtime": {
+          "lib/net10.0/ReactiveUI.Primitives.Avalonia.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.1.0.0"
+          }
+        }
+      },
+      "ReactiveUI.Primitives.Core/7.1.0": {
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0"
+        },
+        "runtime": {
+          "lib/net10.0/ReactiveUI.Primitives.Core.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.1.0.0"
+          }
+        }
+      },
       "runtime.native.System.Data.SqlClient.sni/4.4.0": {
         "dependencies": {
           "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni": "4.4.0",
@@ -846,6 +934,54 @@
             "rid": "win-x86",
             "assetType": "native",
             "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Splat/20.2.0": {
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0",
+          "Splat.Builder": "20.2.0",
+          "Splat.Logging": "20.2.0"
+        },
+        "runtime": {
+          "lib/net10.0/Splat.dll": {
+            "assemblyVersion": "20.0.0.0",
+            "fileVersion": "20.2.0.0"
+          }
+        }
+      },
+      "Splat.Builder/20.2.0": {
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0",
+          "Splat.Core": "20.2.0"
+        },
+        "runtime": {
+          "lib/net10.0/Splat.Builder.dll": {
+            "assemblyVersion": "20.0.0.0",
+            "fileVersion": "20.2.0.0"
+          }
+        }
+      },
+      "Splat.Core/20.2.0": {
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0"
+        },
+        "runtime": {
+          "lib/net10.0/Splat.Core.dll": {
+            "assemblyVersion": "20.0.0.0",
+            "fileVersion": "20.2.0.0"
+          }
+        }
+      },
+      "Splat.Logging/20.2.0": {
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0",
+          "Splat.Core": "20.2.0"
+        },
+        "runtime": {
+          "lib/net10.0/Splat.Logging.dll": {
+            "assemblyVersion": "20.0.0.0",
+            "fileVersion": "20.2.0.0"
           }
         }
       },
@@ -1261,6 +1397,55 @@
       "path": "microsoft.sqlserver.server/1.0.0",
       "hashPath": "microsoft.sqlserver.server.1.0.0.nupkg.sha512"
     },
+    "ReactiveUI/24.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uBBpWQZTuv2/qcnrZ4CAiUrywilzi7+ADHJG7mMBP8/LV858GuDvo7MirSPUCb8Oy3v+kDlfMG39mWVw3uURfw==",
+      "path": "reactiveui/24.1.0",
+      "hashPath": "reactiveui.24.1.0.nupkg.sha512"
+    },
+    "ReactiveUI.Avalonia/12.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4ugpDzxYHqlA+4GzDDjwi6iE82iBcXhNKPvzeBinxYwXCzrQTcAomHsw33jWedGz+DeVf10LazuFfOeCBlNOjg==",
+      "path": "reactiveui.avalonia/12.1.1",
+      "hashPath": "reactiveui.avalonia.12.1.1.nupkg.sha512"
+    },
+    "ReactiveUI.Core/24.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SeZETUpkV6OfL2maWUVDdL3v83LZ6H4yJrH8LMiQ6bcdN8OdKedrVT1giLfv3gnXurWD/HpQhFR5ARcsQcg55A==",
+      "path": "reactiveui.core/24.1.0",
+      "hashPath": "reactiveui.core.24.1.0.nupkg.sha512"
+    },
+    "ReactiveUI.Disposables/7.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fjbSZqYvtzo8scwUJVeYZFDWEzsgUtemP5qGpTEAO/MTRhckRsjTXvb7jKP2Gm8CSNi3At3DcTXYKWogigiTTw==",
+      "path": "reactiveui.disposables/7.1.0",
+      "hashPath": "reactiveui.disposables.7.1.0.nupkg.sha512"
+    },
+    "ReactiveUI.Primitives/7.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RBMtipAz30PkybIph2NRpo159EXMNs5HKoY/BueeTdpJNycFKPXHVPPMpWGi8OzjEh7dY5X4lukrIWbx4lO+TA==",
+      "path": "reactiveui.primitives/7.1.0",
+      "hashPath": "reactiveui.primitives.7.1.0.nupkg.sha512"
+    },
+    "ReactiveUI.Primitives.Avalonia/7.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wWTVNzWb6hpqqySmk2K//mS4tQrt1HKzye2r8yuKSm9+7vlQvHy2rCGTuiq5vkLImsH7dyUhI7kXZJ2J4nlVZQ==",
+      "path": "reactiveui.primitives.avalonia/7.1.0",
+      "hashPath": "reactiveui.primitives.avalonia.7.1.0.nupkg.sha512"
+    },
+    "ReactiveUI.Primitives.Core/7.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8jDvjAt62yc+7+FQXSWvrp3hjlgCEB15mtze9A7SJBRdD3hc660zLmiLm6kEfOcfJQ7ioPtndDfgWom3lKKFXA==",
+      "path": "reactiveui.primitives.core/7.1.0",
+      "hashPath": "reactiveui.primitives.core.7.1.0.nupkg.sha512"
+    },
     "runtime.native.System.Data.SqlClient.sni/4.4.0": {
       "type": "package",
       "serviceable": true,
@@ -1316,6 +1501,34 @@
       "sha512": "sha512-XOpbx/4CReO2wYsq2s6rbvdauc6dntG4Zv499sHGTJ87bwZaFXszFkwql3+FIZMc8kUPeaj3Mx2ezIJmo8a1Kg==",
       "path": "skiasharp.nativeassets.win32/3.119.4",
       "hashPath": "skiasharp.nativeassets.win32.3.119.4.nupkg.sha512"
+    },
+    "Splat/20.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wmwIg3+ZDQSu3OpQVbOhuU0ICzLKV0axOKf9tXe6Y90xUY/qgLIaMuk2A9MKN9lGTOhAqvs5ohsSjp6PQsS/gA==",
+      "path": "splat/20.2.0",
+      "hashPath": "splat.20.2.0.nupkg.sha512"
+    },
+    "Splat.Builder/20.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RnriX6gQv3WBIJSPGEXU1asiwH2JaaeWg2FqfgtGEWNWNpWAL3QIDvELKkyftPhEGxpzwxMfH5xXmzj+s9QWjw==",
+      "path": "splat.builder/20.2.0",
+      "hashPath": "splat.builder.20.2.0.nupkg.sha512"
+    },
+    "Splat.Core/20.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XCSw6TxysoGapSQko/acOAKvLJOxp7Ze/3nn3oFSSoIrS3GadjNO4G+qALR3+RkESkRm7EJXbqJRQAlAeoQvVw==",
+      "path": "splat.core/20.2.0",
+      "hashPath": "splat.core.20.2.0.nupkg.sha512"
+    },
+    "Splat.Logging/20.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cCkJzJxNrhYsA0+WV0JQBcSaM0PmyILE9G1RVXgNfw026FWJGGyE1Ayvxco/UjKfTYCvuOMV57yAv3c2iN7uvQ==",
+      "path": "splat.logging/20.2.0",
+      "hashPath": "splat.logging.20.2.0.nupkg.sha512"
     },
     "System.Configuration.ConfigurationManager/9.0.13": {
       "type": "package",

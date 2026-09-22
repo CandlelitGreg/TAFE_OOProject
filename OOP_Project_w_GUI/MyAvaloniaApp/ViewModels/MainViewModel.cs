@@ -17,6 +17,7 @@ using CsvHelper.Configuration.Attributes;
 using CommunityToolkit.Mvvm.Collections;
 using Avalonia.Controls.Converters;
 using Microsoft.Data.SqlClient;
+using Tmds.DBus.Protocol;
 
 namespace MyAvaloniaApp.ViewModels;
 
@@ -29,6 +30,7 @@ public partial class MainViewModel : ViewModelBase
     public record Activity(DateTime DateStartTime, string Title, float Cost, string Type, int Index);
     public record FitnessActivity(string DateStartTime, string Title, float Cost, string Location);
     public record EntertainmentActivity(string DateStartTime, string Title, float Cost, int MinParticipants);
+
 
     [ObservableProperty]
     public partial string Greeting { get; set; } = "Welcome to the Activity Editor!";

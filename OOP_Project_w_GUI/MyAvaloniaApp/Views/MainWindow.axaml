@@ -94,6 +94,7 @@
                     <DataGrid 
                         x:Name="ActivitiesList"
                         ItemsSource="{Binding DisplayedActivities}" 
+                        CellPointerPressed="onCellPointerPressed"
                         AutoGenerateColumns="false"
                         Height="450"
                         Background="#81B7DC"
@@ -346,6 +347,174 @@
                             HorizontalAlignment="Center">
                             Edit Activities:
                         </TextBlock>
+
+                        <Button
+                            x:Name="StartEditButton"
+                            Click="editActivity"
+                            Background="#27325F"
+                            Foreground="White"
+                            FontSize="20"
+                            Margin="2"
+                            Padding="10,5"
+                            Content="Search Activities"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            IsEnabled="True"
+                            IsVisible="True"
+                        />
+
+                        <StackPanel
+                            x:Name="EditActivitiesInfoPanel"
+                            HorizontalAlignment="Center"
+                            Grid.Row="1"
+                            IsEnabled="False"
+                            IsVisible="False"
+                            >
+
+                            <StackPanel Orientation="Horizontal" Spacing="10" Margin="20">
+                                <TextBlock
+                                    x:Name="ActivityTypeHeaderEdit"
+                                    FontSize="20"
+                                    VerticalAlignment="Center">
+                                    Activity Type:
+                                </TextBlock>
+
+                                <Button 
+                                    x:Name="FitnessEditActivityTypeButton"
+                                    Tag="{Binding #EntertainmentEditActivityTypeButton}"
+                                    Click="selectFitness"
+                                    Background="#27325F"
+                                    Foreground="White"
+                                    FontSize="20"
+                                    Margin="2"
+                                    Padding="10,5"
+                                    Content="Fitness"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                />
+
+                                <Button 
+                                    x:Name="EntertainmentEditActivityTypeButton"
+                                    Tag="{Binding #FitnessEditActivityTypeButton}"
+                                    Click="selectEntertainment"
+                                    Background="#27325F"
+                                    Foreground="White"
+                                    FontSize="20"
+                                    Margin="2"
+                                    Padding="10,5"
+                                    Content="Entertainment"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                />
+
+                            </StackPanel>
+
+
+                            <StackPanel Orientation="Horizontal" Spacing="10" Margin="5" HorizontalAlignment="Center">
+                                <!-- Date Selection Component -->
+                                <CalendarDatePicker 
+                                    x:Name="ActivityDateInputEdit"
+                                    Tag="DATE INPUT REQUIRED"
+                                    Watermark="Activity Start Date/Time"
+                                    SelectedDateFormat="Custom"
+                                    CustomDateFormatString="dd-MM-yyyy"
+                                />
+
+                                <!-- Time Selection Component -->
+                                <TimePicker 
+                                    x:Name="ActivityTimeInputEdit" 
+                                    ClockIdentifier="24HourClock" 
+                                    MinuteIncrement="1"
+                                />
+                            </StackPanel>
+
+                            <TextBox 
+                                x:Name="ActivityTitleInputEdit" 
+                                Tag="TITLE INPUT REQUIRED"
+                                Width="200" 
+                                Watermark="Write activity title here"
+                            />
+
+                            <!-- Text Changing value links to function that catches and reverts any non int inputs -->
+                            <TextBox 
+                                x:Name="ActivityCostInputEdit" 
+                                Tag="COST INPUT REQUIRED"
+                                Width="200" 
+                                Watermark="Write activity cost here"
+                                TextChanging="catchNonCostInput"
+                            />
+
+
+                            <StackPanel 
+                                x:Name="SubmitEntertainmentActivityPanelEdit"  
+                                IsVisible="False" 
+                                IsEnabled="False">
+
+
+                                <TextBox 
+                                    x:Name="ActivityMinParticipantsInputEdit" 
+                                    Tag="MINIMUM PARTICIPANT COUNT REQUIRED"
+                                    TextChanging="catchNonIntInput"
+                                    Width="200" 
+                                    Watermark="Write activity minimum participants here"
+                                />
+
+                                <Button 
+                                    x:Name="EntertainmentActivitySubmitButtonEdit"
+                                    Click="editEntertainmentActivity"
+                                    Background="#27325F"
+                                    Foreground="White"
+                                    FontSize="20"
+                                    Margin="2"
+                                    Padding="10,5"
+                                    Content="Edit Activity"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                />
+                            </StackPanel>
+
+
+                            <StackPanel 
+                                x:Name="SubmitFitnessActivityPanelEdit"  
+                                IsVisible="False" 
+                                IsEnabled="False">
+
+
+                                <TextBox 
+                                    x:Name="ActivityLocationInputEdit"
+                                    Tag="LOCATION INPUT REQUIRED"
+                                    Width="200" 
+                                    Watermark="Write activity location here"
+                                />
+                            
+                                <Button 
+                                    x:Name="FitnessActivitySubmitButtonEdit"
+                                    Click="editFitnessActivity"
+                                    Background="#27325F"
+                                    Foreground="White"
+                                    FontSize="20"
+                                    Margin="2"
+                                    Padding="10,5"
+                                    Content="Edit Activity"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                />
+                            </StackPanel>
+
+                            <Button 
+                                x:Name="CancelEditButton"
+                                Click="cancelEdit"
+                                Background="#27325F"
+                                Foreground="White"
+                                FontSize="20"
+                                Margin="2"
+                                Padding="10,5"
+                                Content="Cancel edit"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                            />
+
+                        </StackPanel>
 
                     </StackPanel>
 

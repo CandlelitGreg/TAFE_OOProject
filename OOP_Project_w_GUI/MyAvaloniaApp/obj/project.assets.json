@@ -921,6 +921,128 @@
           }
         }
       },
+      "ReactiveUI/24.1.0": {
+        "type": "package",
+        "dependencies": {
+          "ReactiveUI.Core": "24.1.0",
+          "ReactiveUI.Disposables": "7.1.0",
+          "ReactiveUI.Primitives": "7.1.0",
+          "ReactiveUI.Primitives.Core": "7.1.0",
+          "Splat": "20.2.0"
+        },
+        "compile": {
+          "lib/net10.0/ReactiveUI.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/ReactiveUI.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "ReactiveUI.Avalonia/12.1.1": {
+        "type": "package",
+        "dependencies": {
+          "Avalonia": "12.1.1",
+          "ReactiveUI": "24.1.0",
+          "ReactiveUI.Primitives": "7.1.0",
+          "ReactiveUI.Primitives.Avalonia": "7.1.0",
+          "Splat": "20.2.0"
+        },
+        "compile": {
+          "lib/net10.0/ReactiveUI.Avalonia.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/ReactiveUI.Avalonia.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "ReactiveUI.Core/24.1.0": {
+        "type": "package",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0",
+          "ReactiveUI.Primitives": "7.1.0",
+          "ReactiveUI.Primitives.Core": "7.1.0",
+          "Splat": "20.2.0"
+        },
+        "compile": {
+          "lib/net10.0/ReactiveUI.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/ReactiveUI.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "ReactiveUI.Disposables/7.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/ReactiveUI.Disposables.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/ReactiveUI.Disposables.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "ReactiveUI.Primitives/7.1.0": {
+        "type": "package",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0",
+          "ReactiveUI.Primitives.Core": "7.1.0"
+        },
+        "compile": {
+          "lib/net10.0/ReactiveUI.Primitives.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/ReactiveUI.Primitives.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "ReactiveUI.Primitives.Avalonia/7.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Avalonia": "12.1.0",
+          "ReactiveUI.Primitives": "7.1.0"
+        },
+        "compile": {
+          "lib/net10.0/ReactiveUI.Primitives.Avalonia.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/ReactiveUI.Primitives.Avalonia.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "ReactiveUI.Primitives.Core/7.1.0": {
+        "type": "package",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0"
+        },
+        "compile": {
+          "lib/net10.0/ReactiveUI.Primitives.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/ReactiveUI.Primitives.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "runtime.native.System.Data.SqlClient.sni/4.4.0": {
         "type": "package",
         "dependencies": {
@@ -1094,6 +1216,74 @@
           "runtimes/win-x86/native/libSkiaSharp.pdb": {
             "assetType": "native",
             "rid": "win-x86"
+          }
+        }
+      },
+      "Splat/20.2.0": {
+        "type": "package",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.0.0",
+          "Splat.Builder": "20.2.0",
+          "Splat.Logging": "20.2.0"
+        },
+        "compile": {
+          "lib/net10.0/Splat.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Splat.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Splat.Builder/20.2.0": {
+        "type": "package",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.0.0",
+          "Splat.Core": "20.2.0"
+        },
+        "compile": {
+          "lib/net10.0/Splat.Builder.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Splat.Builder.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Splat.Core/20.2.0": {
+        "type": "package",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.0.0"
+        },
+        "compile": {
+          "lib/net10.0/Splat.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Splat.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Splat.Logging/20.2.0": {
+        "type": "package",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.0.0",
+          "Splat.Core": "20.2.0"
+        },
+        "compile": {
+          "lib/net10.0/Splat.Logging.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Splat.Logging.dll": {
+            "related": ".xml"
           }
         }
       },
@@ -2481,6 +2671,274 @@
         "microsoft.sqlserver.server.nuspec"
       ]
     },
+    "ReactiveUI/24.1.0": {
+      "sha512": "uBBpWQZTuv2/qcnrZ4CAiUrywilzi7+ADHJG7mMBP8/LV858GuDvo7MirSPUCb8Oy3v+kDlfMG39mWVw3uURfw==",
+      "type": "package",
+      "path": "reactiveui/24.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "README.md",
+        "lib/net10.0-android36.0/ReactiveUI.dll",
+        "lib/net10.0-android36.0/ReactiveUI.xml",
+        "lib/net10.0-ios26.0/ReactiveUI.dll",
+        "lib/net10.0-ios26.0/ReactiveUI.xml",
+        "lib/net10.0-maccatalyst26.0/ReactiveUI.dll",
+        "lib/net10.0-maccatalyst26.0/ReactiveUI.xml",
+        "lib/net10.0-macos26.0/ReactiveUI.dll",
+        "lib/net10.0-macos26.0/ReactiveUI.xml",
+        "lib/net10.0-tvos26.0/ReactiveUI.dll",
+        "lib/net10.0-tvos26.0/ReactiveUI.xml",
+        "lib/net10.0-windows10.0.19041/ReactiveUI.dll",
+        "lib/net10.0-windows10.0.19041/ReactiveUI.xml",
+        "lib/net10.0/ReactiveUI.dll",
+        "lib/net10.0/ReactiveUI.xml",
+        "lib/net11.0-android37.0/ReactiveUI.dll",
+        "lib/net11.0-android37.0/ReactiveUI.xml",
+        "lib/net11.0-ios26.5/ReactiveUI.dll",
+        "lib/net11.0-ios26.5/ReactiveUI.xml",
+        "lib/net11.0-maccatalyst26.5/ReactiveUI.dll",
+        "lib/net11.0-maccatalyst26.5/ReactiveUI.xml",
+        "lib/net11.0-macos26.5/ReactiveUI.dll",
+        "lib/net11.0-macos26.5/ReactiveUI.xml",
+        "lib/net11.0-tvos26.5/ReactiveUI.dll",
+        "lib/net11.0-tvos26.5/ReactiveUI.xml",
+        "lib/net11.0-windows10.0.19041/ReactiveUI.dll",
+        "lib/net11.0-windows10.0.19041/ReactiveUI.xml",
+        "lib/net11.0/ReactiveUI.dll",
+        "lib/net11.0/ReactiveUI.xml",
+        "lib/net462/ReactiveUI.dll",
+        "lib/net462/ReactiveUI.xml",
+        "lib/net472/ReactiveUI.dll",
+        "lib/net472/ReactiveUI.xml",
+        "lib/net481/ReactiveUI.dll",
+        "lib/net481/ReactiveUI.xml",
+        "lib/net8.0-windows10.0.19041/ReactiveUI.dll",
+        "lib/net8.0-windows10.0.19041/ReactiveUI.xml",
+        "lib/net8.0/ReactiveUI.dll",
+        "lib/net8.0/ReactiveUI.xml",
+        "lib/net9.0-windows10.0.19041/ReactiveUI.dll",
+        "lib/net9.0-windows10.0.19041/ReactiveUI.xml",
+        "lib/net9.0/ReactiveUI.dll",
+        "lib/net9.0/ReactiveUI.xml",
+        "logo.png",
+        "reactiveui.24.1.0.nupkg.sha512",
+        "reactiveui.nuspec"
+      ]
+    },
+    "ReactiveUI.Avalonia/12.1.1": {
+      "sha512": "4ugpDzxYHqlA+4GzDDjwi6iE82iBcXhNKPvzeBinxYwXCzrQTcAomHsw33jWedGz+DeVf10LazuFfOeCBlNOjg==",
+      "type": "package",
+      "path": "reactiveui.avalonia/12.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "README.md",
+        "lib/net10.0/ReactiveUI.Avalonia.dll",
+        "lib/net10.0/ReactiveUI.Avalonia.xml",
+        "lib/net11.0/ReactiveUI.Avalonia.dll",
+        "lib/net11.0/ReactiveUI.Avalonia.xml",
+        "lib/net8.0/ReactiveUI.Avalonia.dll",
+        "lib/net8.0/ReactiveUI.Avalonia.xml",
+        "lib/net9.0/ReactiveUI.Avalonia.dll",
+        "lib/net9.0/ReactiveUI.Avalonia.xml",
+        "logo.png",
+        "reactiveui.avalonia.12.1.1.nupkg.sha512",
+        "reactiveui.avalonia.nuspec"
+      ]
+    },
+    "ReactiveUI.Core/24.1.0": {
+      "sha512": "SeZETUpkV6OfL2maWUVDdL3v83LZ6H4yJrH8LMiQ6bcdN8OdKedrVT1giLfv3gnXurWD/HpQhFR5ARcsQcg55A==",
+      "type": "package",
+      "path": "reactiveui.core/24.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "README.md",
+        "lib/net10.0-android36.0/ReactiveUI.Core.dll",
+        "lib/net10.0-android36.0/ReactiveUI.Core.xml",
+        "lib/net10.0-ios26.0/ReactiveUI.Core.dll",
+        "lib/net10.0-ios26.0/ReactiveUI.Core.xml",
+        "lib/net10.0-maccatalyst26.0/ReactiveUI.Core.dll",
+        "lib/net10.0-maccatalyst26.0/ReactiveUI.Core.xml",
+        "lib/net10.0-macos26.0/ReactiveUI.Core.dll",
+        "lib/net10.0-macos26.0/ReactiveUI.Core.xml",
+        "lib/net10.0-tvos26.0/ReactiveUI.Core.dll",
+        "lib/net10.0-tvos26.0/ReactiveUI.Core.xml",
+        "lib/net10.0-windows10.0.19041/ReactiveUI.Core.dll",
+        "lib/net10.0-windows10.0.19041/ReactiveUI.Core.xml",
+        "lib/net10.0/ReactiveUI.Core.dll",
+        "lib/net10.0/ReactiveUI.Core.xml",
+        "lib/net11.0-android37.0/ReactiveUI.Core.dll",
+        "lib/net11.0-android37.0/ReactiveUI.Core.xml",
+        "lib/net11.0-ios26.5/ReactiveUI.Core.dll",
+        "lib/net11.0-ios26.5/ReactiveUI.Core.xml",
+        "lib/net11.0-maccatalyst26.5/ReactiveUI.Core.dll",
+        "lib/net11.0-maccatalyst26.5/ReactiveUI.Core.xml",
+        "lib/net11.0-macos26.5/ReactiveUI.Core.dll",
+        "lib/net11.0-macos26.5/ReactiveUI.Core.xml",
+        "lib/net11.0-tvos26.5/ReactiveUI.Core.dll",
+        "lib/net11.0-tvos26.5/ReactiveUI.Core.xml",
+        "lib/net11.0-windows10.0.19041/ReactiveUI.Core.dll",
+        "lib/net11.0-windows10.0.19041/ReactiveUI.Core.xml",
+        "lib/net11.0/ReactiveUI.Core.dll",
+        "lib/net11.0/ReactiveUI.Core.xml",
+        "lib/net462/ReactiveUI.Core.dll",
+        "lib/net462/ReactiveUI.Core.xml",
+        "lib/net472/ReactiveUI.Core.dll",
+        "lib/net472/ReactiveUI.Core.xml",
+        "lib/net481/ReactiveUI.Core.dll",
+        "lib/net481/ReactiveUI.Core.xml",
+        "lib/net8.0-windows10.0.19041/ReactiveUI.Core.dll",
+        "lib/net8.0-windows10.0.19041/ReactiveUI.Core.xml",
+        "lib/net8.0/ReactiveUI.Core.dll",
+        "lib/net8.0/ReactiveUI.Core.xml",
+        "lib/net9.0-windows10.0.19041/ReactiveUI.Core.dll",
+        "lib/net9.0-windows10.0.19041/ReactiveUI.Core.xml",
+        "lib/net9.0/ReactiveUI.Core.dll",
+        "lib/net9.0/ReactiveUI.Core.xml",
+        "logo.png",
+        "reactiveui.core.24.1.0.nupkg.sha512",
+        "reactiveui.core.nuspec"
+      ]
+    },
+    "ReactiveUI.Disposables/7.1.0": {
+      "sha512": "fjbSZqYvtzo8scwUJVeYZFDWEzsgUtemP5qGpTEAO/MTRhckRsjTXvb7jKP2Gm8CSNi3At3DcTXYKWogigiTTw==",
+      "type": "package",
+      "path": "reactiveui.disposables/7.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "README.md",
+        "lib/net10.0/ReactiveUI.Disposables.dll",
+        "lib/net10.0/ReactiveUI.Disposables.xml",
+        "lib/net11.0/ReactiveUI.Disposables.dll",
+        "lib/net11.0/ReactiveUI.Disposables.xml",
+        "lib/net462/ReactiveUI.Disposables.dll",
+        "lib/net462/ReactiveUI.Disposables.xml",
+        "lib/net472/ReactiveUI.Disposables.dll",
+        "lib/net472/ReactiveUI.Disposables.xml",
+        "lib/net48/ReactiveUI.Disposables.dll",
+        "lib/net48/ReactiveUI.Disposables.xml",
+        "lib/net481/ReactiveUI.Disposables.dll",
+        "lib/net481/ReactiveUI.Disposables.xml",
+        "lib/net8.0/ReactiveUI.Disposables.dll",
+        "lib/net8.0/ReactiveUI.Disposables.xml",
+        "lib/net9.0/ReactiveUI.Disposables.dll",
+        "lib/net9.0/ReactiveUI.Disposables.xml",
+        "logo.png",
+        "reactiveui.disposables.7.1.0.nupkg.sha512",
+        "reactiveui.disposables.nuspec"
+      ]
+    },
+    "ReactiveUI.Primitives/7.1.0": {
+      "sha512": "RBMtipAz30PkybIph2NRpo159EXMNs5HKoY/BueeTdpJNycFKPXHVPPMpWGi8OzjEh7dY5X4lukrIWbx4lO+TA==",
+      "type": "package",
+      "path": "reactiveui.primitives/7.1.0",
+      "files": [
+        ".agents/skills/reactiveui-primitives/SKILL.md",
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "README.md",
+        "Skill.md",
+        "lib/net10.0-android36.0/ReactiveUI.Primitives.dll",
+        "lib/net10.0-android36.0/ReactiveUI.Primitives.xml",
+        "lib/net10.0-ios26.0/ReactiveUI.Primitives.dll",
+        "lib/net10.0-ios26.0/ReactiveUI.Primitives.xml",
+        "lib/net10.0-maccatalyst26.0/ReactiveUI.Primitives.dll",
+        "lib/net10.0-maccatalyst26.0/ReactiveUI.Primitives.xml",
+        "lib/net10.0-macos26.0/ReactiveUI.Primitives.dll",
+        "lib/net10.0-macos26.0/ReactiveUI.Primitives.xml",
+        "lib/net10.0-tvos26.0/ReactiveUI.Primitives.dll",
+        "lib/net10.0-tvos26.0/ReactiveUI.Primitives.xml",
+        "lib/net10.0/ReactiveUI.Primitives.dll",
+        "lib/net10.0/ReactiveUI.Primitives.xml",
+        "lib/net11.0-android37.0/ReactiveUI.Primitives.dll",
+        "lib/net11.0-android37.0/ReactiveUI.Primitives.xml",
+        "lib/net11.0-ios26.5/ReactiveUI.Primitives.dll",
+        "lib/net11.0-ios26.5/ReactiveUI.Primitives.xml",
+        "lib/net11.0-maccatalyst26.5/ReactiveUI.Primitives.dll",
+        "lib/net11.0-maccatalyst26.5/ReactiveUI.Primitives.xml",
+        "lib/net11.0-macos26.5/ReactiveUI.Primitives.dll",
+        "lib/net11.0-macos26.5/ReactiveUI.Primitives.xml",
+        "lib/net11.0-tvos26.5/ReactiveUI.Primitives.dll",
+        "lib/net11.0-tvos26.5/ReactiveUI.Primitives.xml",
+        "lib/net11.0/ReactiveUI.Primitives.dll",
+        "lib/net11.0/ReactiveUI.Primitives.xml",
+        "lib/net462/ReactiveUI.Primitives.dll",
+        "lib/net462/ReactiveUI.Primitives.xml",
+        "lib/net472/ReactiveUI.Primitives.dll",
+        "lib/net472/ReactiveUI.Primitives.xml",
+        "lib/net48/ReactiveUI.Primitives.dll",
+        "lib/net48/ReactiveUI.Primitives.xml",
+        "lib/net481/ReactiveUI.Primitives.dll",
+        "lib/net481/ReactiveUI.Primitives.xml",
+        "lib/net8.0/ReactiveUI.Primitives.dll",
+        "lib/net8.0/ReactiveUI.Primitives.xml",
+        "lib/net9.0/ReactiveUI.Primitives.dll",
+        "lib/net9.0/ReactiveUI.Primitives.xml",
+        "logo.png",
+        "reactiveui.primitives.7.1.0.nupkg.sha512",
+        "reactiveui.primitives.nuspec"
+      ]
+    },
+    "ReactiveUI.Primitives.Avalonia/7.1.0": {
+      "sha512": "wWTVNzWb6hpqqySmk2K//mS4tQrt1HKzye2r8yuKSm9+7vlQvHy2rCGTuiq5vkLImsH7dyUhI7kXZJ2J4nlVZQ==",
+      "type": "package",
+      "path": "reactiveui.primitives.avalonia/7.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "README.md",
+        "lib/net10.0/ReactiveUI.Primitives.Avalonia.dll",
+        "lib/net10.0/ReactiveUI.Primitives.Avalonia.xml",
+        "lib/net11.0/ReactiveUI.Primitives.Avalonia.dll",
+        "lib/net11.0/ReactiveUI.Primitives.Avalonia.xml",
+        "lib/net8.0/ReactiveUI.Primitives.Avalonia.dll",
+        "lib/net8.0/ReactiveUI.Primitives.Avalonia.xml",
+        "lib/net9.0/ReactiveUI.Primitives.Avalonia.dll",
+        "lib/net9.0/ReactiveUI.Primitives.Avalonia.xml",
+        "logo.png",
+        "reactiveui.primitives.avalonia.7.1.0.nupkg.sha512",
+        "reactiveui.primitives.avalonia.nuspec"
+      ]
+    },
+    "ReactiveUI.Primitives.Core/7.1.0": {
+      "sha512": "8jDvjAt62yc+7+FQXSWvrp3hjlgCEB15mtze9A7SJBRdD3hc660zLmiLm6kEfOcfJQ7ioPtndDfgWom3lKKFXA==",
+      "type": "package",
+      "path": "reactiveui.primitives.core/7.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "README.md",
+        "lib/net10.0/ReactiveUI.Primitives.Core.dll",
+        "lib/net10.0/ReactiveUI.Primitives.Core.xml",
+        "lib/net11.0/ReactiveUI.Primitives.Core.dll",
+        "lib/net11.0/ReactiveUI.Primitives.Core.xml",
+        "lib/net462/ReactiveUI.Primitives.Core.dll",
+        "lib/net462/ReactiveUI.Primitives.Core.xml",
+        "lib/net472/ReactiveUI.Primitives.Core.dll",
+        "lib/net472/ReactiveUI.Primitives.Core.xml",
+        "lib/net48/ReactiveUI.Primitives.Core.dll",
+        "lib/net48/ReactiveUI.Primitives.Core.xml",
+        "lib/net481/ReactiveUI.Primitives.Core.dll",
+        "lib/net481/ReactiveUI.Primitives.Core.xml",
+        "lib/net8.0/ReactiveUI.Primitives.Core.dll",
+        "lib/net8.0/ReactiveUI.Primitives.Core.xml",
+        "lib/net9.0/ReactiveUI.Primitives.Core.dll",
+        "lib/net9.0/ReactiveUI.Primitives.Core.xml",
+        "logo.png",
+        "reactiveui.primitives.core.7.1.0.nupkg.sha512",
+        "reactiveui.primitives.core.nuspec"
+      ]
+    },
     "runtime.native.System.Data.SqlClient.sni/4.4.0": {
       "sha512": "A8v6PGmk+UGbfWo5Ixup0lPM4swuSwOiayJExZwKIOjTlFFQIsu3QnDXECosBEyrWSPryxBVrdqtJyhK3BaupQ==",
       "type": "package",
@@ -2769,6 +3227,118 @@
         "skiasharp.nativeassets.win32.nuspec"
       ]
     },
+    "Splat/20.2.0": {
+      "sha512": "wmwIg3+ZDQSu3OpQVbOhuU0ICzLKV0axOKf9tXe6Y90xUY/qgLIaMuk2A9MKN9lGTOhAqvs5ohsSjp6PQsS/gA==",
+      "type": "package",
+      "path": "splat/20.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "README.md",
+        "lib/net10.0/Splat.dll",
+        "lib/net10.0/Splat.xml",
+        "lib/net11.0/Splat.dll",
+        "lib/net11.0/Splat.xml",
+        "lib/net462/Splat.dll",
+        "lib/net462/Splat.xml",
+        "lib/net472/Splat.dll",
+        "lib/net472/Splat.xml",
+        "lib/net481/Splat.dll",
+        "lib/net481/Splat.xml",
+        "lib/net8.0/Splat.dll",
+        "lib/net8.0/Splat.xml",
+        "lib/net9.0/Splat.dll",
+        "lib/net9.0/Splat.xml",
+        "logo.png",
+        "splat.20.2.0.nupkg.sha512",
+        "splat.nuspec"
+      ]
+    },
+    "Splat.Builder/20.2.0": {
+      "sha512": "RnriX6gQv3WBIJSPGEXU1asiwH2JaaeWg2FqfgtGEWNWNpWAL3QIDvELKkyftPhEGxpzwxMfH5xXmzj+s9QWjw==",
+      "type": "package",
+      "path": "splat.builder/20.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "README.md",
+        "lib/net10.0/Splat.Builder.dll",
+        "lib/net10.0/Splat.Builder.xml",
+        "lib/net11.0/Splat.Builder.dll",
+        "lib/net11.0/Splat.Builder.xml",
+        "lib/net462/Splat.Builder.dll",
+        "lib/net462/Splat.Builder.xml",
+        "lib/net472/Splat.Builder.dll",
+        "lib/net472/Splat.Builder.xml",
+        "lib/net481/Splat.Builder.dll",
+        "lib/net481/Splat.Builder.xml",
+        "lib/net8.0/Splat.Builder.dll",
+        "lib/net8.0/Splat.Builder.xml",
+        "lib/net9.0/Splat.Builder.dll",
+        "lib/net9.0/Splat.Builder.xml",
+        "logo.png",
+        "splat.builder.20.2.0.nupkg.sha512",
+        "splat.builder.nuspec"
+      ]
+    },
+    "Splat.Core/20.2.0": {
+      "sha512": "XCSw6TxysoGapSQko/acOAKvLJOxp7Ze/3nn3oFSSoIrS3GadjNO4G+qALR3+RkESkRm7EJXbqJRQAlAeoQvVw==",
+      "type": "package",
+      "path": "splat.core/20.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "README.md",
+        "lib/net10.0/Splat.Core.dll",
+        "lib/net10.0/Splat.Core.xml",
+        "lib/net11.0/Splat.Core.dll",
+        "lib/net11.0/Splat.Core.xml",
+        "lib/net462/Splat.Core.dll",
+        "lib/net462/Splat.Core.xml",
+        "lib/net472/Splat.Core.dll",
+        "lib/net472/Splat.Core.xml",
+        "lib/net481/Splat.Core.dll",
+        "lib/net481/Splat.Core.xml",
+        "lib/net8.0/Splat.Core.dll",
+        "lib/net8.0/Splat.Core.xml",
+        "lib/net9.0/Splat.Core.dll",
+        "lib/net9.0/Splat.Core.xml",
+        "logo.png",
+        "splat.core.20.2.0.nupkg.sha512",
+        "splat.core.nuspec"
+      ]
+    },
+    "Splat.Logging/20.2.0": {
+      "sha512": "cCkJzJxNrhYsA0+WV0JQBcSaM0PmyILE9G1RVXgNfw026FWJGGyE1Ayvxco/UjKfTYCvuOMV57yAv3c2iN7uvQ==",
+      "type": "package",
+      "path": "splat.logging/20.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "README.md",
+        "lib/net10.0/Splat.Logging.dll",
+        "lib/net10.0/Splat.Logging.xml",
+        "lib/net11.0/Splat.Logging.dll",
+        "lib/net11.0/Splat.Logging.xml",
+        "lib/net462/Splat.Logging.dll",
+        "lib/net462/Splat.Logging.xml",
+        "lib/net472/Splat.Logging.dll",
+        "lib/net472/Splat.Logging.xml",
+        "lib/net481/Splat.Logging.dll",
+        "lib/net481/Splat.Logging.xml",
+        "lib/net8.0/Splat.Logging.dll",
+        "lib/net8.0/Splat.Logging.xml",
+        "lib/net9.0/Splat.Logging.dll",
+        "lib/net9.0/Splat.Logging.xml",
+        "logo.png",
+        "splat.logging.20.2.0.nupkg.sha512",
+        "splat.logging.nuspec"
+      ]
+    },
     "System.Configuration.ConfigurationManager/9.0.13": {
       "sha512": "GbBrJq9S/gYpHzm7Pxx6Y5tDyfSfyxW6tlP5oiKJV38uf19Wp+GIIAnWfyL1zmNiz1+EjwVapw2WkBFvvqKQzg==",
       "type": "package",
@@ -2993,6 +3563,7 @@
       "CsvHelper >= 33.1.0",
       "MessageBox.Avalonia >= 12.0.0",
       "Microsoft.Data.SqlClient >= 7.0.3",
+      "ReactiveUI.Avalonia >= 12.1.1",
       "System.Data.SqlClient >= 4.9.1"
     ]
   },
@@ -3080,6 +3651,10 @@
           "Microsoft.Data.SqlClient": {
             "target": "Package",
             "version": "[7.0.3, )"
+          },
+          "ReactiveUI.Avalonia": {
+            "target": "Package",
+            "version": "[12.1.1, )"
           },
           "System.Data.SqlClient": {
             "target": "Package",
