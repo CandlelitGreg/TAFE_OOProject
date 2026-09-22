@@ -256,6 +256,15 @@ public partial class MainWindow : Window
             SearchActivitiesPanel.IsVisible = false;
             referencedPanel.IsEnabled = true;
             referencedPanel.IsVisible = true;
+            //Display all activities
+            if (mvm.AllActivities.Count > mvm.DisplayedActivities.Count)
+            {
+                for (int i = 0; i < mvm.AllActivities.Count; i++)
+                {
+                    mvm.DisplayedActivities.Add(mvm.AllActivities[i]);
+                }
+                ActivitiesList.ItemsSource = mvm.DisplayedActivities;
+            }
             selectSingleButton(sender, new System.Collections.Generic.List<Button> {AddActivitiesButton, EditActivitiesButton, SearchActivitiesButton});
         }
     }
