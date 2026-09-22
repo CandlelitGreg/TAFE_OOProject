@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "6t4jszy8Wx0=",
+  "dgSpecHash": "B5QJbnk1gdg=",
   "success": true,
   "projectFilePath": "/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/MyAvaloniaApp.csproj",
   "expectedPackageFiles": [
@@ -22,11 +22,13 @@
     "/Users/gregwilkinson/.nuget/packages/avaloniaui.diagnosticssupport/2.2.3/avaloniaui.diagnosticssupport.2.2.3.nupkg.sha512",
     "/Users/gregwilkinson/.nuget/packages/communitytoolkit.mvvm/8.4.2/communitytoolkit.mvvm.8.4.2.nupkg.sha512",
     "/Users/gregwilkinson/.nuget/packages/csvhelper/33.1.0/csvhelper.33.1.0.nupkg.sha512",
+    "/Users/gregwilkinson/.nuget/packages/dialoghost.avalonia/0.12.1-nightly.0.1/dialoghost.avalonia.0.12.1-nightly.0.1.nupkg.sha512",
     "/Users/gregwilkinson/.nuget/packages/harfbuzzsharp/8.3.1.3/harfbuzzsharp.8.3.1.3.nupkg.sha512",
     "/Users/gregwilkinson/.nuget/packages/harfbuzzsharp.nativeassets.linux/8.3.1.3/harfbuzzsharp.nativeassets.linux.8.3.1.3.nupkg.sha512",
     "/Users/gregwilkinson/.nuget/packages/harfbuzzsharp.nativeassets.macos/8.3.1.3/harfbuzzsharp.nativeassets.macos.8.3.1.3.nupkg.sha512",
     "/Users/gregwilkinson/.nuget/packages/harfbuzzsharp.nativeassets.webassembly/8.3.1.3/harfbuzzsharp.nativeassets.webassembly.8.3.1.3.nupkg.sha512",
     "/Users/gregwilkinson/.nuget/packages/harfbuzzsharp.nativeassets.win32/8.3.1.3/harfbuzzsharp.nativeassets.win32.8.3.1.3.nupkg.sha512",
+    "/Users/gregwilkinson/.nuget/packages/messagebox.avalonia/12.0.0/messagebox.avalonia.12.0.0.nupkg.sha512",
     "/Users/gregwilkinson/.nuget/packages/microcom.runtime/0.11.6/microcom.runtime.0.11.6.nupkg.sha512",
     "/Users/gregwilkinson/.nuget/packages/microsoft.bcl.cryptography/9.0.13/microsoft.bcl.cryptography.9.0.13.nupkg.sha512",
     "/Users/gregwilkinson/.nuget/packages/microsoft.data.sqlclient/7.0.3/microsoft.data.sqlclient.7.0.3.nupkg.sha512",

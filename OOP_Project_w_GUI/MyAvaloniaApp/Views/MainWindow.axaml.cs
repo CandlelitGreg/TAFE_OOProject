@@ -6,6 +6,8 @@ using Avalonia.Data.Converters;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Microsoft.Data.SqlClient;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using MyAvaloniaApp.ViewModels;
 using System.Linq;
 using System;
@@ -18,6 +20,7 @@ using Avalonia.Rendering;
 using CsvHelper.TypeConversion;
 using CsvHelper.Configuration.Attributes;
 using CommunityToolkit.Mvvm.Collections;
+using Avalonia.Media.TextFormatting;
 
 namespace MyAvaloniaApp.Views;
 
@@ -444,9 +447,9 @@ public partial class MainWindow : Window
         if (ActivityTitleInput.Text != null)
         {
             ActivityTitleInput.Text = removeCommasFromString(ActivityTitleInput.Text.ToString());
-            //TODO: ??? WHAT WAS I GOING TO WRITE HERE ??? maybe regarding adding a different watermark message ???
             if (ActivityTitleInput.Text == "" || ActivityTitleInput.Text.Length < 3)
             {
+                DisplayMessage("Input Error", "Please ensure activity title contains at least 3 characters");
                 ActivityTitleInput.Text = null;
             }
         }
@@ -461,8 +464,6 @@ public partial class MainWindow : Window
         }
         bool missingInput = false;
 
-        //TODO: Run DB Query to check no other activities share the same date
-        //Present different watermark if date is shared to state a unique date must be given
         if (ActivityDateInput.SelectedDate == null)
         {
             highlightDateInput(ActivityDateInput, false);
@@ -497,6 +498,7 @@ public partial class MainWindow : Window
             if(ActivityMinParticipantsInput.Text != null)
             {
                 ActivityMinParticipantsInput.Text = null;
+                DisplayMessage("Input error", "Please ensure Minimum Participant value is 2 or greater");
             }
             highlightTextInput(ActivityMinParticipantsInput, false);
             missingInput = true;
@@ -580,6 +582,7 @@ public partial class MainWindow : Window
                     {
                         if (int.Parse($"{reader["ActivityExists"]}") == 1)
                         {
+                            DisplayMessage("Activity Conflict", "Another activity already holds this date, please select a different date");
                             return true;
                         }
                     }
@@ -587,6 +590,20 @@ public partial class MainWindow : Window
             }
         }
         return false;
+    }
+
+    /// <summary>
+    /// Displays a message box with an input error notification
+    /// </summary>
+    /// <param name="firstLine">Message box name</param>
+    /// <param name="secondLine">Message box text</param>
+    public async void DisplayMessage(string firstLine, string secondLine)
+    {
+        var box = MessageBoxManager.GetMessageBoxStandard(
+            firstLine,
+            secondLine,
+            ButtonEnum.Ok);
+        var result = await box.ShowAsync();
     }
 
 /*
