@@ -47,7 +47,7 @@ public partial class MainWindow : Window
     private string _lastValidCostText = "";
     private bool costIsHoldingDecimal = false;
     private int validCostDollarLength = 0;
-    private int selectedActivityIndex = -1;
+    private int selectedActivityIndex = 0;
     private bool selectedFitnessActivity = false;
 
     public bool editing = false;
@@ -218,7 +218,6 @@ public partial class MainWindow : Window
     public void editFitnessActivity(object sender, RoutedEventArgs e)
     {
         int selectedActivityID = -1;
-        Console.WriteLine(selectedFitnessActivity);
         if (checkForMissingEditInputs("fitness"))
         {
             return;
@@ -234,7 +233,6 @@ public partial class MainWindow : Window
         {
             using (SqlCommand cmd = new SqlCommand("UpdateActivityWithTypeCheck", conn))
             {
-                Console.WriteLine("Check");
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ActivityID", selectedActivityID);
                 cmd.Parameters.AddWithValue("@NewDateStartTime", DateTime.Parse($"{ActivityDateInputEdit.SelectedDate.Value.ToString("dd/MM/yyyy")} {ActivityTimeInputEdit.SelectedTime.Value.ToString(@"hh\:mm")}"));

@@ -345,7 +345,7 @@
                             Margin="5"
                             FontSize="20"
                             HorizontalAlignment="Center">
-                            Edit Activities:
+                            Select Activity From List to Edit:
                         </TextBlock>
 
                         <Button
@@ -356,7 +356,7 @@
                             FontSize="20"
                             Margin="2"
                             Padding="10,5"
-                            Content="Search Activities"
+                            Content="Start Editing"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             IsEnabled="True"
@@ -467,7 +467,7 @@
                                     FontSize="20"
                                     Margin="2"
                                     Padding="10,5"
-                                    Content="Edit Activity"
+                                    Content="Save Changes"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
                                 />
@@ -495,7 +495,7 @@
                                     FontSize="20"
                                     Margin="2"
                                     Padding="10,5"
-                                    Content="Edit Activity"
+                                    Content="Save Changes"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
                                 />
