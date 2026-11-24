@@ -1,0 +1,303 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyAvaloniaApp</name>
+    </assembly>
+    <members>
+        <member name="T:MyAvaloniaApp.ViewLocator">
+            <summary>
+            Given a view model, returns the corresponding view if possible.
+            </summary>
+        </member>
+        <member name="T:MyAvaloniaApp.ViewModels.MainViewModel">
+            <inheritdoc/>
+        </member>
+        <member name="P:MyAvaloniaApp.ViewModels.MainViewModel.Greeting">
+            <inheritdoc/>
+        </member>
+        <member name="M:MyAvaloniaApp.ViewModels.MainViewModel.#ctor">
+            <summary>
+            Runs initial info setup, reading info from .csv files, creating the correct lists/collections, and displaying it appropriately
+            </summary>
+        </member>
+        <member name="M:MyAvaloniaApp.ViewModels.MainViewModel.GetFitnessListFromDB">
+            <summary>
+            Reads all the Fitness activities from the db into the fitness Activities Observable Collection
+            </summary>
+        </member>
+        <member name="M:MyAvaloniaApp.ViewModels.MainViewModel.GetEntertainmentListFromDB">
+            <summary>
+            Reads all the Fitness activities from the db into the entertainment Activities Observable Collection
+            </summary>
+        </member>
+        <member name="M:MyAvaloniaApp.ViewModels.MainViewModel.AddNewFitnessActivity(MyAvaloniaApp.ViewModels.MainViewModel.FitnessActivity)">
+            <summary>
+            Function adds FitnessActivity to ObservableCollection, AllActivities Collection, and the FitnessActivities CSV file
+            </summary>
+            <param name="newActivity">Object of Fitness Activity type to insert into any relevant observable collections and .csv file</param>
+        </member>
+        <member name="M:MyAvaloniaApp.ViewModels.MainViewModel.AddNewEntertainmentActivity(MyAvaloniaApp.ViewModels.MainViewModel.EntertainmentActivity)">
+            <summary>
+            Function adds EntertainmentActivity to ObservableCollection, AllActivities Collection, and the EntertainmentActivities CSV file
+            </summary>
+            <param name="newActivity">Object of Entertainment Activity type to insert into any relevant observable collections and .csv file</param>
+        </member>
+        <member name="M:MyAvaloniaApp.ViewModels.MainViewModel.CreateAndFillCSV``1(System.Collections.ObjectModel.ObservableCollection{``0},System.String)">
+            <summary>
+            Function to create a CSV file and fill it with records from an ObservableCollection of type T
+            </summary>
+            <typeparam name="T">Type of objects in observable collection</typeparam>
+            <param name="list">Observable Collection of objects of type T to write to csv file</param>
+            <param name="csvFileName">.csv filepath</param>
+        </member>
+        <member name="M:MyAvaloniaApp.ViewModels.MainViewModel.GetAllActivities(System.Collections.ObjectModel.ObservableCollection{MyAvaloniaApp.ViewModels.MainViewModel.FitnessActivity},System.Collections.ObjectModel.ObservableCollection{MyAvaloniaApp.ViewModels.MainViewModel.EntertainmentActivity})">
+            <summary>
+            Combines the activities from both the Fitness and Entertainment Observable Collections into the AllActivities Collection 
+            </summary>
+            <param name="fitnessActivities">Observable Collection containing all fitness Activities to merge into new collection</param>
+            <param name="entertainmentActivities">Observable Collection containing all entertainment Activities to merge into new collection</param>
+            <returns>Observable Collection with all fitness and entertainment activities</returns>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.addFitnessActivity(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+             <summary>
+             Calls checkForMissingInputs function to ensure all activity input fields are filled, if anything is missing, it will highlight the missing input and return without adding a new activity
+            If all inputs are filled, it will create a new Fitness Activity ObservableObject
+            The new Object is added to the appropriate Observable Collections via the mvm.AddNewFitnessActivity function
+            The input boxes are cleared for the next input
+             The displayed list of activities is updated to include the new activity
+             </summary>
+             <param name="sender"></param>
+             <param name="e"></param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.addEntertainmentActivity(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Calls checkForMissingInputs function to ensure all activity input fields are filled, if anything is missing, it will highlight the missing input and return without adding a new activity
+            If all inputs are filled, it will create a new Entertainment Activity ObservableObject
+            The new Object is added to the appropriate Observable Collections via the mvm.AddNewEntertainmentActivity function
+            The input boxes are cleared for the next input
+            The displayed list of activities is updated to include the new activity
+            </summary>
+            <param name="sender">The button calling the function</param>
+            <param name="e">EventHandler Overload</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.searchActivities(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Checks Search box is populated and displays activities that match the search period based on selected filter
+            </summary>
+            <param name="sender">The button calling the function</param>
+            <param name="e">EventHandler Overload</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.editFitnessActivity(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Edits the data of the selected activity into an fitness activity
+            </summary>
+            <param name="sender">The button calling the function</param>
+            <param name="e">EventHandler Overload</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.editEntertainmentActivity(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Edits the data of the selected activity into an entertainment activity
+            </summary>
+            <param name="sender">The button calling the function</param>
+            <param name="e">EventHandler Overload</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.onCellPointerPressed(System.Object,Avalonia.Controls.DataGridCellPointerPressedEventArgs)">
+            <summary>
+            Selects activity and automatically fills input fields with selected row's activity data
+            </summary>
+            <param name="sender">null</param>
+            <param name="e">The data grid cell experiencing the event</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.GetActivityIdFromDate(System.String)">
+            <summary>
+            Retrieves the Activity Id from the activity saved on a certain date
+            </summary>
+            <param name="date">Date you want the activityid from</param>
+            <returns>Activity id integer</returns>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.openPanel(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Opens the stackPanel that is referenced by the button that was pressed, and disables the current stackPanel
+            </summary>
+            <param name="sender">The button calling the function</param>
+            <param name="e">EventHandler Overload</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.openActivitySidePanel(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Alters active and visible XML elements to reflect activity action currently selected
+            </summary>
+            <param name="sender">The button calling the function</param>
+            <param name="e">EventHandler Overload</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.selectFitness(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Toggles displayed XML elements to reflect the selected Fitness activity type. 
+            Changes the colour of both activity type buttons to reflect which is selected
+            </summary>
+            <param name="sender">The button calling the function</param>
+            <param name="e">EventHandler Overload</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.selectEntertainment(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Toggles displayed XML elements to reflect the selected Entertainment activity type. 
+            Changes the colour of both activity type buttons to reflect which is selected
+            </summary>
+            <param name="sender">The button calling the function</param>
+            <param name="e">EventHandler Overload</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.selectBinaryButton(System.Object)">
+            <summary>
+            Change colour of two buttons to reflect which is selected
+            </summary>
+            <param name="sender">The selected button</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.selectSingleButton(System.Object,System.Collections.Generic.List{Avalonia.Controls.Button})">
+            <summary>
+            Takes a button and a list of buttons, and changes their colours to reflect if it is selected
+            </summary>
+            <param name="sender">The selected button</param>
+            <param name="allButtons">The buttons that should be displayed as unselected</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.cancelEdit(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Hides editing value input fields
+            </summary>
+            <param name="sender">Cancel edit button</param>
+            <param name="e">EventHandler Overload</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.editActivity(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Opens activity editing panel
+            </summary>
+            <param name="sender">Edit activity button</param>
+            <param name="e">EventHandler Overload</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.highlightTextInput(Avalonia.Controls.TextBox,System.Boolean)">
+            <summary>
+            Catches and highlights missing inputs in TextBoxes
+            Reverts highlights if input bool is true
+            </summary>
+            <param name="missingInput">The input field that is missing input</param>
+            <param name="switchBack">Whether the input field is being highlighted, or unhighlighted</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.highlightDateInput(Avalonia.Controls.CalendarDatePicker,System.Boolean)">
+            <summary>
+            Catches and highlights missing inputs in CalendarDatePicker
+            Reverts highlights if input bool is true
+            </summary>
+            <param name="missingInput">The input field that is missing input</param>
+            <param name="switchBack">Whether the input field is being highlighted, or unhighlighted</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.highlightTimeInput(Avalonia.Controls.TimePicker,System.Boolean)">
+            <summary>
+            Catches and highlights missing inputs in TimePicker
+            Reverts highlights if input bool is true
+            </summary>
+            <param name="missingInput">The input field that is missing input</param>
+            <param name="switchBack">Whether the input field is being highlighted, or unhighlighted</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.checkForMissingInputs(System.String)">
+            <summary>
+            Removes comas from inputted strings before searching for any missing inputs
+            Checks if any of the activity input fields are missing information. 
+            If any are missing, it will highlight the missing input and return true. 
+            If all inputs are filled, it will return false
+            </summary>
+            <param name="activityType">string stating the activity type - to know what fields to check</param>
+            <returns>A bool that states true if there is a missing input (else false)</returns>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.checkForMissingEditInputs(System.String)">
+            <summary>
+            Checks edit input fields for missing values
+            </summary>
+            <param name="activityType">String detailing type of activity and therefore input fields required</param>
+            <returns>a bool determining whether there are any input fields missing</returns>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.resetActivityInputHighlights">
+            <summary>
+            Resets all activity input fields to their default state, including the watermark text and border colour
+            </summary>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.resetActivityEditInputHighlights">
+            <summary>
+            Resets all activity input fields in the activity edit panels to their default state, including the watermark text and border colour
+            </summary>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.clearActivityInputs">
+            <summary>
+            Clears all activity input fields and resets the activity type buttons to their default state
+            </summary>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.clearEditActivityInputs">
+            <summary>
+            Clears input fields for editing activities
+            </summary>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.CheckActivityDate(System.String)">
+            <summary>
+            Checks the input date does not have another activity attached
+            </summary>
+            <param name="date">The date to check in the db</param>
+            <returns>A true or false bool depicting whether another activity falls on the given date and the activity id of one that is on the searched date</returns>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.DisplayMessage(System.String,System.String)">
+            <summary>
+            Displays a message box with an input error notification
+            </summary>
+            <param name="firstLine">Message box name</param>
+            <param name="secondLine">Message box text</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.catchNonIntInput(System.Object,Avalonia.Controls.TextChangingEventArgs)">
+            <summary>
+            Catches and reverts non-Int inputs in textbox
+            </summary>
+            <param name="sender">The XAML object sending the function call to check for non ints</param>
+            <param name="e">EventHandler Overload</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.catchNonCostInput(System.Object,Avalonia.Controls.TextChangingEventArgs)">
+            <summary>
+            Catches and reverts non int to hundredths inputs in textbox
+            </summary>
+            <param name="sender">The XAML object sending the function call to check for non cost</param>
+            <param name="e">EventHandler Overload</param>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.removeCommasFromString(System.String)">
+            <summary>
+            Takes a string input and returns the same string with all commas removed. If the string is empty or null, it will return null
+            </summary>
+            <param name="input">The string commas must be removed from</param>
+            <returns>The input string with removed comas or null if no text remains</returns>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.ToTitleCase(System.String)">
+            <summary>
+            Takes a string input and returns the same string formatted to Title Case formatting
+            </summary>
+            <param name="input">The string to format into title case</param>
+            <returns>The input string in Title case format</returns>
+        </member>
+        <member name="M:MyAvaloniaApp.Views.MainWindow.InitializeComponent(System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+        </member>
+        <member name="T:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs">
+            <summary>
+            A helper type providing cached, reusable <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instances
+            for all properties generated with <see cref="T:CommunityToolkit.Mvvm.ComponentModel.ObservablePropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Greeting">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Greeting" generated properties.</summary>
+        </member>
+        <member name="T:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs">
+            <summary>
+            A helper type providing cached, reusable <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instances
+            for all properties generated with <see cref="T:CommunityToolkit.Mvvm.ComponentModel.ObservablePropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Greeting">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Greeting" generated properties.</summary>
+        </member>
+    </members>
+</doc>

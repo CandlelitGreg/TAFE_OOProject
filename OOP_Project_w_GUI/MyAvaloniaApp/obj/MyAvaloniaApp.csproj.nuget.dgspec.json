@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/MyAvaloniaApp.csproj": {}
+    "/Users/gregwilkinson/TAFE/Thursdays/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/MyAvaloniaApp.csproj": {}
   },
   "projects": {
-    "/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/MyAvaloniaApp.csproj": {
+    "/Users/gregwilkinson/TAFE/Thursdays/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/MyAvaloniaApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/MyAvaloniaApp.csproj",
+        "projectUniqueName": "/Users/gregwilkinson/TAFE/Thursdays/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/MyAvaloniaApp.csproj",
         "projectName": "MyAvaloniaApp",
-        "projectPath": "/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/MyAvaloniaApp.csproj",
+        "projectPath": "/Users/gregwilkinson/TAFE/Thursdays/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/MyAvaloniaApp.csproj",
         "packagesPath": "/Users/gregwilkinson/.nuget/packages/",
-        "outputPath": "/Users/gregwilkinson/TAFE/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/obj/",
+        "outputPath": "/Users/gregwilkinson/TAFE/Thursdays/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project_w_GUI/MyAvaloniaApp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/gregwilkinson/.nuget/NuGet/NuGet.Config"

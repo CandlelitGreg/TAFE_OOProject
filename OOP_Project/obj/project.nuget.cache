@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "34cFtyZGHGg=",
+  "success": true,
+  "projectFilePath": "/Users/gregwilkinson/TAFE/Thursdays/OOP_Programming/Assignment_Documents/OOP_Project_Docs/OOP_Project_Pieces/OOP_Project/OOP_Project.csproj",
+  "expectedPackageFiles": [
+    "/Users/gregwilkinson/.nuget/packages/csvhelper/33.1.0/csvhelper.33.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}
